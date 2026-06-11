@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思政热点选题助手 · 为高校辅导员设计</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --primary: #2c5f8a;
+  --primary-light: #3a7bb5;
+  --primary-bg: #e8f0f8;
+  --bg: #f5f7fa;
+  --white: #ffffff;
+  --text: #1a1a1a;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --border: #e0e4e8;
+  --shadow: 0 2px 12px rgba(44,95,138,0.08);
+  --shadow-lg: 0 4px 24px rgba(44,95,138,0.12);
+  --radius: 8px;
+  --radius-sm: 6px;
+  --transition: 0.2s ease;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ========== Header ========== */
+.header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+/* ========== API Key Panel ========== */
+.api-panel {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.api-panel-inner {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.api-panel label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.api-panel input[type="password"],
+.api-panel input[type="text"] {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: monospace;
+  transition: border-color var(--transition);
+}
+
+.api-panel input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
+}
+
+.api-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+}
+
+.btn-outline {
+  background: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-outline:hover {
+  background: var(--primary-bg);
+}
+
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.api-toggle {
+  font-size: 13px;
+  color: var(--primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+  margin-left: auto;
+}
+
+.api-toggle:hover { text-decoration: underline; }
+
+.api-panel.collapsed .api-panel-inner { display: none; }
+
+/* ========== Main Layout ========== */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ========== Left Panel (Input) ========== */
+.input-panel {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-family: inherit;
+  resize: none;
+  transition: border-color var(--transition);
+  margin-bottom: 16px;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
+}
+
+.input-field[rows] { min-height: 60px; }
+
+/* Keyword Groups */
+.keyword-groups {
+  margin-bottom: 20px;
+}
+
+.keyword-group {
+  margin-bottom: 12px;
+}
+
+.keyword-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.keyword-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keyword-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1px solid transparent;
+}
+
+.keyword-tag:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* Scenario Selection */
+.scenario-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.scenario-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+  font-size: 14px;
+}
+
+.scenario-option:hover {
+  border-color: var(--primary);
+  background: var(--primary-bg);
+}
+
+.scenario-option input[type="radio"] {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+.scenario-option input[type="radio"]:checked + span {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.scenario-option.selected {
+  border-color: var(--primary);
+  background: var(--primary-bg);
+}
+
+/* Generate Button */
+.btn-generate {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 17px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 4px 12px rgba(44,95,138,0.2);
+  letter-spacing: 1px;
+}
+
+.btn-generate:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(44,95,138,0.3);
+}
+
+.btn-generate:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-generate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== Right Panel (Output) ========== */
+.output-panel {
+  min-height: 400px;
+}
+
+.output-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.output-toolbar {
+  display: flex;
+  gap: 8px;
+}
+
+.output-area {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+  min-height: 300px;
+  position: relative;
+}
+
+.output-placeholder {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 15px;
+}
+
+.output-placeholder .icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* Markdown rendered output */
+.md-output h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 24px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.md-output h2:first-child {
+  margin-top: 0;
+}
+
+.md-output h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
+}
+
+.md-output p {
+  margin-bottom: 10px;
+  line-height: 1.8;
+}
+
+.md-output strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.md-output ul, .md-output ol {
+  margin: 8px 0 8px 20px;
+}
+
+.md-output li {
+  margin-bottom: 6px;
+  line-height: 1.7;
+}
+
+.md-output blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 14px;
+  margin: 12px 0;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.md-output code {
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.md-output pre {
+  background: var(--bg);
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 12px 0;
+}
+
+.md-output pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Loading dots */
+.loading-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 0;
+}
+
+.loading-dots span {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+.loading-text {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Conversation history */
+.conversation-turn {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--border);
+}
+
+.conversation-turn:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.turn-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.turn-label.user { color: var(--primary); }
+
+/* ========== Follow-up Area ========== */
+.followup-area {
+  margin-top: 16px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+}
+
+.followup-area h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.followup-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 10px;
+  transition: border-color var(--transition);
+}
+
+.followup-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
+}
+
+.followup-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ========== Footer ========== */
+.footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  background: var(--white);
+  margin-top: 32px;
+}
+
+/* ========== Error/Status ========== */
+.status-msg {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: none;
+}
+
+.status-msg.error {
+  background: #fff0f0;
+  color: #c0392b;
+  border: 1px solid #f5c6cb;
+  display: block;
+}
+
+.status-msg.success {
+  background: #f0fff4;
+  color: #27ae60;
+  border: 1px solid #c3e6cb;
+  display: block;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 900px) {
+  .main {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .input-panel {
+    position: static;
+    max-height: none;
+  }
+
+  .header {
+    padding: 12px 16px;
+  }
+
+  .header h1 {
+    font-size: 17px;
+  }
+
+  .api-panel-inner {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 15px;
+  }
+
+  .header-subtitle {
+    display: none;
+  }
+
+  .main {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .output-area {
+    padding: 16px;
+  }
+
+  .input-panel {
+    padding: 16px;
+  }
+}
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* ========== Cursor animation ========== */
+.cursor-blink::after {
+  content: '▌';
+  animation: blink 1s step-end infinite;
+  color: var(--primary);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hidden utility */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ========== Header ========== -->
+<header class="header">
+  <h1>📖 思政热点选题助手</h1>
+  <span class="header-subtitle">为高校辅导员设计</span>
+</header>
+
+<!-- ========== API Key Panel ========== -->
+<div class="api-panel" id="apiPanel">
+  <div class="api-panel-inner">
+    <label for="apiKeyInput">🔑 DeepSeek API Key：</label>
+    <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxx" autocomplete="off">
+    <button class="btn btn-primary btn-sm" id="saveApiKeyBtn">保存</button>
+    <span class="api-hint">🔒 Key 仅存储在您的浏览器本地，不会上传至任何服务器</span>
+    <button class="api-toggle" id="apiToggleBtn">收起 ▲</button>
+  </div>
+</div>
+
+<!-- ========== Main Content ========== -->
+<div class="main">
+
+  <!-- Left: Input Panel -->
+  <aside class="input-panel">
+    <div class="section-title">📝 热点词输入</div>
+    <textarea class="input-field" id="keywordInput" rows="3" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学..."></textarea>
+
+    <div class="section-title">📚 内置热点词库 <span style="font-weight:400;font-size:12px;color:var(--text-muted)">（点击填入）</span></div>
+    <div class="keyword-groups" id="keywordGroups"></div>
+
+    <div class="section-title">🎯 使用场景</div>
+    <div class="scenario-group" id="scenarioGroup">
+      <label class="scenario-option" data-scenario="演讲比赛">
+        <input type="radio" name="scenario" value="演讲比赛">
+        <span>🎤 演讲比赛</span>
+      </label>
+      <label class="scenario-option" data-scenario="班会设计">
+        <input type="radio" name="scenario" value="班会设计">
+        <span>📚 班会设计</span>
+      </label>
+      <label class="scenario-option" data-scenario="课题申报">
+        <input type="radio" name="scenario" value="课题申报">
+        <span>📋 课题申报</span>
+      </label>
+      <label class="scenario-option" data-scenario="主题宣讲">
+        <input type="radio" name="scenario" value="主题宣讲">
+        <span>📢 主题宣讲</span>
+      </label>
+      <label class="scenario-option" data-scenario="技能大赛">
+        <input type="radio" name="scenario" value="技能大赛">
+        <span>🏆 技能大赛</span>
+      </label>
+    </div>
+
+    <div id="inputStatus" class="status-msg"></div>
+    <button class="btn-generate" id="generateBtn">🔍 生成选题方案</button>
+  </aside>
+
+  <!-- Right: Output Panel -->
+  <section class="output-panel">
+    <div class="output-header">
+      <div class="section-title" style="margin-bottom:0">📄 生成结果</div>
+      <div class="output-toolbar">
+        <button class="btn btn-outline btn-sm" id="copyBtn" title="复制全部内容" disabled>📋 复制</button>
+        <button class="btn btn-outline btn-sm" id="clearBtn" title="清空重新开始" disabled>🗑️ 清空</button>
+      </div>
+    </div>
+
+    <div class="output-area" id="outputArea">
+      <div class="output-placeholder" id="outputPlaceholder">
+        <span class="icon">💡</span>
+        在左侧输入热点词并选择场景，<br>点击「生成选题方案」开始
+      </div>
+      <div class="md-output hidden" id="mdOutput"></div>
+    </div>
+
+    <!-- Follow-up Area -->
+    <div class="followup-area hidden" id="followupArea">
+      <h3>💬 继续优化</h3>
+      <textarea class="followup-textarea" id="followupInput" placeholder="例如：
+• 把选题一的角度改得更接地气一些
+• 帮我把内容框架扩展成适合45分钟班会的详细方案
+• 再生成3个更创新的选题标题
+• 结合最新的党代会精神重新调整切入角度"></textarea>
+      <div class="followup-actions">
+        <button class="btn btn-primary" id="sendFollowupBtn">✨ 发送修改意见</button>
+      </div>
+    </div>
+
+    <div id="followupStatus" class="status-msg" style="margin-top:12px"></div>
+  </section>
+</div>
+
+<!-- ========== Footer ========== -->
+<footer class="footer">
+  思政热点选题助手 · 为高校辅导员设计
+</footer>
+
+<script>
+// ========== Constants ==========
+const API_URL = 'https://api.deepseek.com/v1/chat/completions';
+const MODEL = 'deepseek-chat';
+const STORAGE_KEY = 'sz_api_key';
+
+const SYSTEM_PROMPT = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征和行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
+
+你的核心能力是：将当代青年热点文化现象（亚文化、网络流行语、社会思潮等）与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
+
+输出风格要求：
+- 标题要有文采，可使用对仗、引用、创意表达（参考示例："一豆一谷"亦有道、从"搭子"到"伙伴"）
+- 分析要有深度，不停留于表面，要挖掘现象背后的社会心理和价值诉求
+- 理论要扎实，能自然引用相关政策、理论依据
+- 实操性强，给出的框架要能真正用于演讲、班会、课题
+- 语言兼顾学术性和可读性，不过度堆砌术语`;
+
+const KEYWORD_GROUPS = [
+  {
+    name: '🛍️ 亚文化消费',
+    tags: ['拼豆', '吃谷', '谷子经济', '二次元', 'cosplay', '盲盒']
+  },
+  {
+    name: '🤝 社交方式',
+    tags: ['搭子文化', 'City Walk', '多巴胺穿搭', '断亲', '独居青年']
+  },
+  {
+    name: '🌐 网络文化',
+    tags: ['发疯文学', '显眼包', 'MBTI热', 'emo', '精神内耗', '整顿职场']
+  },
+  {
+    name: '💭 价值观念',
+    tags: ['躺平', '内卷', '考研上岸', '慢就业', '银发经济关注']
+  },
+  {
+    name: '🚀 新兴现象',
+    tags: ['AI焦虑', '数字游民', '特种兵旅游', '反向旅游', '搭子经济']
+  }
+];
+
+// ========== State ==========
+let conversationHistory = [];
+let isGenerating = false;
+let currentRawText = '';
+
+// ========== DOM Elements ==========
+const $ = id => document.getElementById(id);
+
+const apiKeyInput = $('apiKeyInput');
+const saveApiKeyBtn = $('saveApiKeyBtn');
+const apiToggleBtn = $('apiToggleBtn');
+const apiPanel = $('apiPanel');
+const keywordInput = $('keywordInput');
+const keywordGroups = $('keywordGroups');
+const scenarioGroup = $('scenarioGroup');
+const generateBtn = $('generateBtn');
+const outputArea = $('outputArea');
+const outputPlaceholder = $('outputPlaceholder');
+const mdOutput = $('mdOutput');
+const copyBtn = $('copyBtn');
+const clearBtn = $('clearBtn');
+const followupArea = $('followupArea');
+const followupInput = $('followupInput');
+const sendFollowupBtn = $('sendFollowupBtn');
+const inputStatus = $('inputStatus');
+const followupStatus = $('followupStatus');
+
+// ========== Init ==========
+function init() {
+  // Load API key
+  const savedKey = localStorage.getItem(STORAGE_KEY);
+  if (savedKey) {
+    apiKeyInput.value = savedKey;
+    // Auto-collapse if key exists
+    apiPanel.classList.add('collapsed');
+    apiToggleBtn.textContent = '展开 ▼';
+  }
+
+  // Build keyword groups
+  renderKeywordGroups();
+
+  // Bind events
+  saveApiKeyBtn.addEventListener('click', saveApiKey);
+  apiToggleBtn.addEventListener('click', toggleApiPanel);
+  generateBtn.addEventListener('click', handleGenerate);
+  copyBtn.addEventListener('click', handleCopy);
+  clearBtn.addEventListener('click', handleClear);
+  sendFollowupBtn.addEventListener('click', handleFollowup);
+
+  // Scenario selection visual
+  scenarioGroup.addEventListener('change', () => {
+    document.querySelectorAll('.scenario-option').forEach(el => {
+      el.classList.toggle('selected', el.querySelector('input').checked);
+    });
+  });
+
+  // Enter to send followup (Ctrl+Enter or Cmd+Enter)
+  followupInput.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      handleFollowup();
+    }
+  });
+}
+
+function renderKeywordGroups() {
+  keywordGroups.innerHTML = KEYWORD_GROUPS.map(g => `
+    <div class="keyword-group">
+      <div class="keyword-group-title">${g.name}</div>
+      <div class="keyword-tags">
+        ${g.tags.map(t => `<span class="keyword-tag" data-word="${t}">${t}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  keywordGroups.addEventListener('click', (e) => {
+    if (e.target.classList.contains('keyword-tag')) {
+      const word = e.target.dataset.word;
+      const current = keywordInput.value.trim();
+      keywordInput.value = current ? current + '、' + word : word;
+      keywordInput.focus();
+    }
+  });
+}
+
+// ========== API Key ==========
+function saveApiKey() {
+  const key = apiKeyInput.value.trim();
+  if (!key) {
+    showStatus(inputStatus, '请输入 API Key', 'error');
+    return;
+  }
+  localStorage.setItem(STORAGE_KEY, key);
+  showStatus(inputStatus, '✅ API Key 已保存', 'success');
+  setTimeout(() => { inputStatus.style.display = 'none'; }, 2000);
+}
+
+function toggleApiPanel() {
+  const collapsed = apiPanel.classList.toggle('collapsed');
+  apiToggleBtn.textContent = collapsed ? '展开 ▼' : '收起 ▲';
+}
+
+// ========== Markdown Renderer ==========
+function renderMarkdown(text) {
+  if (!text) return '';
+  let html = text;
+
+  // Escape HTML (but preserve our markdown)
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // Code blocks (``` ... ```)
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
+  });
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Headers
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  // Italic
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Blockquote
+  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // Unordered list items
+  html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+
+  // Ordered list items
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+  // Wrap consecutive <li> in <ul>
+  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+
+  // Horizontal rule
+  html = html.replace(/^---$/gm, '<hr>');
+
+  // Paragraphs: double newlines
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+
+  // Clean up: don't wrap block-level elements in <p>
+  html = html.replace(/<p><(h[123]|ul|ol|pre|blockquote|hr)/g, '<$1');
+  html = html.replace(/<\/(h[123]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
+  html = html.replace(/<p><\/p>/g, '');
+
+  // Fix list items that got <br>
+  html = html.replace(/<br>(\s*<li>)/g, '$1');
+
+  return html;
+}
+
+// ========== Status Messages ==========
+function showStatus(el, msg, type) {
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+}
+
+function hideStatus(el) {
+  el.style.display = 'none';
+  el.className = 'status-msg';
+}
+
+// ========== API Call ==========
+function getApiKey() {
+  return apiKeyInput.value.trim();
+}
+
+async function callDeepSeekStream(messages, onChunk, onComplete, onError) {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    onError('请先设置 DeepSeek API Key');
+    return;
+  }
+
+  isGenerating = true;
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        stream: true,
+        temperature: 0.7,
+        max_tokens: 4096
+      })
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      if (response.status === 401) {
+        onError('API Key 无效或已过期，请检查后重试');
+      } else if (response.status === 429) {
+        onError('请求过于频繁，请稍后重试');
+      } else {
+        onError(`请求失败 (${response.status})：${errText}`);
+      }
+      isGenerating = false;
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed === 'data: [DONE]') continue;
+        if (!trimmed.startsWith('data: ')) continue;
+
+        try {
+          const json = JSON.parse(trimmed.slice(6));
+          const delta = json.choices?.[0]?.delta?.content;
+          if (delta) {
+            onChunk(delta);
+          }
+        } catch (e) {
+          // skip parse errors
+        }
+      }
+    }
+
+    onComplete();
+  } catch (err) {
+    onError('网络错误：' + err.message);
+  } finally {
+    isGenerating = false;
+  }
+}
+
+// ========== Output Management ==========
+function showOutput(html) {
+  outputPlaceholder.classList.add('hidden');
+  mdOutput.classList.remove('hidden');
+  mdOutput.innerHTML = html;
+  copyBtn.disabled = false;
+  clearBtn.disabled = false;
+}
+
+function appendOutput(html) {
+  outputPlaceholder.classList.add('hidden');
+  mdOutput.classList.remove('hidden');
+  mdOutput.innerHTML += html;
+}
+
+function clearOutput() {
+  mdOutput.innerHTML = '';
+  mdOutput.classList.add('hidden');
+  outputPlaceholder.classList.remove('hidden');
+  copyBtn.disabled = true;
+  clearBtn.disabled = true;
+  followupArea.classList.add('hidden');
+  followupInput.value = '';
+  hideStatus(followupStatus);
+}
+
+// ========== Generate ==========
+function handleGenerate() {
+  const keyword = keywordInput.value.trim();
+  if (!keyword) {
+    showStatus(inputStatus, '请输入或选择一个热点词', 'error');
+    return;
+  }
+
+  const selectedScenario = document.querySelector('input[name="scenario"]:checked');
+  if (!selectedScenario) {
+    showStatus(inputStatus, '请选择一个使用场景', 'error');
+    return;
+  }
+
+  const scenario = selectedScenario.value;
+
+  // Clear previous conversation
+  conversationHistory = [];
+  currentRawText = '';
+
+  const userPrompt = `热点词：${keyword}
+使用场景：${scenario}
+
+请根据上述热点词和使用场景，为我生成思政教育选题方案。
+请按以下结构输出：
+
+## 📌 推荐选题（3个）
+**选题一：**「标题」
+**选题二：**「标题」
+**选题三：**「标题」
+
+## 🧭 思政切入角度
+（3-4个核心切入点，每个50字左右）
+
+## 📝 内容框架
+（以选题一为例，给出三段式/四段式框架，含小标题和各段核心内容）
+
+## 💡 可深挖探索方向
+（4-5个延伸方向，含简短说明）
+
+## 🔗 可关联的思政理论/政策
+（相关理论依据、政策文件、重要论述）`;
+
+  conversationHistory = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'user', content: userPrompt }
+  ];
+
+  // UI state
+  generateBtn.disabled = true;
+  generateBtn.textContent = '⏳ 生成中...';
+  hideStatus(inputStatus);
+
+  // Show loading
+  outputPlaceholder.classList.add('hidden');
+  mdOutput.classList.remove('hidden');
+  mdOutput.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在生成选题方案，请稍候...</div>';
+
+  let fullText = '';
+
+  callDeepSeekStream(
+    conversationHistory,
+    (chunk) => {
+      fullText += chunk;
+      currentRawText = fullText;
+      mdOutput.innerHTML = renderMarkdown(fullText) + '<span class="cursor-blink"></span>';
+      // Auto scroll
+      outputArea.scrollTop = outputArea.scrollHeight;
+    },
+    () => {
+      conversationHistory.push({ role: 'assistant', content: fullText });
+      currentRawText = fullText;
+      mdOutput.innerHTML = renderMarkdown(fullText);
+      followupArea.classList.remove('hidden');
+      generateBtn.disabled = false;
+      generateBtn.textContent = '🔍 生成选题方案';
+      copyBtn.disabled = false;
+      clearBtn.disabled = false;
+    },
+    (err) => {
+      mdOutput.innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${err}</div>`;
+      generateBtn.disabled = false;
+      generateBtn.textContent = '🔍 生成选题方案';
+    }
+  );
+}
+
+// ========== Follow-up ==========
+function handleFollowup() {
+  const feedback = followupInput.value.trim();
+  if (!feedback) {
+    showStatus(followupStatus, '请输入修改意见', 'error');
+    return;
+  }
+
+  if (isGenerating) {
+    showStatus(followupStatus, '正在生成中，请稍后...', 'error');
+    return;
+  }
+
+  // Append user message to conversation
+  conversationHistory.push({ role: 'user', content: feedback });
+
+  // Show user feedback in output
+  appendOutput(`
+    <div class="conversation-turn">
+      <div class="turn-label user">👤 修改意见</div>
+      <div class="md-output"><p>${escapeHtml(feedback)}</p></div>
+    </div>
+  `);
+
+  // Clear input
+  followupInput.value = '';
+  hideStatus(followupStatus);
+
+  // Show loading
+  appendOutput('<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在优化...</div>');
+
+  let fullText = '';
+  sendFollowupBtn.disabled = true;
+  sendFollowupBtn.textContent = '⏳ 生成中...';
+
+  callDeepSeekStream(
+    conversationHistory,
+    (chunk) => {
+      fullText += chunk;
+      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<div class="loading-dots">[\s\S]*?<\/div>/, '')
+        .replace(/<div class="loading-text">[\s\S]*?<\/div>/, '');
+      mdOutput.innerHTML += renderMarkdown(fullText) + '<span class="cursor-blink"></span>';
+      outputArea.scrollTop = outputArea.scrollHeight;
+    },
+    () => {
+      conversationHistory.push({ role: 'assistant', content: fullText });
+      currentRawText += '\n\n' + fullText;
+      // Re-render the full conversation properly
+      // Remove the partial render and re-render just the new assistant turn
+      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<span class="cursor-blink"><\/span>/, '');
+      // Append the new response as a conversation turn
+      mdOutput.innerHTML += `
+        <div class="conversation-turn">
+          <div class="turn-label">🤖 AI 回复</div>
+          <div class="md-output">${renderMarkdown(fullText)}</div>
+        </div>
+      `;
+      sendFollowupBtn.disabled = false;
+      sendFollowupBtn.textContent = '✨ 发送修改意见';
+    },
+    (err) => {
+      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<div class="loading-dots">[\s\S]*?<\/div>/, '')
+        .replace(/<div class="loading-text">[\s\S]*?<\/div>/, '');
+      mdOutput.innerHTML += `<div style="color:#c0392b;padding:10px;">❌ ${err}</div>`;
+      sendFollowupBtn.disabled = false;
+      sendFollowupBtn.textContent = '✨ 发送修改意见';
+    }
+  );
+}
+
+function escapeHtml(text) {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// ========== Copy ==========
+function handleCopy() {
+  const text = mdOutput.innerText || mdOutput.textContent;
+  if (!text) return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const origText = copyBtn.innerHTML;
+    copyBtn.innerHTML = '✅ 已复制';
+    setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+  }).catch(() => {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    const origText = copyBtn.innerHTML;
+    copyBtn.innerHTML = '✅ 已复制';
+    setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+  });
+}
+
+// ========== Clear ==========
+function handleClear() {
+  clearOutput();
+  conversationHistory = [];
+  currentRawText = '';
+  keywordInput.value = '';
+  document.querySelectorAll('input[name="scenario"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.scenario-option').forEach(el => el.classList.remove('selected'));
+}
+
+// ========== Start ==========
+init();
+</script>
+
+</body>
+</html>
