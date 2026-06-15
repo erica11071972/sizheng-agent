@@ -45,7 +45,7 @@
 
 ### 第二步：获取 WxPusher 凭证（实现微信推送）
 1. 访问 WxPusher 官网：[https://wxpusher.zhimengeng.com/](https://wxpusher.zhimengeng.com/) 并注册/登录；
-2. 进入后台，点击「**应用管理**」→「**创建应用**」；
+2. 进入后台，点击「**应用管理**」 → 「**创建应用**」；
    - 应用名字叫：「思政热点雷达」
    - 关注后提示语：「欢迎订阅您的周度思政选题灵感雷达！」
 3. 创建成功后，复制 **`AppToken`**（形如 `AT_xxxx...`，重要，只显示一次！）；
@@ -71,7 +71,7 @@
 ## 🚀 立即体验升级
 
 所有代码已经为您在后台融合完成，您现在只需要：
-1. 从挂载的云盘中双击打开新版 `/sizheng-agent/index.html` 在本地测试；
-2. 将更新后的 `index.html` 以及新增的 `weekly-push.js`、`.github/workflows/weekly-push.yml` 还有本篇说明，全套上传至您的 GitHub 仓库，即可通过原本的 Pages 链接一键进入您的专属「思政 Agent 空间」！
+1. 将更新后的 `index.html` 以及新增的 `weekly-push.js` 还有本篇说明，上传至您的 GitHub 仓库。
+2. 在您的 GitHub 仓库中，按照上一条回复中的方法，手动创建 `.github/workflows/weekly-push.yml` 文件并粘贴我为您提供的 YAML 代码。
 
 思政工作，亦可赛博！祝您和您的团队在比赛、宣讲和日常育人中屡获佳绩！🐾

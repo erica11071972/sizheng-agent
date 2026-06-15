@@ -3,101 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>思政热点选题助手 · 智能体版</title>
+<title>思政热点选题助手 · 智能体版 v2</title>
 <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js" defer></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --primary: #2c5f8a;
-  --primary-light: #3a7bb5;
-  --primary-bg: #e8f0f8;
-  --primary-bg-light: #f0f5fa;
-  --gold: #d4af37;
-  --bg: #f8fafc;
-  --white: #ffffff;
-  --text: #1e293b;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --border: #e2e8f0;
-  --shadow: 0 2px 12px rgba(44,95,138,0.08);
-  --shadow-lg: 0 4px 24px rgba(44,95,138,0.15);
-  --radius: 10px;
-  --radius-sm: 7px;
-  --transition: 0.2s ease;
-  --log-bg: #0f172a;
-  --log-text: #e2e8f0;
-  --log-accent: #38bdf8;
-  --log-warn: #fbbf24;
-  --log-success: #34d399;
-  --log-error: #f87171;
+  --primary: #2c5f8a; --primary-light: #3a7bb5; --primary-bg: #e8f0f8;
+  --primary-bg-light: #f0f5fa; --gold: #d4af37; --bg: #f8fafc; --white: #ffffff;
+  --text: #1e293b; --text-secondary: #475569; --text-muted: #94a3b8;
+  --border: #e2e8f0; --shadow: 0 2px 12px rgba(44,95,138,0.08);
+  --shadow-lg: 0 4px 24px rgba(44,95,138,0.15); --radius: 10px; --radius-sm: 7px;
+  --transition: 0.2s ease; --log-bg: #0f172a; --log-text: #e2e8f0;
+  --log-accent: #38bdf8; --log-warn: #fbbf24; --log-success: #34d399; --log-error: #f87171;
 }
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 15px;
-  line-height: 1.7;
-  min-height: 100vh;
-}
-
-/* ===== Scrollbar ===== */
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.7; min-height: 100vh; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* ===== Header ===== */
-.header {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  position: sticky;
-  top: 0;
-  z-index: 200;
-}
+/* Header */
+.header { background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04); position: sticky; top: 0; z-index: 200; }
 .header-logo { font-size: 18px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+.header-badge { font-size: 11px; background: var(--primary); color: #fff; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 600; }
 .header-subtitle { font-size: 12px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
 .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
-/* ===== Buttons ===== */
-.btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 8px 16px; border: none; border-radius: var(--radius-sm);
-  font-size: 14px; font-weight: 500; cursor: pointer;
-  transition: all var(--transition); white-space: nowrap; font-family: inherit;
-}
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; transition: all var(--transition); white-space: nowrap; font-family: inherit; }
 .btn-primary { background: var(--primary); color: var(--white); }
 .btn-primary:hover:not(:disabled) { background: var(--primary-light); }
 .btn-outline { background: var(--white); color: var(--primary); border: 1px solid var(--primary); }
 .btn-outline:hover:not(:disabled) { background: var(--primary-bg); }
-.btn-gold { background: var(--gold); color: var(--white); }
-.btn-gold:hover:not(:disabled) { background: #b8952a; }
 .btn-sm { padding: 5px 12px; font-size: 13px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-kb {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 6px 14px; background: var(--primary-bg); color: var(--primary);
-  border: 1px solid var(--primary); border-radius: var(--radius-sm);
-  font-size: 13px; font-weight: 600; cursor: pointer; transition: all var(--transition);
-}
-.btn-kb:hover { background: var(--primary); color: var(--white); }
 
-/* ===== API Panel ===== */
+/* API Panel */
 .api-panel { background: var(--white); border-bottom: 1px solid var(--border); }
 .api-panel.collapsed .api-panel-inner { display: none; }
-.api-panel-inner { padding: 14px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.api-panel-inner { padding: 12px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .api-panel label { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
-.api-panel input[type="password"], .api-panel input[type="text"] {
-  flex: 1; min-width: 160px; padding: 7px 11px;
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 12px; font-family: monospace; transition: border-color var(--transition);
-}
+.api-panel input { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: monospace; transition: border-color var(--transition); }
 .api-panel input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
 .api-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
 .api-hint { font-size: 11px; color: var(--text-muted); width: 100%; }
@@ -105,136 +51,82 @@ body {
 .api-toggle { font-size: 12px; color: var(--primary); cursor: pointer; background: none; border: none; margin-left: auto; padding: 4px 8px; font-family: inherit; }
 .api-toggle:hover { text-decoration: underline; }
 
-/* ===== Main Layout ===== */
-.main {
-  max-width: 1500px; margin: 0 auto; padding: 20px 24px;
-  display: grid; grid-template-columns: 380px 1fr; gap: 20px; align-items: start;
-}
+/* Layout */
+.main { max-width: 1500px; margin: 0 auto; padding: 20px 24px; display: grid; grid-template-columns: 360px 1fr; gap: 20px; align-items: start; }
+.left-panel { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 70px; max-height: calc(100vh - 90px); overflow-y: auto; }
+.right-panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 
-/* ===== Left Panel ===== */
-.left-panel {
-  display: flex; flex-direction: column; gap: 14px;
-  position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
-}
-
-/* ===== Card ===== */
+/* Card */
 .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
-.card-title {
-  font-size: 13px; font-weight: 700; color: var(--primary);
-  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 6px;
-}
+.card-title { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; }
 
-/* ===== Agent Config ===== */
+/* Search mode dropdown */
+.search-mode-wrap { margin-bottom: 10px; }
+.search-mode-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+.search-mode-select { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; background: var(--white); color: var(--text); cursor: pointer; transition: border-color var(--transition); }
+.search-mode-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(44,95,138,0.1); }
+
+/* Checkbox option */
 .agent-option { display: flex; align-items: flex-start; gap: 9px; padding: 7px 8px; border-radius: 6px; cursor: pointer; transition: background var(--transition); margin-bottom: 2px; }
 .agent-option:hover { background: var(--primary-bg-light); }
 .agent-option input[type="checkbox"] { accent-color: var(--primary); width: 15px; height: 15px; flex-shrink: 0; margin-top: 2px; }
-.agent-option-text { flex: 1; }
 .agent-option-label { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
 .agent-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-.agent-key-hint { font-size: 11px; color: #f59e0b; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 7px; margin-top: 4px; display: none; }
-.agent-key-hint.show { display: block; }
 
-/* ===== WxPusher Settings ===== */
-.wx-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.wx-row label { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; min-width: 80px; }
-.wx-row input { flex: 1; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: monospace; }
-.wx-row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(44,95,138,0.1); }
-.wx-actions { display: flex; gap: 8px; margin-top: 6px; }
-
-/* ===== Collapsible ===== */
-.collapsible { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.collapsible-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 14px; background: var(--primary-bg-light); cursor: pointer; user-select: none;
-}
+/* Collapsible */
+.collapsible { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 12px; }
+.collapsible-header { display: flex; align-items: center; justify-content: space-between; padding: 9px 13px; background: var(--primary-bg-light); cursor: pointer; user-select: none; }
 .collapsible-header:hover { background: #dce6f2; }
-.collapsible-title { font-size: 13px; font-weight: 700; color: var(--primary); }
+.collapsible-title { font-size: 13px; font-weight: 600; color: var(--primary); }
 .collapsible-arrow { font-size: 11px; color: var(--primary); transition: transform var(--transition); }
 .collapsible.open .collapsible-arrow { transform: rotate(180deg); }
-.collapsible-body { display: none; padding: 14px; }
+.collapsible-body { display: none; padding: 12px; }
 .collapsible.open .collapsible-body { display: block; }
 
-/* ===== Inputs ===== */
-.input-field {
-  width: 100%; padding: 9px 13px;
-  border: 1px solid var(--border); border-radius: var(--radius-sm);
-  font-size: 14px; font-family: inherit; resize: none;
-  transition: border-color var(--transition);
-}
+/* Inputs */
+.input-field { width: 100%; padding: 9px 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 14px; font-family: inherit; resize: none; transition: border-color var(--transition); }
 .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
-.req-textarea { width: 100%; min-height: 90px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; }
+.req-textarea { width: 100%; min-height: 80px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; }
 .req-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
 
-/* File Upload */
-.file-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-.file-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; background: var(--white); color: var(--primary); border: 1px dashed var(--primary); border-radius: var(--radius-sm); font-size: 12px; cursor: pointer; }
-.file-btn:hover { background: var(--primary-bg); }
-.file-input { display: none; }
-.file-info { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
-.file-name { color: var(--primary); font-weight: 600; }
-.file-remove { color: #c0392b; cursor: pointer; background: none; border: none; font-size: 12px; font-family: inherit; }
-.file-remove:hover { text-decoration: underline; }
-.file-status { font-size: 11px; color: var(--text-muted); margin-top: 5px; min-height: 14px; }
-
-/* ===== Scenario ===== */
+/* Scenario */
 .section-label { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
 .scenario-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-.scenario-opt {
-  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
-  border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: all var(--transition);
-}
+.scenario-opt { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: all var(--transition); }
 .scenario-opt:hover { border-color: var(--primary); background: var(--primary-bg-light); }
 .scenario-opt.selected { border-color: var(--primary); background: var(--primary-bg); }
 .scenario-opt input[type="radio"] { accent-color: var(--primary); width: 14px; height: 14px; }
 .scenario-opt input[type="radio"]:checked + span { color: var(--primary); font-weight: 600; }
 
-/* ===== Keywords ===== */
+/* Keywords */
 .kw-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.btn-refresh { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--white); color: var(--primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 11px; cursor: pointer; font-family: inherit; transition: all var(--transition); }
-.btn-refresh:hover:not(:disabled) { background: var(--primary-bg); border-color: var(--primary); }
-.btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-refresh .spin { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--primary); border-top-color: transparent; border-radius: 50%; animation: doSpin 0.8s linear infinite; }
-@keyframes doSpin { to { transform: rotate(360deg); } }
-
 .kw-group { margin-bottom: 10px; }
 .kw-group-name { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; }
 .kw-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 .kw-tag { padding: 3px 9px; background: var(--primary-bg); color: var(--primary); border-radius: 20px; font-size: 11px; cursor: pointer; border: 1px solid transparent; transition: all var(--transition); }
 .kw-tag:hover { background: var(--primary); color: var(--white); }
 
-/* ===== Generate Button ===== */
-.btn-generate {
-  width: 100%; padding: 13px 20px; font-size: 16px; font-weight: 700;
-  background: linear-gradient(135deg, #2c5f8a 0%, #3a7bb5 100%);
-  color: var(--white); border: none; border-radius: var(--radius); cursor: pointer;
-  transition: all var(--transition); box-shadow: 0 4px 14px rgba(44,95,138,0.2);
-  letter-spacing: 0.5px; font-family: inherit;
-}
+/* Generate button */
+.btn-generate { width: 100%; padding: 13px 20px; font-size: 16px; font-weight: 700; background: linear-gradient(135deg, #2c5f8a 0%, #3a7bb5 100%); color: var(--white); border: none; border-radius: var(--radius); cursor: pointer; transition: all var(--transition); box-shadow: 0 4px 14px rgba(44,95,138,0.2); letter-spacing: 0.5px; font-family: inherit; }
 .btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(44,95,138,0.3); }
 .btn-generate:active:not(:disabled) { transform: none; }
 .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-/* ===== Status Messages ===== */
+/* Status */
 .status-msg { padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 10px; display: none; }
 .status-msg.error { background: #fff0f0; color: #c0392b; border: 1px solid #f5c6cb; display: block; }
 .status-msg.success { background: #f0fff4; color: #27ae60; border: 1px solid #c3e6cb; display: block; }
-
-/* ===== Right Panel ===== */
-.right-panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 
 /* ===== Agent Log Terminal ===== */
 .agent-log-wrap { background: var(--log-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .agent-log-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: #0a1628; border-bottom: 1px solid #1e3352; }
 .agent-log-title { font-size: 12px; font-weight: 700; color: var(--log-accent); display: flex; align-items: center; gap: 7px; font-family: monospace; letter-spacing: 0.5px; }
-.log-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--log-success); }
-.log-dot.idle { background: #475569; }
-.log-dot.active { animation: logPulse 1.5s ease-in-out infinite; }
+.log-dot { width: 8px; height: 8px; border-radius: 50%; background: #475569; flex-shrink: 0; }
+.log-dot.active { background: var(--log-success); animation: logPulse 1.5s ease-in-out infinite; }
 @keyframes logPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(52,211,153,0.4); } 50% { box-shadow: 0 0 0 5px rgba(52,211,153,0); } }
-.agent-log-btns { display: flex; gap: 6px; }
 .agent-log-clear { background: none; border: 1px solid #334155; color: #64748b; padding: 2px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: monospace; transition: all var(--transition); }
 .agent-log-clear:hover { border-color: var(--log-accent); color: var(--log-accent); }
-.agent-log-body { padding: 10px 14px; max-height: 200px; overflow-y: auto; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11.5px; line-height: 1.65; color: var(--log-text); }
+.agent-log-body { padding: 10px 14px; max-height: 260px; overflow-y: auto; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11.5px; line-height: 1.65; color: var(--log-text); }
 .log-entry { padding: 1.5px 0; animation: logIn 0.25s ease; }
 @keyframes logIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
 .log-time { color: #475569; }
@@ -245,8 +137,6 @@ body {
 .log-c-error { color: var(--log-error); }
 .log-c-gold { color: #fbbf24; font-weight: 600; }
 .log-placeholder { color: #334155; text-align: center; padding: 24px 0; font-size: 11px; }
-
-/* radar sweep animation */
 .log-radar { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
 .radar-bars { display: flex; gap: 2px; align-items: center; }
 .radar-bars span { display: inline-block; width: 3px; background: var(--log-accent); border-radius: 2px; animation: radarBar 1.2s ease-in-out infinite; }
@@ -256,44 +146,40 @@ body {
 .radar-bars span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
 .radar-bars span:nth-child(5) { height: 6px; animation-delay: 0.4s; }
 @keyframes radarBar { 0%,100% { opacity: 0.3; transform: scaleY(0.5); } 50% { opacity: 1; transform: scaleY(1); } }
+.score-badge { display: inline-block; padding: 1px 7px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-left: 4px; }
+.score-badge.high { background: rgba(52,211,153,0.2); color: var(--log-success); }
+.score-badge.mid { background: rgba(251,191,36,0.2); color: var(--log-warn); }
+.score-badge.low { background: rgba(248,113,113,0.2); color: var(--log-error); }
 
-/* ===== Output Area ===== */
+/* Output */
 .output-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .output-toolbar { display: flex; align-items: center; gap: 6px; }
-
-/* Export Dropdown */
 .export-wrap { position: relative; display: inline-block; }
-.export-menu {
-  position: absolute; top: calc(100% + 4px); right: 0;
-  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-lg); z-index: 300; min-width: 170px; display: none; overflow: hidden;
-}
+.export-menu { position: absolute; top: calc(100% + 4px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); z-index: 300; min-width: 170px; display: none; overflow: hidden; }
 .export-menu.open { display: block; }
 .export-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-size: 13px; color: var(--text); cursor: pointer; background: none; border: none; width: 100%; text-align: left; font-family: inherit; transition: background var(--transition); }
 .export-item:hover { background: var(--primary-bg); }
 .export-item + .export-item { border-top: 1px solid var(--border); }
-
 .output-area { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; min-height: 300px; }
 .output-placeholder { color: var(--text-muted); text-align: center; padding: 60px 20px; font-size: 14px; }
 .output-placeholder .icon { font-size: 44px; margin-bottom: 14px; display: block; }
 
 /* Markdown */
+.md-out { line-height: 1.8; }
 .md-out h1 { font-size: 20px; font-weight: 700; color: var(--primary); margin: 24px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
-.md-out h1:first-child { margin-top: 0; }
+.md-out h1:first-child, .md-out h2:first-child { margin-top: 0; }
 .md-out h2 { font-size: 17px; font-weight: 700; color: var(--primary); margin: 20px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
-.md-out h2:first-child { margin-top: 0; }
 .md-out h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 16px 0 6px; }
-.md-out p { margin-bottom: 9px; line-height: 1.8; }
+.md-out p { margin-bottom: 9px; }
 .md-out strong { color: var(--primary); font-weight: 700; }
 .md-out em { font-style: italic; color: var(--text-secondary); }
 .md-out ul, .md-out ol { margin: 8px 0 8px 22px; }
-.md-out li { margin-bottom: 5px; line-height: 1.7; }
-.md-out blockquote { border-left: 3px solid var(--primary); padding-left: 14px; margin: 12px 0; color: var(--text-secondary); font-style: italic; background: var(--primary-bg-light); border-radius: 0 4px 4px 0; padding: 8px 14px; }
+.md-out li { margin-bottom: 5px; }
+.md-out blockquote { border-left: 3px solid var(--primary); padding: 8px 14px; margin: 12px 0; color: var(--text-secondary); background: var(--primary-bg-light); border-radius: 0 4px 4px 0; }
 .md-out code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
 .md-out pre { background: var(--bg); padding: 14px; border-radius: var(--radius-sm); overflow-x: auto; margin: 12px 0; }
 .md-out pre code { background: none; padding: 0; }
 .md-out hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-.md-out .hidden { display: none; }
 
 /* Loading */
 .loading-dots { display: inline-flex; gap: 4px; align-items: center; padding: 10px 0; }
@@ -302,241 +188,140 @@ body {
 .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
 @keyframes dotBounce { 0%,80%,100% { transform: scale(0); } 40% { transform: scale(1); } }
 .loading-txt { color: var(--text-muted); font-size: 13px; margin-top: 6px; }
-
-/* Cursor blink */
 .cursor::after { content: '▌'; animation: blink 1s step-end infinite; color: var(--primary); }
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* Conversation turns */
-.conv-turn { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); }
-.conv-turn:last-child { border-bottom: none; }
-.turn-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-.turn-lbl.user { color: var(--primary); }
-
-/* Save to KB button */
-.save-kb-bar { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
-.btn-save-kb { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: linear-gradient(135deg, #2c5f8a 0%, #3a7bb5 100%); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; transition: all var(--transition); box-shadow: 0 2px 8px rgba(44,95,138,0.15); font-family: inherit; }
-.btn-save-kb:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(44,95,138,0.25); }
-
-/* Follow-up */
+/* Followup */
 .followup-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
 .followup-card h3 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
 .followup-ta { width: 100%; min-height: 70px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; margin-bottom: 10px; }
 .followup-ta:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
 .followup-actions { display: flex; gap: 8px; }
 
-/* ===== KB Modal ===== */
-.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; display: none; justify-content: center; align-items: flex-start; padding-top: 50px; overflow-y: auto; }
-.overlay.show { display: flex; }
-.modal { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 92%; max-width: 700px; max-height: 85vh; overflow: hidden; display: flex; flex-direction: column; animation: modalIn 0.2s ease; }
-@keyframes modalIn { from { transform: translateY(-20px); opacity: 0; } to { transform: none; opacity: 1; } }
-.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-.modal-header h2 { font-size: 16px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; }
-.modal-close { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; border-radius: 50%; transition: all var(--transition); font-family: inherit; }
-.modal-close:hover { background: var(--bg); color: var(--text); }
-.modal-body { overflow-y: auto; padding: 18px; flex: 1; }
+/* Conv turn */
+.conv-turn { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); }
+.conv-turn:last-child { border-bottom: none; }
+.turn-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.turn-lbl.user { color: var(--primary); }
 
-/* KB Form */
-.kb-add-form { margin-bottom: 18px; padding: 14px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); }
-.kb-add-form.hidden { display: none; }
-.kb-form-row { margin-bottom: 10px; }
-.kb-form-row label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px; }
-.kb-form-input { width: 100%; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; }
-.kb-form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
-.kb-form-ta { width: 100%; min-height: 100px; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; }
-.kb-form-ta:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
-.kb-cat-group { display: flex; flex-wrap: wrap; gap: 6px; }
-.kb-cat-opt { display: flex; align-items: center; gap: 4px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; cursor: pointer; transition: all var(--transition); }
-.kb-cat-opt:hover { border-color: var(--primary); background: var(--primary-bg); }
-.kb-cat-opt.selected { border-color: var(--primary); background: var(--primary-bg); }
-.kb-cat-opt input[type="radio"] { accent-color: var(--primary); width: 12px; height: 12px; }
-.kb-form-status { font-size: 11px; color: var(--text-muted); margin-top: 4px; min-height: 14px; }
-.kb-form-actions { display: flex; gap: 8px; margin-top: 10px; }
-
-/* KB List */
-.kb-cat-section { margin-bottom: 8px; }
-.kb-cat-title { font-size: 13px; font-weight: 700; color: var(--primary); padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px solid var(--border); }
-.kb-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 9px 11px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); transition: border-color var(--transition); margin-bottom: 5px; }
-.kb-item:hover { border-color: var(--primary); }
-.kb-item-content { flex: 1; min-width: 0; }
-.kb-item-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
-.kb-item-preview { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.kb-del-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: #c0392b; cursor: pointer; border-radius: 50%; font-size: 14px; flex-shrink: 0; font-family: inherit; }
-.kb-del-btn:hover { background: #fff0f0; }
-.kb-empty { text-align: center; color: var(--text-muted); padding: 24px; font-size: 13px; }
-
-/* ===== Save KB Quick Modal ===== */
-.save-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1100; display: none; justify-content: center; align-items: center; }
-.save-modal-overlay.show { display: flex; }
-.save-modal { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 90%; max-width: 440px; padding: 24px; animation: modalIn 0.2s ease; }
-.save-modal h3 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 7px; }
-.save-modal-field { margin-bottom: 12px; }
-.save-modal-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
-.save-modal-field input, .save-modal-field select { width: 100%; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; }
-.save-modal-field input:focus, .save-modal-field select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
-.save-modal-actions { display: flex; gap: 8px; margin-top: 16px; }
-.save-modal-status { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
-
-/* ===== Footer ===== */
+/* Footer */
 .footer { text-align: center; padding: 18px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: var(--white); margin-top: 24px; }
 
-/* ===== Responsive ===== */
-@media (max-width: 960px) {
-  .main { grid-template-columns: 1fr; padding: 12px; }
-  .left-panel { position: static; max-height: none; }
-}
-@media (max-width: 600px) {
-  .header { padding: 0 14px; }
-  .header-logo { font-size: 14px; }
-  .header-subtitle { display: none; }
-  .main { padding: 10px; gap: 10px; }
-  .output-area { padding: 14px; }
-}
+/* Responsive */
+@media (max-width: 960px) { .main { grid-template-columns: 1fr; padding: 12px; } .left-panel { position: static; max-height: none; } }
+@media (max-width: 600px) { .header { padding: 0 14px; } .header-subtitle { display: none; } .main { padding: 10px; gap: 10px; } .output-area { padding: 14px; } }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- ========== Header ========== -->
+<!-- ===== Header ===== -->
 <header class="header">
-  <div class="header-logo">📖 思政热点选题助手</div>
-  <span class="header-subtitle">智能体版 · Agent Platform</span>
-  <div class="header-right">
-    <button class="btn-kb" id="kbOpenBtn">📚 知识库</button>
-  </div>
+  <div class="header-logo">📖 思政热点选题助手<span class="header-badge">Agent v2</span></div>
+  <span class="header-subtitle">自主工具调用 · 自适应反思循环</span>
+  <div class="header-right"></div>
 </header>
 
-<!-- ========== API Key Panel ========== -->
+<!-- ===== API Panel ===== -->
 <div class="api-panel" id="apiPanel">
   <div class="api-panel-inner">
-    <label for="apiKeyInput">🔑 DeepSeek Key：</label>
+    <label>🔑 DeepSeek Key：</label>
     <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxx" autocomplete="off">
     <button class="btn btn-primary btn-sm" id="saveApiKeyBtn">保存</button>
     <div class="api-divider"></div>
-    <label for="serperKeyInput">🔍 Serper Key：</label>
-    <input type="password" id="serperKeyInput" placeholder="联网搜索（可选）" autocomplete="off">
+    <label>🔍 Serper Key：</label>
+    <input type="password" id="serperKeyInput" placeholder="Agent 联网搜索（可选）" autocomplete="off">
     <button class="btn btn-primary btn-sm" id="saveSerperKeyBtn">保存</button>
     <button class="api-toggle" id="apiToggleBtn">收起 ▲</button>
     <div class="api-hint">
-      🔒 Key 仅保存在您的浏览器本地，不会上传至任何服务器。
-      Serper 免费 2500 次/月 → <a href="https://serper.dev" target="_blank" rel="noopener">serper.dev</a>
+      🔒 Key 仅存储在您的浏览器本地。Serper 免费 2500次/月 →
+      <a href="https://serper.dev" target="_blank" rel="noopener">serper.dev</a>
     </div>
   </div>
 </div>
 
-<!-- ========== Main Layout ========== -->
+<!-- ===== Main ===== -->
 <div class="main">
 
-  <!-- ===== Left Panel ===== -->
+  <!-- Left Panel -->
   <div class="left-panel">
 
-    <!-- Agent Config Card -->
+    <!-- Agent Config -->
     <div class="card">
       <div class="card-title">🤖 智能体配置</div>
-      <div class="agent-option" id="optWebSearch">
-        <input type="checkbox" id="chkWebSearch">
-        <div class="agent-option-text">
-          <div class="agent-option-label">开启自动联网搜索</div>
-          <div class="agent-option-desc">通过 Serper API 搜索 Google 获取最新资讯作为上下文</div>
-          <div class="agent-key-hint" id="hintSerperKey">⚠️ 请先填写并保存 Serper API Key</div>
-        </div>
-      </div>
-      <div class="agent-option">
-        <input type="checkbox" id="chkSelfEval">
-        <div class="agent-option-text">
-          <div class="agent-option-label">开启双阶段自我评估纠错</div>
-          <div class="agent-option-desc">初稿完成后，AI 自动评分并将低于 90 分的内容优化</div>
-        </div>
-      </div>
-      <div class="agent-option">
-        <input type="checkbox" id="chkTfidf" checked>
-        <div class="agent-option-text">
-          <div class="agent-option-label">开启本地语义关联检索（TF-IDF）</div>
-          <div class="agent-option-desc">基于向量余弦相似度从知识库匹配最相关优秀案例</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- WeChat Push Card -->
-    <div class="card">
-      <div class="card-title">📅 微信推送设置（WxPusher）</div>
-      <div class="wx-row">
-        <label>AppToken：</label>
-        <input type="password" id="wxAppToken" placeholder="AT_xxxxxxxxxxxxxxxx">
+      <div class="search-mode-wrap">
+        <div class="search-mode-label">🌐 联网搜索策略</div>
+        <select id="searchModeSelect" class="search-mode-select">
+          <option value="smart" selected>🧠 智能决策（Agent 自主判断是否需要搜索）</option>
+          <option value="force-on">🔗 强制联网（每次必搜索）</option>
+          <option value="force-off">🔒 强制不联网（纯本地知识）</option>
+        </select>
       </div>
-      <div class="wx-row">
-        <label>UID：</label>
-        <input type="text" id="wxUid" placeholder="UID_xxxxxxxxxxxxxxxx">
-      </div>
-      <div class="wx-actions">
-        <button class="btn btn-outline btn-sm" id="saveWxBtn">💾 保存</button>
-        <button class="btn btn-gold btn-sm" id="testWxBtn">📤 测试推送</button>
-      </div>
+
+      <label class="agent-option">
+        <input type="checkbox" id="chkReflection" checked>
+        <div>
+          <div class="agent-option-label">🔄 开启自适应反思循环（Auto-Reflect）</div>
+          <div class="agent-option-desc">专家组评估初稿 → 评分≥90直接交付，＜90自动重写（最多3轮）</div>
+        </div>
+      </label>
     </div>
 
     <!-- Input Card -->
     <div class="card">
-      <!-- Activity Requirements -->
+
+      <!-- Activity Requirements (Collapsible) -->
       <div class="collapsible" id="reqPanel">
         <div class="collapsible-header" id="reqToggle">
           <span class="collapsible-title">📄 活动/比赛要求（选填）</span>
           <span class="collapsible-arrow">▼</span>
         </div>
         <div class="collapsible-body">
-          <textarea class="req-textarea" id="requirementText" placeholder="粘贴比赛通知、主题要求、评分标准..."></textarea>
-          <div class="file-row">
-            <label class="file-btn" for="reqFile">📎 上传 PDF/Word</label>
-            <input type="file" class="file-input" id="reqFile" accept=".pdf,.docx">
-            <div class="file-info" id="reqFileInfo"></div>
-          </div>
-          <div class="file-status" id="reqFileStatus"></div>
+          <textarea class="req-textarea" id="requirementText" placeholder="粘贴比赛通知、主题要求、评分标准等…"></textarea>
         </div>
       </div>
 
-      <div style="height:14px"></div>
-
-      <!-- Scenario Selection -->
-      <div class="section-label">🎯 使用场景</div>
+      <!-- Scenario -->
+      <div class="section-label" style="margin-top:12px">🎯 使用场景</div>
       <div class="scenario-group" id="scenarioGroup">
-        <label class="scenario-opt" data-v="演讲比赛"><input type="radio" name="scenario" value="演讲比赛"><span>🎤 演讲比赛</span></label>
-        <label class="scenario-opt" data-v="班会设计"><input type="radio" name="scenario" value="班会设计"><span>📚 班会设计</span></label>
-        <label class="scenario-opt" data-v="课题申报"><input type="radio" name="scenario" value="课题申报"><span>📋 课题申报</span></label>
-        <label class="scenario-opt" data-v="主题宣讲"><input type="radio" name="scenario" value="主题宣讲"><span>📢 主题宣讲</span></label>
-        <label class="scenario-opt" data-v="技能大赛"><input type="radio" name="scenario" value="技能大赛"><span>🏆 技能大赛</span></label>
+        <label class="scenario-opt"><input type="radio" name="scenario" value="演讲比赛"><span>🎤 演讲比赛</span></label>
+        <label class="scenario-opt"><input type="radio" name="scenario" value="班会设计"><span>📚 班会设计</span></label>
+        <label class="scenario-opt"><input type="radio" name="scenario" value="课题申报"><span>📋 课题申报</span></label>
+        <label class="scenario-opt"><input type="radio" name="scenario" value="主题宣讲"><span>📢 主题宣讲</span></label>
+        <label class="scenario-opt"><input type="radio" name="scenario" value="技能大赛"><span>🏆 技能大赛</span></label>
       </div>
 
       <!-- Keyword Input -->
       <div class="section-label">✏️ 输入热点词</div>
-      <textarea class="input-field" id="kwInput" rows="2" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学..."></textarea>
+      <textarea class="input-field" id="kwInput" rows="2" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学…"></textarea>
 
       <!-- Built-in Keywords -->
       <div class="kw-header">
-        <div class="section-label" style="margin-bottom:0">📌 内置热点词库</div>
-        <button class="btn-refresh" id="btnRefresh">🔄 AI 刷新</button>
+        <div class="section-label" style="margin-bottom:0">📌 内置热点词</div>
       </div>
       <div id="kwGroups" style="margin-bottom:14px"></div>
 
       <div id="inputStatus" class="status-msg"></div>
-      <button class="btn-generate" id="generateBtn">🔍 生成选题方案</button>
+      <button class="btn-generate" id="generateBtn">🚀 启动 Agent 生成</button>
     </div>
 
-  </div><!-- end left-panel -->
+  </div><!-- /left-panel -->
 
-  <!-- ===== Right Panel ===== -->
+  <!-- Right Panel -->
   <div class="right-panel">
 
-    <!-- Agent Terminal Log -->
+    <!-- Agent Log Terminal -->
     <div class="agent-log-wrap">
       <div class="agent-log-header">
         <div class="agent-log-title">
-          <span class="log-dot idle" id="logDot"></span>
+          <span class="log-dot" id="logDot"></span>
           ⚡ 智能体决策舱 · Agent Terminal
         </div>
-        <div class="agent-log-btns">
-          <button class="agent-log-clear" id="logClearBtn">清空日志</button>
-        </div>
+        <button class="agent-log-clear" id="logClearBtn">清空日志</button>
       </div>
       <div class="agent-log-body" id="logBody">
-        <div class="log-placeholder">等待 Agent 启动… 配置左侧选项后点击「生成选题方案」开始</div>
+        <div class="log-placeholder">等待 Agent 启动… 配置左侧选项后点击「启动 Agent 生成」开始</div>
       </div>
     </div>
 
@@ -560,262 +345,98 @@ body {
       <div class="output-area" id="outputArea">
         <div class="output-placeholder" id="outputPlaceholder">
           <span class="icon">💡</span>
-          在左侧输入热点词并选择场景，<br>点击「生成选题方案」开始
+          在左侧输入热点词并选择场景，<br>点击「启动 Agent 生成」开始
         </div>
         <div class="md-out hidden" id="mdOutput"></div>
-      </div>
-
-      <!-- Save to KB -->
-      <div class="save-kb-bar hidden" id="saveKbBar">
-        <button class="btn-save-kb" id="saveToKbBtn">💾 保存此方案到本地知识库</button>
       </div>
     </div>
 
     <!-- Follow-up -->
     <div class="followup-card hidden" id="followupCard">
       <h3>💬 继续优化</h3>
-      <textarea class="followup-ta" id="followupInput" placeholder="例如：把选题一的角度改得更接地气一些… (Ctrl+Enter 发送)"></textarea>
+      <textarea class="followup-ta" id="followupInput" placeholder="例如：把选题一改得更接地气一些… (Ctrl+Enter 发送)"></textarea>
       <div class="followup-actions">
         <button class="btn btn-primary" id="sendFollowupBtn">✨ 发送修改意见</button>
       </div>
       <div id="followupStatus" class="status-msg" style="margin-top:8px"></div>
     </div>
 
-  </div><!-- end right-panel -->
-</div><!-- end main -->
+  </div><!-- /right-panel -->
+</div><!-- /main -->
 
-<!-- ========== KB Modal ========== -->
-<div class="overlay" id="kbOverlay">
-  <div class="modal" id="kbModal">
-    <div class="modal-header">
-      <h2>📚 本地知识库</h2>
-      <button class="modal-close" id="kbCloseBtn">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div style="margin-bottom:14px">
-        <button class="btn btn-primary btn-sm" id="kbAddBtn">＋ 添加新条目</button>
-      </div>
-      <div class="kb-add-form hidden" id="kbAddForm">
-        <div class="kb-form-row">
-          <label>标题</label>
-          <input type="text" class="kb-form-input" id="kbFormTitle" placeholder="输入条目标题…">
-        </div>
-        <div class="kb-form-row">
-          <label>分类</label>
-          <div class="kb-cat-group" id="kbCatGroup">
-            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="演讲比赛"><span>🎤 演讲比赛</span></label>
-            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="班会设计"><span>📚 班会设计</span></label>
-            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="课题申报"><span>📋 课题申报</span></label>
-            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="主题宣讲"><span>📢 主题宣讲</span></label>
-            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="技能大赛"><span>🏆 技能大赛</span></label>
-          </div>
-        </div>
-        <div class="kb-form-row">
-          <label>内容</label>
-          <textarea class="kb-form-ta" id="kbFormContent" placeholder="粘贴案例内容、优秀方案、参考资料…"></textarea>
-          <div class="file-row">
-            <label class="file-btn" for="kbFormFile">📎 上传 PDF/Word</label>
-            <input type="file" class="file-input" id="kbFormFile" accept=".pdf,.docx">
-            <div class="file-info" id="kbFormFileInfo"></div>
-          </div>
-          <div class="file-status" id="kbFormFileStatus"></div>
-        </div>
-        <div class="kb-form-status" id="kbFormStatus"></div>
-        <div class="kb-form-actions">
-          <button class="btn btn-primary btn-sm" id="kbSaveBtn">💾 保存</button>
-          <button class="btn btn-outline btn-sm" id="kbCancelBtn">取消</button>
-        </div>
-      </div>
-      <div id="kbList"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ========== Save-to-KB Quick Modal ========== -->
-<div class="save-modal-overlay" id="saveModalOverlay">
-  <div class="save-modal">
-    <h3>💾 保存方案到知识库</h3>
-    <div class="save-modal-field">
-      <label>标题</label>
-      <input type="text" id="saveKbTitle" placeholder="输入方案标题…">
-    </div>
-    <div class="save-modal-field">
-      <label>分类</label>
-      <select id="saveKbCat">
-        <option value="演讲比赛">🎤 演讲比赛</option>
-        <option value="班会设计">📚 班会设计</option>
-        <option value="课题申报">📋 课题申报</option>
-        <option value="主题宣讲">📢 主题宣讲</option>
-        <option value="技能大赛">🏆 技能大赛</option>
-      </select>
-    </div>
-    <div class="save-modal-actions">
-      <button class="btn btn-primary" id="saveKbConfirmBtn">确认保存</button>
-      <button class="btn btn-outline" id="saveKbCancelBtn">取消</button>
-    </div>
-    <div class="save-modal-status" id="saveKbStatus"></div>
-  </div>
-</div>
-
-<footer class="footer">思政热点选题助手 · 智能体版 · 为高校辅导员设计</footer>
+<footer class="footer">思政热点选题助手 · 智能体版 v2 · 为高校辅导员设计</footer>
 
 <script>
 'use strict';
 // ============================================================
-// CONSTANTS & STATE
+// CONSTANTS
 // ============================================================
 const API_URL = 'https://api.deepseek.com/v1/chat/completions';
 const SERPER_URL = 'https://google.serper.dev/search';
 const MODEL = 'deepseek-chat';
 const LS_API = 'sz_api_key';
 const LS_SERPER = 'sz_serper_key';
-const LS_KB = 'sz_knowledge_base';
-const LS_KW = 'sz_refreshed_keywords';
-const LS_WX_TOKEN = 'sz_wx_token';
-const LS_WX_UID = 'sz_wx_uid';
+
+// Tool definition for Function Calling
+const SERPER_TOOL_DEF = {
+  type: 'function',
+  function: {
+    name: 'serper_search',
+    description: '当用户提供的热点词过于新颖、或者涉及需要实时政策背景、新闻事实时，调用此工具搜索 Google 资讯。参数：query (搜索关键词)',
+    parameters: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: '搜索关键词，应包含热点词及相关思政/教育上下文' }
+      },
+      required: ['query']
+    }
+  }
+};
 
 const SYSTEM_PROMPT = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征和行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
 
 你的核心能力是：将当代青年热点文化现象与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
 
-输出要求：
-- 标题有文采，可使用对仗、引用、创意表达
-- 分析有深度，不停留于表面现象
-- 理论扎实，自然引用相关政策和理论依据
-- 实操性强，框架可真正用于演讲、班会、课题
-- 语言兼顾学术性和可读性`;
+输出要求：标题有文采，分析有深度，理论扎实，实操性强，语言兼顾学术性和可读性。`;
 
-const DEFAULT_GROUPS = [
-  { name: '🛍️ 亚文化消费', tags: ['拼豆','吃谷','谷子经济','二次元','cosplay','盲盒','手办'] },
-  { name: '🤝 社交方式',   tags: ['搭子文化','City Walk','断亲','独居青年','多巴胺穿搭','反向旅游'] },
-  { name: '🌐 网络文化',   tags: ['发疯文学','显眼包','MBTI热','emo','精神内耗','整顿职场','松弛感'] },
-  { name: '💭 价值观念',   tags: ['躺平','内卷','考研上岸','慢就业','特种兵旅游','搭子经济'] },
-  { name: '🚀 新兴现象',   tags: ['AI焦虑','数字游民','DeepSeek热','具身智能','绿色消费','银发经济'] }
+const KEYWORD_GROUPS = [
+  { name: '🛍️ 亚文化消费', tags: ['拼豆', '吃谷', '谷子经济', '二次元', 'cosplay', '盲盒'] },
+  { name: '🤝 社交方式',   tags: ['搭子文化', 'City Walk', '多巴胺穿搭', '断亲', '独居青年'] },
+  { name: '🌐 网络文化',   tags: ['发疯文学', '显眼包', 'MBTI热', 'emo', '精神内耗', '整顿职场'] },
+  { name: '💭 价值观念',   tags: ['躺平', '内卷', '考研上岸', '慢就业', '特种兵旅游'] },
+  { name: '🚀 新兴现象',   tags: ['AI焦虑', '数字游民', 'DeepSeek热', '具身智能', '绿色消费'] }
 ];
 
+// ============================================================
+// STATE
+// ============================================================
 let conversationHistory = [];
 let currentRawText = '';
-let currentParsed = {};
 let isGenerating = false;
-let pdfJsReady = false;
-let mammothReady = false;
 
 // ============================================================
-// UTILITIES
+// UTILS
 // ============================================================
 const $ = id => document.getElementById(id);
-const html = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 function nowStr() {
   const d = new Date();
-  return [d.getHours(), d.getMinutes(), d.getSeconds()]
-    .map(n => String(n).padStart(2,'0')).join(':');
+  return [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
 }
 
-function showStatus(el, msg, type) {
-  el.textContent = msg;
-  el.className = 'status-msg ' + type;
-}
+function showStatus(el, msg, type) { el.textContent = msg; el.className = 'status-msg ' + type; }
 function hideStatus(el) { el.style.display = 'none'; el.className = 'status-msg'; }
-
-// ============================================================
-// TF-IDF ENGINE
-// ============================================================
-const TfIdf = (() => {
-  const STOPWORDS = new Set([
-    '的','了','在','是','我','有','和','就','不','人','都','一','上','也','很','到',
-    '说','要','去','你','会','着','没有','看','好','自己','这','他','她','它','们',
-    '那','来','从','把','被','让','给','为','什么','怎么','里','而','及','与','或',
-    '但','如果','虽然','因为','所以','关于','对于','通过','作为','可以','可能','应该',
-    '等','个','种','年','月','日','之','中','大','小','多','少','么','以及','并且',
-    '然而','因此','其中','以上','以下','然后','首先','其次','最后','各','该','此',
-    '这个','那个','这些','那些','其','且','并','又','再','还','才'
-  ]);
-
-  let corpus = [];
-  let docTFs = [];
-  let idf = {};
-
-  function tokenize(text) {
-    if (!text) return [];
-    const cleaned = text.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, ' ');
-    const raw = cleaned.split(/\s+/).filter(t => t.length > 0 && !STOPWORDS.has(t));
-    const bigrams = [];
-    for (const t of raw) {
-      if (t.length >= 2) {
-        for (let i = 0; i <= t.length - 2; i++) bigrams.push(t.slice(i, i+2));
-      }
-    }
-    return [...raw, ...bigrams];
-  }
-
-  function buildIndex(entries) {
-    corpus = entries;
-    docTFs = [];
-    const docFreq = {};
-    for (const e of entries) {
-      const text = (e.title||'') + ' ' + (e.content||'') + ' ' + (e.category||'');
-      const tokens = tokenize(text);
-      const tf = {};
-      for (const t of tokens) tf[t] = (tf[t]||0) + 1;
-      const n = tokens.length || 1;
-      const normTf = {};
-      for (const t in tf) {
-        normTf[t] = tf[t] / n;
-        docFreq[t] = (docFreq[t]||0) + 1;
-      }
-      docTFs.push(normTf);
-    }
-    const N = entries.length || 1;
-    idf = {};
-    for (const t in docFreq) idf[t] = Math.log((N+1)/(docFreq[t]+1)) + 1;
-  }
-
-  function search(query, topN) {
-    topN = topN || 3;
-    if (!corpus.length) return [];
-    const qTokens = tokenize(query);
-    if (!qTokens.length) return [];
-    const qTf = {};
-    for (const t of qTokens) qTf[t] = (qTf[t]||0) + 1;
-    const qLen = qTokens.length;
-    for (const t in qTf) qTf[t] /= qLen;
-
-    const scores = corpus.map((e, i) => {
-      const dtf = docTFs[i];
-      const terms = new Set([...Object.keys(qTf), ...Object.keys(dtf)]);
-      let dot = 0, qNorm = 0, dNorm = 0;
-      for (const t of terms) {
-        const qv = (qTf[t]||0) * (idf[t]||1);
-        const dv = (dtf[t]||0) * (idf[t]||1);
-        dot  += qv * dv;
-        qNorm += qv * qv;
-        dNorm += dv * dv;
-      }
-      const sim = (qNorm > 0 && dNorm > 0) ? dot / (Math.sqrt(qNorm) * Math.sqrt(dNorm)) : 0;
-      return { entry: e, score: sim };
-    });
-
-    return scores.sort((a,b) => b.score - a.score).slice(0, topN).filter(r => r.score > 0.005);
-  }
-
-  return { buildIndex, search };
-})();
 
 // ============================================================
 // AGENT LOG
 // ============================================================
-let logActive = false;
-
 function logInit() {
-  logActive = true;
   $('logBody').innerHTML = '';
   $('logDot').className = 'log-dot active';
-  logMsg('info', '🚀 Agent 系统已启动，正在分析任务…');
 }
 
 function logMsg(type, message) {
-  if (!logActive) return;
   const body = $('logBody');
   const div = document.createElement('div');
   div.className = 'log-entry';
@@ -825,104 +446,128 @@ function logMsg(type, message) {
 }
 
 function logRadarStart(msg) {
-  if (!logActive) return;
   const body = $('logBody');
   const div = document.createElement('div');
-  div.className = 'log-radar';
-  div.id = 'logRadar';
-  div.innerHTML = `<span class="log-time">[${nowStr()}]</span> <span class="log-tag">[Agent]</span> <span class="log-c-info">${msg}</span> <div class="radar-bars"><span></span><span></span><span></span><span></span><span></span></div>`;
+  div.className = 'log-radar'; div.id = 'logRadar';
+  div.innerHTML = `<span class="log-time">[${nowStr()}]</span> <span class="log-tag">[Agent]</span> <span class="log-c-info">${msg}</span>&nbsp;<div class="radar-bars"><span></span><span></span><span></span><span></span><span></span></div>`;
   body.appendChild(div);
   body.scrollTop = body.scrollHeight;
 }
 
-function logRadarEnd() {
-  const r = $('logRadar');
-  if (r) r.remove();
-}
+function logRadarEnd() { const r = $('logRadar'); if (r) r.remove(); }
 
-function logDeactivate() {
-  logActive = false;
-  $('logDot').className = 'log-dot idle';
-}
+function logDeactivate() { $('logDot').className = 'log-dot'; }
 
 function logClear() {
   $('logBody').innerHTML = '<div class="log-placeholder">日志已清空</div>';
-  $('logDot').className = 'log-dot idle';
-  logActive = false;
+  $('logDot').className = 'log-dot';
 }
 
 // ============================================================
 // SERPER WEB SEARCH
 // ============================================================
 async function serperSearch(query) {
-  const key = localStorage.getItem(LS_SERPER);
-  if (!key) return [];
+  const key = localStorage.getItem(LS_SERPER) || $('serperKeyInput').value.trim();
+  if (!key) return null;
   try {
     const resp = await fetch(SERPER_URL, {
       method: 'POST',
       headers: { 'X-API-KEY': key, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ q: query, num: 8, gl: 'cn', hl: 'zh-cn' })
+      body: JSON.stringify({ q: query, num: 6, gl: 'cn', hl: 'zh-cn' })
     });
-    if (!resp.ok) return [];
+    if (!resp.ok) { logMsg('warn', `⚠️ Serper HTTP ${resp.status}，跳过联网`); return null; }
     const data = await resp.json();
-    return (data.organic || []).map(r => ({ title: r.title||'', snippet: r.snippet||'' }));
-  } catch { return []; }
+    return (data.organic || []).map(r => ({ title: r.title||'', snippet: r.snippet||'', link: r.link||'' }));
+  } catch (e) {
+    logMsg('error', `❌ Serper 调用失败：${esc(e.message)}`);
+    return null;
+  }
+}
+
+function formatSearchResults(results) {
+  if (!results || !results.length) return '未找到相关搜索结果。';
+  let s = '【联网搜索结果摘要】\n\n';
+  results.forEach((r, i) => { s += `来源${i+1}：${r.title}\n摘要：${r.snippet}\n\n`; });
+  s += '请根据以上最新资讯，补充相关背景信息。';
+  return s;
 }
 
 // ============================================================
-// DEEPSEEK STREAM API
+// DEEPSEEK API — Non-streaming (for eval/reflection)
 // ============================================================
-function streamDeepSeek(messages, onChunk, onDone, onError) {
-  const apiKey = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
-  if (!apiKey) { onError('请先设置 DeepSeek API Key'); return; }
+async function callDeepSeek(messages, opts) {
+  opts = opts || {};
+  const key = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
+  if (!key) throw new Error('请先设置 DeepSeek API Key');
 
-  isGenerating = true;
-  fetch(API_URL, {
+  const body = {
+    model: MODEL, messages,
+    temperature: opts.temperature || 0.7,
+    max_tokens: opts.max_tokens || 3000
+  };
+  if (opts.tools) { body.tools = opts.tools; body.tool_choice = opts.tool_choice || 'auto'; }
+
+  const resp = await fetch(API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-    body: JSON.stringify({ model: MODEL, messages, stream: true, temperature: 0.7, max_tokens: 4096 })
-  }).then(async resp => {
-    if (!resp.ok) {
-      const t = await resp.text().catch(() => '');
-      if (resp.status === 401) onError('API Key 无效或已过期');
-      else if (resp.status === 429) onError('请求过于频繁，请稍后重试');
-      else onError(`请求失败 (${resp.status}): ${t.slice(0,200)}`);
-      isGenerating = false;
-      return;
-    }
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder();
-    let buf = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      const lines = buf.split('\n');
-      buf = lines.pop() || '';
-      for (const line of lines) {
-        const trim = line.trim();
-        if (!trim || trim === 'data: [DONE]') continue;
-        if (!trim.startsWith('data: ')) continue;
-        try {
-          const j = JSON.parse(trim.slice(6));
-          const delta = j.choices?.[0]?.delta?.content;
-          if (delta) onChunk(delta);
-        } catch { /* skip */ }
-      }
-    }
-    isGenerating = false;
-    onDone();
-  }).catch(err => {
-    isGenerating = false;
-    onError('网络错误: ' + err.message);
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+    body: JSON.stringify(body)
   });
+  if (!resp.ok) {
+    const txt = await resp.text().catch(() => '');
+    if (resp.status === 401) throw new Error('API Key 无效或已过期');
+    if (resp.status === 429) throw new Error('请求过于频繁，请稍后重试');
+    throw new Error(`HTTP ${resp.status}: ${txt.slice(0,200)}`);
+  }
+  const data = await resp.json();
+  const choice = data.choices?.[0];
+  return {
+    content: choice?.message?.content || '',
+    tool_calls: choice?.message?.tool_calls || null,
+    finish_reason: choice?.finish_reason || 'stop',
+    message: choice?.message
+  };
 }
 
-function streamDeepSeekAsync(messages) {
-  return new Promise((resolve, reject) => {
-    let full = '';
-    streamDeepSeek(messages, chunk => { full += chunk; }, () => resolve(full), reject);
+// ============================================================
+// DEEPSEEK API — Streaming (for final draft output)
+// ============================================================
+async function streamDeepSeek(messages, onChunk, opts) {
+  opts = opts || {};
+  const key = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
+  if (!key) throw new Error('请先设置 DeepSeek API Key');
+
+  const body = { model: MODEL, messages, stream: true, temperature: opts.temperature || 0.7, max_tokens: opts.max_tokens || 4096 };
+  const resp = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+    body: JSON.stringify(body)
   });
+  if (!resp.ok) {
+    const txt = await resp.text().catch(() => '');
+    if (resp.status === 401) throw new Error('API Key 无效或已过期');
+    if (resp.status === 429) throw new Error('请求过于频繁，请稍后重试');
+    throw new Error(`HTTP ${resp.status}: ${txt.slice(0,200)}`);
+  }
+  const reader = resp.body.getReader();
+  const decoder = new TextDecoder();
+  let buf = '';
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buf += decoder.decode(value, { stream: true });
+    const lines = buf.split('\n');
+    buf = lines.pop() || '';
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed === 'data: [DONE]') continue;
+      if (!trimmed.startsWith('data: ')) continue;
+      try {
+        const json = JSON.parse(trimmed.slice(6));
+        const delta = json.choices?.[0]?.delta?.content;
+        if (delta) onChunk(delta);
+      } catch (_) {}
+    }
+  }
 }
 
 // ============================================================
@@ -930,315 +575,32 @@ function streamDeepSeekAsync(messages) {
 // ============================================================
 function renderMd(text) {
   if (!text) return '';
-  let t = text;
-  t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // Code blocks
-  t = t.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
-    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
-  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // Headings
-  t = t.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-  t = t.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-  t = t.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-  // Bold / italic
-  t = t.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
-  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  // Blockquote
-  t = t.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-  // Lists
-  t = t.replace(/^(\s*)[-*] (.+)$/gm, (_, indent, item) => `<li style="margin-left:${indent.length*16}px">${item}</li>`);
-  t = t.replace(/^(\s*)\d+\. (.+)$/gm, (_, indent, item) => `<li style="margin-left:${indent.length*16}px">${item}</li>`);
-  t = t.replace(/(<li[\s\S]*?<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
-  // HR
-  t = t.replace(/^---$/gm, '<hr>');
-  // Paragraphs
-  t = t.replace(/\n\n/g, '</p><p>');
-  t = t.replace(/\n/g, '<br>');
-  // Clean up around block elements
-  ['h1','h2','h3','ul','ol','pre','blockquote','hr'].forEach(tag => {
-    t = t.replace(new RegExp(`<p>(<${tag}[^>]*>)`, 'g'), '$1');
-    t = t.replace(new RegExp(`(</${tag}>)<\/p>`, 'g'), '$1');
-  });
-  t = t.replace(/<p><\/p>/g, '');
-  t = t.replace(/<br>(<li)/g, '$1');
-  t = `<p>${t}</p>`;
-  return t;
+  let h = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  h = h.replace(/```[\w]*\n([\s\S]*?)```/g, (_, c) => `<pre><code>${c.trim()}</code></pre>`);
+  h = h.replace(/`([^`]+)`/g, '<code>$1</code>');
+  h = h.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  h = h.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  h = h.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  h = h.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  h = h.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+  h = h.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  h = h.replace(/((?:<li>[^]*?<\/li>\n?)+)/g, '<ul>$1</ul>');
+  h = h.replace(/^---$/gm, '<hr>');
+  h = h.replace(/\n\n/g, '</p><p>');
+  h = h.replace(/\n/g, '<br>');
+  h = h.replace(/<p><(h[123]|ul|ol|pre|blockquote|hr)/g, '<$1');
+  h = h.replace(/<\/(h[123]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
+  h = h.replace(/<p><\/p>/g, '');
+  return h;
 }
 
 // ============================================================
-// OUTPUT MANAGEMENT
+// EVALUATION & REFLECTION HELPERS
 // ============================================================
-function showMdOutput(html_content) {
-  $('outputPlaceholder').classList.add('hidden');
-  $('mdOutput').classList.remove('hidden');
-  $('mdOutput').innerHTML = html_content;
-  $('copyBtn').disabled = false;
-  $('clearBtn').disabled = false;
-  $('exportBtn').disabled = false;
-}
-
-function clearAll() {
-  $('mdOutput').innerHTML = '';
-  $('mdOutput').classList.add('hidden');
-  $('outputPlaceholder').classList.remove('hidden');
-  $('copyBtn').disabled = true;
-  $('clearBtn').disabled = true;
-  $('exportBtn').disabled = true;
-  $('followupCard').classList.add('hidden');
-  $('saveKbBar').classList.add('hidden');
-  $('followupInput').value = '';
-  hideStatus($('followupStatus'));
-  currentRawText = '';
-  currentParsed = {};
-  conversationHistory = [];
-}
-
-// ============================================================
-// FILE UPLOAD (PDF / DOCX)
-// ============================================================
-function loadScript(src) {
-  return new Promise((res, rej) => {
-    if (document.querySelector(`script[src="${src}"]`)) { res(); return; }
-    const s = document.createElement('script');
-    s.src = src; s.onload = res; s.onerror = rej;
-    document.head.appendChild(s);
-  });
-}
-
-async function extractPdfText(file) {
-  if (!pdfJsReady) {
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    pdfJsReady = true;
-  }
-  const ab = await file.arrayBuffer();
-  const pdf = await window.pdfjsLib.getDocument({ data: ab }).promise;
-  let text = '';
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const tc = await page.getTextContent();
-    text += tc.items.map(x => x.str).join('') + '\n';
-  }
-  return text.trim();
-}
-
-async function extractDocxText(file) {
-  if (!mammothReady) {
-    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
-    mammothReady = true;
-  }
-  const ab = await file.arrayBuffer();
-  const r = await window.mammoth.extractRawText({ arrayBuffer: ab });
-  return (r.value || '').trim();
-}
-
-async function handleFileUpload(file, targetTA, infoEl, statusEl) {
-  if (!file) return;
-  const ext = file.name.split('.').pop().toLowerCase();
-  if (ext !== 'pdf' && ext !== 'docx') {
-    statusEl.textContent = '⚠️ 仅支持 PDF 和 Word (.docx) 文件';
-    statusEl.style.color = '#c0392b';
-    return;
-  }
-  statusEl.textContent = '⏳ 正在提取文字…';
-  statusEl.style.color = 'var(--text-muted)';
-  infoEl.innerHTML = '';
-  try {
-    const text = ext === 'pdf' ? await extractPdfText(file) : await extractDocxText(file);
-    targetTA.value = text;
-    infoEl.innerHTML = `<span class="file-name">📄 ${html(file.name)}</span> <span>(${text.length} 字)</span> <button class="file-remove" title="移除">✕</button>`;
-    infoEl.querySelector('.file-remove').onclick = () => {
-      targetTA.value = ''; infoEl.innerHTML = ''; statusEl.textContent = '';
-    };
-    statusEl.textContent = '✅ 文字提取成功';
-    statusEl.style.color = '#27ae60';
-  } catch (e) {
-    statusEl.textContent = '❌ 提取失败: ' + e.message;
-    statusEl.style.color = '#c0392b';
-  }
-}
-
-// ============================================================
-// KEYWORD GROUPS
-// ============================================================
-function renderKwGroups() {
-  let groups;
-  try { groups = JSON.parse(localStorage.getItem(LS_KW) || 'null'); } catch { groups = null; }
-  if (!groups) groups = DEFAULT_GROUPS;
-
-  $('kwGroups').innerHTML = groups.map(g => `
-    <div class="kw-group">
-      <div class="kw-group-name">${html(g.name)}</div>
-      <div class="kw-tags">${g.tags.map(t => `<span class="kw-tag" data-w="${html(t)}">${html(t)}</span>`).join('')}</div>
-    </div>
-  `).join('');
-
-  $('kwGroups').onclick = e => {
-    if (e.target.classList.contains('kw-tag')) {
-      const w = e.target.dataset.w;
-      const cur = $('kwInput').value.trim();
-      $('kwInput').value = cur ? cur + '、' + w : w;
-    }
-  };
-}
-
-async function refreshKeywords() {
-  const key = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
-  if (!key) { showStatus($('inputStatus'), '请先设置 DeepSeek API Key', 'error'); return; }
-  const btn = $('btnRefresh');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> 刷新中…';
-
-  const now = new Date();
-  const prompt = `现在是${now.getFullYear()}年${now.getMonth()+1}月，请列出30个当前最热门的中国青年亚文化关键词，分5个类别各6个：亚文化消费、社交方式、网络文化、价值观念、新兴现象。每行格式：类别名：词1、词2、词3、词4、词5、词6`;
-
-  try {
-    const resp = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-      body: JSON.stringify({ model: MODEL, messages: [{ role:'user', content: prompt }], temperature: 0.7, max_tokens: 800 })
-    });
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-    const content = data.choices?.[0]?.message?.content || '';
-    const emojiMap = { '亚文化消费':'🛍️','社交方式':'🤝','网络文化':'🌐','价值观念':'💭','新兴现象':'🚀' };
-    const newGroups = [];
-    for (const line of content.split('\n').filter(l => l.trim())) {
-      const m = line.match(/^(.+?)[：:]\s*(.+)/);
-      if (m) {
-        const name = m[1].trim();
-        const tags = m[2].split(/[、，,；;\s]+/).filter(t => t.trim());
-        const emoji = emojiMap[name] || '📌';
-        if (tags.length) newGroups.push({ name: emoji + ' ' + name, tags: tags.slice(0, 6) });
-      }
-    }
-    if (newGroups.length >= 3) {
-      localStorage.setItem(LS_KW, JSON.stringify(newGroups));
-      renderKwGroups();
-      showStatus($('inputStatus'), '✅ 热点词已刷新', 'success');
-      setTimeout(() => hideStatus($('inputStatus')), 2500);
-    }
-  } catch (e) {
-    showStatus($('inputStatus'), '❌ 刷新失败: ' + e.message, 'error');
-  }
-  btn.disabled = false;
-  btn.innerHTML = '🔄 AI 刷新';
-}
-
-// ============================================================
-// KNOWLEDGE BASE
-// ============================================================
-function getKbEntries() {
-  try { return JSON.parse(localStorage.getItem(LS_KB) || '[]'); } catch { return []; }
-}
-function saveKbEntries(arr) { localStorage.setItem(LS_KB, JSON.stringify(arr)); }
-
-function getKbContext(keyword, scenario) {
-  const entries = getKbEntries();
-  if (!entries.length) return { text: '', cases: [] };
-
-  const useTfidf = $('chkTfidf').checked;
-  let picked = [];
-
-  if (useTfidf) {
-    TfIdf.buildIndex(entries);
-    const query = keyword + ' ' + scenario + ' ' + keyword;
-    const results = TfIdf.search(query, 3);
-    picked = results.map(r => ({ entry: r.entry, score: (r.score * 100).toFixed(1) }));
-  } else {
-    // Fallback: category match
-    picked = entries.filter(e => e.category === scenario)
-      .slice(0, 3).map(e => ({ entry: e, score: null }));
-  }
-
-  if (!picked.length) return { text: '', cases: [] };
-
-  let text = '\n\n【参考知识库中的优秀案例】\n\n';
-  const cases = [];
-  picked.forEach((p, i) => {
-    const sc = p.score ? `（相似度：${p.score}%）` : '';
-    text += `案例${i+1}：${p.entry.title}${sc}\n${p.entry.content.slice(0, 600)}\n\n`;
-    cases.push({ title: p.entry.title, score: p.score });
-  });
-  text += '请参考以上案例的质量标准、表达风格、结构设计和理论深度。';
-  return { text, cases };
-}
-
-// KB CRUD
-function renderKbList() {
-  const entries = getKbEntries();
-  if (!entries.length) {
-    $('kbList').innerHTML = '<div class="kb-empty">知识库为空，点击上方「＋ 添加新条目」开始添加</div>';
-    return;
-  }
-  const catOrder = ['演讲比赛','班会设计','课题申报','主题宣讲','技能大赛'];
-  const catEmoji = { '演讲比赛':'🎤','班会设计':'📚','课题申报':'📋','主题宣讲':'📢','技能大赛':'🏆' };
-  const grouped = {};
-  for (const e of entries) {
-    if (!grouped[e.category]) grouped[e.category] = [];
-    grouped[e.category].push(e);
-  }
-  let h = '';
-  for (const cat of catOrder) {
-    if (!grouped[cat]?.length) continue;
-    h += `<div class="kb-cat-section"><div class="kb-cat-title">${catEmoji[cat]||'📌'} ${cat}（${grouped[cat].length}条）</div>`;
-    for (const item of grouped[cat]) {
-      h += `<div class="kb-item">
-        <div class="kb-item-content">
-          <div class="kb-item-title">${html(item.title)}</div>
-          <div class="kb-item-preview">${html(item.content.slice(0,60))}…</div>
-        </div>
-        <button class="kb-del-btn" data-id="${item.id}" title="删除">🗑️</button>
-      </div>`;
-    }
-    h += '</div>';
-  }
-  $('kbList').innerHTML = h;
-  $('kbList').querySelectorAll('.kb-del-btn').forEach(btn => {
-    btn.onclick = () => {
-      if (!confirm('确定删除该条目吗？')) return;
-      saveKbEntries(getKbEntries().filter(e => e.id !== Number(btn.dataset.id)));
-      renderKbList();
-    };
-  });
-}
-
-function clearKbForm() {
-  $('kbFormTitle').value = '';
-  $('kbFormContent').value = '';
-  $('kbFormFile').value = '';
-  $('kbFormFileInfo').innerHTML = '';
-  $('kbFormFileStatus').textContent = '';
-  $('kbFormStatus').textContent = '';
-  document.querySelectorAll('.kb-cat-opt').forEach(el => {
-    el.classList.remove('selected');
-    el.querySelector('input').checked = false;
-  });
-}
-
-function saveKbEntry() {
-  const title = $('kbFormTitle').value.trim();
-  const catEl = document.querySelector('input[name="kbCat"]:checked');
-  const content = $('kbFormContent').value.trim();
-  if (!title) { $('kbFormStatus').textContent = '⚠️ 请输入标题'; $('kbFormStatus').style.color='#c0392b'; return; }
-  if (!catEl)  { $('kbFormStatus').textContent = '⚠️ 请选择分类'; $('kbFormStatus').style.color='#c0392b'; return; }
-  if (!content){ $('kbFormStatus').textContent = '⚠️ 请输入内容或上传文件'; $('kbFormStatus').style.color='#c0392b'; return; }
-
-  const entries = getKbEntries();
-  entries.unshift({ id: Date.now(), title, category: catEl.value, content, createdAt: new Date().toISOString() });
-  saveKbEntries(entries);
-  $('kbFormStatus').textContent = '✅ 已保存！';
-  $('kbFormStatus').style.color = '#27ae60';
-  setTimeout(() => { $('kbAddForm').classList.add('hidden'); clearKbForm(); renderKbList(); }, 600);
-}
-
-// ============================================================
-// SELF-EVALUATION
-// ============================================================
-async function selfEvaluate(draft, keyword, scenario) {
-  const prompt = `你是资深思想政治教育特级专家和全国高校辅导员年度人物评委。请对以下思政选题方案进行严格评估：
+async function evaluateDraft(draft, keyword, scenario) {
+  const evalPrompt = `你是资深思想政治教育特级专家评委。请对以下思政选题方案进行严格评估：
 
 【热点词】${keyword}
 【场景】${scenario}
@@ -1247,82 +609,145 @@ async function selfEvaluate(draft, keyword, scenario) {
 ${draft}
 
 评估标准（满分100分）：
-1. 政治站位（30%）：是否准确体现党的教育方针、核心价值观、习近平新时代中国特色社会主义思想
-2. 育人实效（25%）：方案是否有真正的教育价值和学生获得感
-3. 青年契合度（25%）：是否真正贴近当代大学生的心理特征和文化语境
-4. 结构文采（20%）：标题文采、逻辑结构、表达质量
+1. 政治站位（30分）：是否准确体现党的教育方针、核心价值观
+2. 育人实效（25分）：方案是否有真正的教育价值和学生获得感
+3. 青年契合度（25分）：是否贴近当代大学生心理特征和文化语境
+4. 结构文采（20分）：标题文采、逻辑结构、表达质量
 
-请按以下格式输出：
-【评分】XX分
-【分评】政治站位：XX/30，育人实效：XX/25，青年契合度：XX/25，结构文采：XX/20
-【批判意见】
-1. xxx
-2. xxx
-3. xxx
-【修正方案】（如果评分低于90分，请给出完整修正后的方案；否则写"初稿质量优秀，无需大幅修改"）`;
+请按如下格式严格输出，不得遗漏：
+【总分】XX
+【改进建议】
+1. （具体建议1）
+2. （具体建议2）
+3. （具体建议3）`;
 
-  return await streamDeepSeekAsync([{ role:'user', content: prompt }]).catch(e => '【评估失败】' + e.message);
+  const result = await callDeepSeek([
+    { role: 'system', content: '你是一名严格的思政教育专家评委，请按要求格式输出评估结果。' },
+    { role: 'user', content: evalPrompt }
+  ], { temperature: 0.3, max_tokens: 800 });
+  return result.content;
 }
 
-function parseEval(text) {
-  const scoreM = text.match(/【评分】\s*(\d+)/);
-  const opinionM = text.match(/【批判意见】\s*([\s\S]*?)(?=【|$)/);
-  const fixM = text.match(/【修正方案】\s*([\s\S]*)/);
+function parseEvalResult(text) {
+  const scoreM = text.match(/【总分】\s*(\d+)/);
+  const sugM = text.match(/【改进建议】\s*([\s\S]*?)(?=【|$)/);
   return {
     score: scoreM ? parseInt(scoreM[1]) : null,
-    opinion: opinionM ? opinionM[1].trim() : '',
-    fix: fixM ? fixM[1].trim() : ''
+    suggestions: sugM ? sugM[1].trim() : ''
   };
 }
 
-// ============================================================
-// PARSE OUTPUT STRUCTURE (for export)
-// ============================================================
-function parseStructure(raw, keyword, scenario) {
-  const out = { keyword, scenario, raw };
-  const lines = raw.split('\n');
-  let sec = 'intro';
-  const secs = {};
-  const buf = [];
+async function rewriteDraft(draft, suggestions, keyword, scenario) {
+  const rewritePrompt = `请根据以下专家改进建议，对思政选题方案进行全面深度重写：
 
-  const keyMap = {
-    '活动要求': 'requirement', '比赛要求': 'requirement',
-    '推荐选题': 'topics', '选题推荐': 'topics',
-    '思政切入': 'angles', '切入角度': 'angles',
-    '内容框架': 'framework', '内容大纲': 'framework',
-    '深挖方向': 'deepdive', '探索方向': 'deepdive',
-    '理论': 'theories', '政策': 'theories',
-    '育人实效': 'effect', '教育价值': 'effect',
-    '契合度': 'alignment',
-  };
+【热点词】${keyword}
+【场景】${scenario}
 
-  for (const line of lines) {
-    const h = line.match(/^##\s+(.+)/);
-    if (h) {
-      if (buf.length) secs[sec] = buf.join('\n').trim();
-      buf.length = 0;
-      const title = h[1];
-      let found = false;
-      for (const [k, v] of Object.entries(keyMap)) {
-        if (title.includes(k)) { sec = v; found = true; break; }
-      }
-      if (!found) sec = 'other_' + title;
+【原始方案】
+${draft}
+
+【专家改进建议】
+${suggestions}
+
+请完全按照改进建议重写，输出完整的改进版方案，保持原有的结构格式：`;
+
+  const result = await callDeepSeek([
+    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'user', content: rewritePrompt }
+  ], { temperature: 0.7, max_tokens: 4000 });
+  return result.content;
+}
+
+// ============================================================
+// AUTONOMOUS TOOL USE — Draft generation with Function Calling
+// ============================================================
+async function generateDraftWithToolUse(messages, keyword, scenario, searchMode) {
+  const serperKey = localStorage.getItem(LS_SERPER) || $('serperKeyInput').value.trim();
+  const canSearch = !!serperKey;
+
+  let toolsToUse = null;
+  let forceSearch = false;
+
+  if (searchMode === 'force-on') {
+    forceSearch = true;
+  } else if (searchMode === 'smart' && canSearch) {
+    toolsToUse = [SERPER_TOOL_DEF];
+  }
+  // force-off: no tools
+
+  if (forceSearch && canSearch) {
+    // Skip function calling, directly search
+    const q = `${keyword} 大学生 思政教育 最新`;
+    logMsg('info', `🔗 强制联网模式：直接搜索「${esc(q)}」…`);
+    logRadarStart('联网搜索中');
+    const results = await serperSearch(q);
+    logRadarEnd();
+    if (results && results.length) {
+      logMsg('success', `✅ 获取到 ${results.length} 条搜索结果`);
+      const searchContent = formatSearchResults(results);
+      // Append search context to last user message
+      const augMessages = messages.map((m, i) =>
+        (i === messages.length - 1 && m.role === 'user')
+          ? { ...m, content: m.content + '\n\n' + searchContent }
+          : m
+      );
+      return { messages: augMessages, searched: true };
     } else {
-      buf.push(line);
+      logMsg('warn', '⚠️ 搜索无结果，回退纯知识模式');
+      return { messages, searched: false };
     }
   }
-  if (buf.length) secs[sec] = buf.join('\n').trim();
 
-  Object.assign(out, secs);
+  if (toolsToUse) {
+    // Smart mode: send with tools and let model decide
+    logMsg('info', `🤔 思考：分析热点词「${esc(keyword)}」新颖度，判断是否需要联网补充…`);
+    const r = await callDeepSeek(messages, { tools: toolsToUse, tool_choice: 'auto', temperature: 0.3, max_tokens: 500 });
 
-  // Extract topic titles
-  const topicRe = /\*\*选题[一二三\d]+[：:]\*\*[「『""]?([^」』""」\n]+)/g;
-  const topicTitles = [];
-  let m;
-  while ((m = topicRe.exec(raw)) !== null) topicTitles.push(m[1].trim());
-  out.topicTitles = topicTitles.length ? topicTitles : [keyword + '与思政教育'];
+    if (r.finish_reason === 'tool_calls' && r.tool_calls && r.tool_calls.length > 0) {
+      logMsg('gold', `💡 决定进行自主联网搜索以补充背景知识…`);
+      const tc = r.tool_calls[0];
+      let query = keyword + ' 思政教育 大学生';
+      try {
+        const args = JSON.parse(tc.function.arguments || '{}');
+        if (args.query) query = args.query;
+      } catch (_) {}
+      logMsg('info', `🔍 搜索关键词：「${esc(query)}」`);
+      logRadarStart('正在联网检索');
+      const results = await serperSearch(query);
+      logRadarEnd();
 
-  return out;
+      if (results && results.length) {
+        logMsg('success', `✅ 联网检索完成，获取到 ${results.length} 条最新资讯`);
+        const searchContent = formatSearchResults(results);
+        // Build messages with tool call result
+        const augMessages = [
+          ...messages,
+          { role: 'assistant', content: r.content || null, tool_calls: r.tool_calls },
+          {
+            role: 'tool',
+            tool_call_id: tc.id,
+            name: tc.function.name,
+            content: searchContent
+          }
+        ];
+        return { messages: augMessages, searched: true };
+      } else {
+        logMsg('warn', '⚠️ 搜索无结果，Agent 切换到纯知识生成模式');
+        return { messages, searched: false };
+      }
+    } else {
+      logMsg('info', `💭 Agent 判断：知识储备充足，无需联网，直接进入生成阶段`);
+      return { messages, searched: false };
+    }
+  }
+
+  // force-off or no serper key
+  if (searchMode === 'force-off') {
+    logMsg('info', '🔒 强制不联网模式，纯本地知识生成');
+  } else {
+    logMsg('warn', '⚠️ 未配置 Serper Key，使用纯知识模式（可在顶部 API 面板配置）');
+  }
+  return { messages, searched: false };
 }
 
 // ============================================================
@@ -1335,63 +760,32 @@ async function handleGenerate() {
   if (!scenarioEl) { showStatus($('inputStatus'), '请选择使用场景', 'error'); return; }
   const scenario = scenarioEl.value;
   const requirement = $('requirementText').value.trim();
-  const doSearch = $('chkWebSearch').checked;
-  const doEval = $('chkSelfEval').checked;
+  const searchMode = $('searchModeSelect').value;
+  const doReflection = $('chkReflection').checked;
 
   // Reset
   conversationHistory = [];
   currentRawText = '';
+  isGenerating = true;
   logInit();
-  logMsg('info', `🔍 分析用户需求：主题【${keyword}】 场景【${scenario}】…`);
+  $('generateBtn').disabled = true;
+  $('generateBtn').textContent = '⏳ Agent 运行中…';
+  hideStatus($('inputStatus'));
+  $('outputPlaceholder').classList.add('hidden');
+  $('mdOutput').classList.remove('hidden');
+  $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在启动 Agent…</div>';
+  $('followupCard').classList.add('hidden');
 
-  // === Step 1: TF-IDF KB search ===
-  let kbContext = { text: '', cases: [] };
-  if ($('chkTfidf').checked && getKbEntries().length) {
-    logMsg('info', '🧠 启动本地知识库语义检索，基于 TF-IDF 匹配最相关的优秀案例…');
-    kbContext = getKbContext(keyword, scenario);
-    if (kbContext.cases.length) {
-      for (const c of kbContext.cases) {
-        logMsg('success', `✅ 匹配到最相关的优秀案例：《${html(c.title)}》${c.score ? '（相似度：' + c.score + '%）' : ''}`);
-      }
-    } else {
-      logMsg('warn', '⚠️ 知识库中暂无高相似度案例，将依靠内置知识生成');
-    }
-  }
+  try {
+    // === OBSERVE ===
+    logMsg('info', `🔎 观察：用户提出了关于【${esc(keyword)}】的${esc(scenario)}需求。`);
 
-  // === Step 2: Web search ===
-  let searchContext = '';
-  if (doSearch) {
-    const serperKey = localStorage.getItem(LS_SERPER);
-    if (serperKey) {
-      const q = `${keyword} 大学生 思政教育 思想引导`;
-      logMsg('info', `🌐 决定启动联网搜索，检索关于"${html(q)}"的最新资讯…`);
-      logRadarStart('正在搜索中');
-      const results = await serperSearch(q);
-      logRadarEnd();
-      if (results.length) {
-        searchContext = '\n\n【网络搜索参考资料】\n以下是最新的网络资讯摘要，请结合这些信息丰富你的方案：\n\n';
-        results.forEach((r, i) => { searchContext += `来源${i+1}：${r.title}\n${r.snippet}\n\n`; });
-        logMsg('success', `🌐 联网搜索完成，获取到 ${results.length} 条相关资讯`);
-      } else {
-        logMsg('warn', '⚠️ 搜索未获取到有效结果，将依靠内置知识生成');
-      }
-    } else {
-      logMsg('warn', '⚠️ 未配置 Serper Key，通过 AI 进行模拟检索…');
-      searchContext = `\n\n（模拟联网模式：请基于你的知识储备，提供关于"${keyword}"在大学生群体中的最新社会反应和教育价值的分析）\n`;
-    }
-  }
+    // === BUILD PROMPT ===
+    let userPrompt = `热点词：${keyword}\n使用场景：${scenario}`;
+    if (requirement) userPrompt += `\n\n【活动/比赛要求】\n${requirement}`;
 
-  // === Step 3: Build prompt ===
-  logMsg('info', '🛠️ 调用 DeepSeek V3/R1 引擎进行内容规划生成中…');
-
-  let userPrompt = `热点词：${keyword}\n使用场景：${scenario}`;
-  if (requirement) userPrompt += `\n\n【活动/比赛要求】\n${requirement}`;
-  userPrompt += kbContext.text;
-  userPrompt += searchContext;
-  userPrompt += `\n\n请根据以上信息，为我生成思政教育选题方案。请按以下结构输出：`;
-
-  if (requirement) {
-    userPrompt += `
+    const structureGuide = requirement ? `
+请按以下结构输出：
 
 ## 📋 活动要求解读
 （总结核心主题、参赛方向、评分重点，3-5条要点）
@@ -1413,9 +807,8 @@ async function handleGenerate() {
 ## 🔗 可关联的思政理论/政策
 （列出相关理论依据、政策文件、重要讲话）
 
-## ✅ 与活动要求的契合度说明`;
-  } else {
-    userPrompt += `
+## ✅ 与活动要求的契合度说明` : `
+请按以下结构输出：
 
 ## 📌 推荐选题（3个）
 **选题一：**「标题」
@@ -1435,633 +828,343 @@ async function handleGenerate() {
 （列出相关理论依据、政策文件、重要讲话）
 
 ## 🎯 育人实效与教育价值`;
-  }
 
-  conversationHistory = [
-    { role: 'system', content: SYSTEM_PROMPT },
-    { role: 'user', content: userPrompt }
-  ];
+    userPrompt += structureGuide;
 
-  // === UI: generating state ===
-  $('generateBtn').disabled = true;
-  $('generateBtn').textContent = '⏳ 生成中…';
-  hideStatus($('inputStatus'));
+    const baseMessages = [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: userPrompt }
+    ];
 
-  $('outputPlaceholder').classList.add('hidden');
-  $('mdOutput').classList.remove('hidden');
-  $('mdOutput').innerHTML = `<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在生成选题方案，请稍候…</div>`;
+    // === AUTONOMOUS TOOL USE ===
+    logMsg('info', `🤔 思考：评估是否需要联网补充关于「${esc(keyword)}」的最新动态…`);
+    const { messages: augMessages } = await generateDraftWithToolUse(baseMessages, keyword, scenario, searchMode);
 
-  // === Phase 1: Draft generation ===
-  let draft = '';
-  await new Promise(resolve => {
-    streamDeepSeek(
-      conversationHistory,
-      chunk => {
-        draft += chunk;
-        currentRawText = draft;
-        $('mdOutput').innerHTML = renderMd(draft) + '<span class="cursor"></span>';
-        $('outputArea').scrollTop = 99999;
-      },
-      () => {
-        conversationHistory.push({ role: 'assistant', content: draft });
-        currentRawText = draft;
-        $('mdOutput').innerHTML = renderMd(draft);
-        $('copyBtn').disabled = false;
-        $('clearBtn').disabled = false;
-        $('exportBtn').disabled = false;
-        resolve();
-      },
-      err => {
-        $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px">❌ ${html(err)}</div>`;
-        logMsg('error', '❌ 生成失败：' + html(err));
-        logDeactivate();
-        $('generateBtn').disabled = false;
-        $('generateBtn').textContent = '🔍 生成选题方案';
-        resolve();
-      }
-    );
-  });
+    // === GENERATE DRAFT (Streaming) ===
+    logMsg('info', `📝 动作：正在撰写初稿，调用 DeepSeek ${MODEL} 引擎…`);
+    $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在撰写初稿…</div>';
 
-  if (!draft) {
-    $('generateBtn').disabled = false;
-    $('generateBtn').textContent = '🔍 生成选题方案';
-    return;
-  }
+    let draft = '';
+    await streamDeepSeek(augMessages, chunk => {
+      draft += chunk;
+      currentRawText = draft;
+      $('mdOutput').innerHTML = `<div class="md-out">${renderMd(draft)}</div><span class="cursor"></span>`;
+      $('outputArea').scrollTop = 99999;
+    });
 
-  // === Phase 2: Self-evaluation (if enabled) ===
-  if (doEval) {
-    logMsg('warn', '⚖️ 启动自我评估机制，正在对初稿进行多维度评审…');
-    const evalText = await selfEvaluate(draft, keyword, scenario);
-    const ev = parseEval(evalText);
+    $('mdOutput').innerHTML = `<div class="md-out">${renderMd(draft)}</div>`;
+    conversationHistory = [...augMessages, { role: 'assistant', content: draft }];
+    logMsg('success', `✅ 初稿撰写完成（${draft.length} 字）`);
 
-    if (ev.score !== null) {
-      const color = ev.score >= 90 ? 'success' : ev.score >= 70 ? 'warn' : 'error';
-      logMsg(color, `⚖️ 评分：${ev.score}分`);
-    }
-    if (ev.opinion) {
-      const lines = ev.opinion.split('\n').filter(l => l.trim()).slice(0, 4);
-      for (const ln of lines) logMsg('warn', `💬 评估意见：${html(ln.trim().slice(0, 100))}`);
-    }
+    // === ADAPTIVE REFLECTION LOOP ===
+    if (doReflection) {
+      logMsg('info', `🧐 审视：内容已完成，正在提交专家组评审…`);
 
-    const needFix = ev.fix && !ev.fix.includes('初稿质量优秀') && !ev.fix.includes('无需大幅修改');
-    if (needFix && (ev.score === null || ev.score < 90)) {
-      logMsg('info', '🔄 评分低于90分，启动第二阶段自我纠错优化…');
-      let fixed = '';
-      await new Promise(resolve => {
-        streamDeepSeek(
-          [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user', content: userPrompt },
-            { role: 'assistant', content: draft },
-            { role: 'user', content: `根据以下评估意见，请给出完整的优化后方案：\n\n${ev.opinion}\n\n请直接输出完整修正后的方案，不需要重复评分信息。` }
-          ],
-          chunk => {
-            fixed += chunk;
-            $('mdOutput').innerHTML = renderMd(fixed) + '<span class="cursor"></span>';
-            $('outputArea').scrollTop = 99999;
-          },
-          () => {
-            conversationHistory = [
-              { role: 'system', content: SYSTEM_PROMPT },
-              { role: 'user', content: userPrompt },
-              { role: 'assistant', content: fixed }
-            ];
-            currentRawText = fixed;
-            $('mdOutput').innerHTML = renderMd(fixed);
-            resolve();
-          },
-          err => {
-            logMsg('error', '❌ 优化失败：' + html(err));
-            resolve();
+      let currentDraft = draft;
+      const MAX_ITER = 3;
+      let finalScore = null;
+
+      for (let iter = 1; iter <= MAX_ITER; iter++) {
+        logRadarStart(`专家组评审中（第 ${iter} 轮）`);
+        let evalText = '';
+        try {
+          evalText = await evaluateDraft(currentDraft, keyword, scenario);
+        } catch (e) {
+          logRadarEnd();
+          logMsg('warn', `⚠️ 评估请求失败：${esc(e.message)}，跳过反思循环`);
+          break;
+        }
+        logRadarEnd();
+
+        const { score, suggestions } = parseEvalResult(evalText);
+        finalScore = score;
+
+        const scoreClass = score >= 90 ? 'high' : score >= 70 ? 'mid' : 'low';
+        const scoreBadge = score !== null
+          ? `<span class="score-badge ${scoreClass}">${score}分</span>`
+          : '<span class="score-badge mid">?分</span>';
+
+        if (score === null) {
+          logMsg('warn', `⚠️ 无法解析评分，跳出循环`);
+          break;
+        }
+
+        if (score >= 90) {
+          logMsg('success', `✨ 达成：评分 ${scoreBadge}，已达到交付标准，正在准备导出组件…`);
+          break;
+        }
+
+        // Score < 90 and more iterations available
+        const shortSuggestion = suggestions.split('\n').slice(0, 2).join(' ').slice(0, 60);
+        logMsg('warn', `⚖️ 评估得分：${scoreBadge}。未达标，启动反思修正循环（第 ${iter} 次）…`);
+        logMsg('warn', `📉 反思：评分 ${score}，${esc(shortSuggestion)}…`);
+
+        if (iter < MAX_ITER) {
+          logMsg('info', `🔄 正在按照专家建议进行深度重构（第 ${iter} 次修正）…`);
+          $('mdOutput').innerHTML = `<div class="md-out">${renderMd(currentDraft)}</div><div class="loading-dots" style="margin-top:10px"><span></span><span></span><span></span></div><div class="loading-txt">专家建议修正中（第 ${iter} 次）…</div>`;
+          try {
+            const rewritten = await rewriteDraft(currentDraft, suggestions, keyword, scenario);
+            if (rewritten && rewritten.length > 100) {
+              currentDraft = rewritten;
+              currentRawText = rewritten;
+              $('mdOutput').innerHTML = `<div class="md-out">${renderMd(currentDraft)}</div>`;
+              conversationHistory.push({ role: 'user', content: `请根据以下专家建议重写：${suggestions}` });
+              conversationHistory.push({ role: 'assistant', content: currentDraft });
+              logMsg('success', `✅ 第 ${iter} 次重写完成（${currentDraft.length} 字）`);
+            } else {
+              logMsg('warn', '⚠️ 重写内容过短，保留原稿');
+              break;
+            }
+          } catch (e) {
+            logMsg('error', `❌ 重写失败：${esc(e.message)}`);
+            break;
           }
-        );
-      });
+        } else {
+          logMsg('warn', `⚠️ 已达最大反思轮次（${MAX_ITER}次），以当前最优版本输出`);
+        }
+      }
+
+      if (finalScore !== null && finalScore >= 90) {
+        logMsg('gold', `✨ 达成：评分 ${finalScore}，已达到交付标准，正在准备 Word/PPT 导出组件…`);
+      }
     } else {
-      logMsg('success', '👍 初稿质量优秀（≥90分），无需大幅修改');
+      logMsg('success', `✅ 初稿生成完成，反思循环已关闭`);
     }
+
+    // === FINALIZE UI ===
+    $('mdOutput').innerHTML = `<div class="md-out">${renderMd(currentRawText)}</div>`;
+    $('copyBtn').disabled = false;
+    $('clearBtn').disabled = false;
+    $('exportBtn').disabled = false;
+    $('followupCard').classList.remove('hidden');
+    logDeactivate();
+
+  } catch (e) {
+    logMsg('error', `❌ Agent 运行异常：${esc(e.message)}`);
+    $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px">❌ ${esc(e.message)}</div>`;
+    logDeactivate();
+  } finally {
+    isGenerating = false;
+    $('generateBtn').disabled = false;
+    $('generateBtn').textContent = '🚀 启动 Agent 生成';
   }
-
-  // === Done ===
-  currentParsed = parseStructure(currentRawText, keyword, scenario);
-  logMsg('success', '✨ 终稿输出完成！');
-  logDeactivate();
-
-  $('generateBtn').disabled = false;
-  $('generateBtn').textContent = '🔍 生成选题方案';
-  $('followupCard').classList.remove('hidden');
-  $('saveKbBar').classList.remove('hidden');
-  $('copyBtn').disabled = false;
-  $('clearBtn').disabled = false;
-  $('exportBtn').disabled = false;
 }
 
 // ============================================================
 // FOLLOW-UP
 // ============================================================
-function handleFollowup() {
+async function handleFollowup() {
   const feedback = $('followupInput').value.trim();
   if (!feedback) { showStatus($('followupStatus'), '请输入修改意见', 'error'); return; }
   if (isGenerating) { showStatus($('followupStatus'), '正在生成中，请稍后…', 'error'); return; }
 
   conversationHistory.push({ role: 'user', content: feedback });
   $('followupInput').value = '';
+  hideStatus($('followupStatus'));
   $('sendFollowupBtn').disabled = true;
   $('sendFollowupBtn').textContent = '⏳ 生成中…';
-  hideStatus($('followupStatus'));
 
-  // Show user message in output
-  $('mdOutput').innerHTML += `<div class="conv-turn"><div class="turn-lbl user">👤 修改意见</div><div>${html(feedback)}</div></div>`;
-  $('mdOutput').innerHTML += `<div id="followupResponse"><div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在优化…</div></div>`;
+  const prevContent = $('mdOutput').innerHTML;
+  $('mdOutput').innerHTML = prevContent + '<div class="loading-dots" style="margin-top:10px"><span></span><span></span><span></span></div><div class="loading-txt">正在优化…</div>';
 
-  let resp = '';
-  streamDeepSeek(
-    conversationHistory,
-    chunk => {
-      resp += chunk;
-      const el = $('followupResponse');
-      if (el) el.innerHTML = renderMd(resp) + '<span class="cursor"></span>';
+  try {
+    let fullText = '';
+    await streamDeepSeek(conversationHistory, chunk => {
+      fullText += chunk;
+      $('mdOutput').innerHTML = prevContent.replace(/<span class="cursor"><\/span>/, '') +
+        `<div class="conv-turn"><div class="turn-lbl user">👤 修改意见</div><p>${esc(feedback)}</p></div>` +
+        `<div class="conv-turn"><div class="turn-lbl">🤖 AI 回复</div><div class="md-out">${renderMd(fullText)}</div></div>` +
+        '<span class="cursor"></span>';
       $('outputArea').scrollTop = 99999;
-    },
-    () => {
-      conversationHistory.push({ role: 'assistant', content: resp });
-      currentRawText += '\n\n' + resp;
-      const el = $('followupResponse');
-      if (el) {
-        el.removeAttribute('id');
-        el.innerHTML = `<div class="conv-turn"><div class="turn-lbl">🤖 AI 回复</div><div class="md-out">${renderMd(resp)}</div></div>`;
-      }
-      currentParsed = parseStructure(currentRawText, currentParsed.keyword || '', currentParsed.scenario || '');
-      $('sendFollowupBtn').disabled = false;
-      $('sendFollowupBtn').textContent = '✨ 发送修改意见';
-    },
-    err => {
-      const el = $('followupResponse');
-      if (el) { el.removeAttribute('id'); el.innerHTML = `<div style="color:#c0392b">❌ ${html(err)}</div>`; }
-      showStatus($('followupStatus'), '❌ ' + err, 'error');
-      $('sendFollowupBtn').disabled = false;
-      $('sendFollowupBtn').textContent = '✨ 发送修改意见';
-    }
-  );
+    });
+    conversationHistory.push({ role: 'assistant', content: fullText });
+    currentRawText += '\n\n' + fullText;
+    $('mdOutput').innerHTML = prevContent.replace(/<span class="cursor"><\/span>/, '') +
+      `<div class="conv-turn"><div class="turn-lbl user">👤 修改意见</div><p>${esc(feedback)}</p></div>` +
+      `<div class="conv-turn"><div class="turn-lbl">🤖 AI 回复</div><div class="md-out">${renderMd(fullText)}</div></div>`;
+  } catch (e) {
+    showStatus($('followupStatus'), '❌ ' + e.message, 'error');
+    $('mdOutput').innerHTML = prevContent;
+  }
+
+  $('sendFollowupBtn').disabled = false;
+  $('sendFollowupBtn').textContent = '✨ 发送修改意见';
 }
 
 // ============================================================
-// COPY
+// COPY & CLEAR
 // ============================================================
 function handleCopy() {
   const text = $('mdOutput').innerText || $('mdOutput').textContent || '';
   if (!text) return;
   navigator.clipboard.writeText(text).then(() => {
-    const orig = $('copyBtn').innerHTML;
+    const o = $('copyBtn').innerHTML;
     $('copyBtn').innerHTML = '✅ 已复制';
-    setTimeout(() => { $('copyBtn').innerHTML = orig; }, 2000);
+    setTimeout(() => { $('copyBtn').innerHTML = o; }, 2000);
   }).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = text; document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); } catch {}
-    document.body.removeChild(ta);
+    document.execCommand('copy'); document.body.removeChild(ta);
+    const o = $('copyBtn').innerHTML;
+    $('copyBtn').innerHTML = '✅ 已复制';
+    setTimeout(() => { $('copyBtn').innerHTML = o; }, 2000);
   });
 }
 
+function handleClear() {
+  conversationHistory = []; currentRawText = '';
+  $('mdOutput').innerHTML = ''; $('mdOutput').classList.add('hidden');
+  $('outputPlaceholder').classList.remove('hidden');
+  $('copyBtn').disabled = true; $('clearBtn').disabled = true; $('exportBtn').disabled = true;
+  $('followupCard').classList.add('hidden');
+  $('kwInput').value = '';
+  document.querySelectorAll('input[name="scenario"]').forEach(r => r.checked = false);
+  document.querySelectorAll('.scenario-opt').forEach(el => el.classList.remove('selected'));
+  logClear();
+}
+
 // ============================================================
-// EXPORT: WORD
+// EXPORT
 // ============================================================
 function exportWord() {
-  const content = $('mdOutput').innerHTML;
-  if (!content) return;
-
-  const wordCss = `
-    body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: #1e293b; line-height: 1.9; padding: 40px; max-width: 900px; margin: 0 auto; }
-    h1 { color: #2c5f8a; font-size: 24px; border-bottom: 2px solid #2c5f8a; padding-bottom: 8px; margin: 28px 0 12px; }
-    h2 { color: #2c5f8a; font-size: 19px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin: 22px 0 10px; }
-    h3 { color: #1e293b; font-size: 16px; margin: 18px 0 8px; }
-    strong { color: #2c5f8a; }
-    blockquote { border-left: 3px solid #2c5f8a; padding-left: 14px; color: #475569; font-style: italic; margin: 12px 0; background: #f0f5fa; padding: 8px 14px; border-radius: 0 4px 4px 0; }
-    ul, ol { margin-left: 22px; } li { margin-bottom: 5px; }
-    table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #e2e8f0; padding: 8px 12px; }
-    th { background: #e8f0f8; color: #2c5f8a; font-weight: 600; }
-    hr { border: none; border-top: 1px solid #e2e8f0; margin: 16px 0; }
-    code { background: #f8fafc; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
-  `;
-
-  const mhtml = [
-    'MIME-Version: 1.0',
-    'Content-Type: multipart/related; boundary="BOUNDARY"',
-    '',
-    '--BOUNDARY',
-    'Content-Type: text/html; charset="utf-8"',
-    '',
-    `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${wordCss}</style></head><body>${content}</body></html>`,
-    '--BOUNDARY--'
-  ].join('\r\n');
-
-  const blob = new Blob([mhtml], { type: 'application/msword' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `思政选题方案_${currentParsed.keyword || ''}${currentParsed.scenario ? '_' + currentParsed.scenario : ''}.doc`;
-  a.click();
-  URL.revokeObjectURL(a.href);
+  if (!currentRawText) return;
+  const blob = new Blob(['\ufeff' + currentRawText], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = '思政选题方案.doc';
+  a.click(); URL.revokeObjectURL(url);
 }
 
-// ============================================================
-// EXPORT: PPT
-// ============================================================
-function exportPpt() {
-  if (typeof PptxGenJS === 'undefined') {
-    alert('PptxGenJS 尚未加载完成，请稍后重试。如持续失败请检查网络连接。');
-    return;
-  }
-
-  const p = currentParsed;
-  const ACCENT = '2c5f8a';
-  const GOLD   = 'd4af37';
-  const WHITE  = 'FFFFFF';
-  const DARK   = '1e293b';
-  const LBGC   = 'f0f5fa';
-
+async function exportPpt() {
+  if (!currentRawText || !window.PptxGenJS) { alert('PPT 库加载中，请稍后再试'); return; }
   const pptx = new PptxGenJS();
-  pptx.defineLayout({ name: 'WIDE', width: 13.33, height: 7.5 });
-  pptx.layout = 'WIDE';
+  pptx.defineLayout({ name: 'LAYOUT_WIDE', width: 13.33, height: 7.5 });
+  pptx.layout = 'LAYOUT_WIDE';
 
-  function addSlide(opts) {
-    const s = pptx.addSlide();
-    if (opts && opts.darkBg) s.background = { fill: { color: ACCENT } };
-    // bottom bar
-    s.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
-      x: 0, y: 7.05, w: '100%', h: 0.45,
-      fill: { color: opts && opts.darkBg ? '1a3f60' : ACCENT }
-    });
-    s.addText('思政热点选题助手 · 智能体版', {
-      x: 0.3, y: 7.1, w: 8, h: 0.35,
-      fontSize: 9, color: opts && opts.darkBg ? 'aacce8' : 'aacce8',
-      fontFace: 'Microsoft YaHei'
-    });
-    return s;
-  }
+  const titleSlide = pptx.addSlide();
+  titleSlide.background = { color: '2c5f8a' };
+  const kwText = $('kwInput').value.trim() || '思政主题';
+  titleSlide.addText(kwText + '\n思政选题方案', { x: 1, y: 2, w: 11, h: 3, fontSize: 36, bold: true, color: 'FFFFFF', align: 'center' });
+  titleSlide.addText('智能体版 · 为高校辅导员设计', { x: 1, y: 6.2, w: 11, h: 0.5, fontSize: 14, color: 'A8C8E8', align: 'center' });
 
-  function addTitle(slide, titleText, isDark) {
-    slide.addText(titleText, {
-      x: 0.5, y: 0.28, w: 12.33, h: 0.65,
-      fontSize: 20, bold: true,
-      color: isDark ? WHITE : ACCENT,
-      fontFace: 'Microsoft YaHei'
-    });
-    slide.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
-      x: 0.5, y: 0.95, w: 12.33, h: 0,
-      line: { color: isDark ? GOLD : GOLD, width: 2 }
-    });
-  }
+  const lines = currentRawText.split('\n');
+  let curSlide = null;
+  let contentBuf = [];
 
-  function truncate(text, max) {
-    if (!text) return '';
-    return text.length > max ? text.slice(0, max) + '…' : text;
-  }
-
-  // === Slide 1: Cover ===
-  const s1 = addSlide({ darkBg: true });
-  s1.addText('思政热点选题方案', {
-    x: 1, y: 1.6, w: 11.33, h: 1.4,
-    fontSize: 38, bold: true, color: WHITE, fontFace: 'Microsoft YaHei', align: 'center'
-  });
-  s1.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
-    x: 2.5, y: 3.1, w: 8.33, h: 0, line: { color: GOLD, width: 2 }
-  });
-  s1.addText(`${p.keyword || ''}  ·  ${p.scenario || ''}`, {
-    x: 1, y: 3.3, w: 11.33, h: 0.9,
-    fontSize: 22, color: GOLD, fontFace: 'Microsoft YaHei', align: 'center'
-  });
-  s1.addText(new Date().toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' }), {
-    x: 1, y: 4.4, w: 11.33, h: 0.6,
-    fontSize: 14, color: 'aacce8', fontFace: 'Microsoft YaHei', align: 'center'
-  });
-
-  // === Slide 2: Requirements ===
-  const s2 = addSlide({});
-  addTitle(s2, '📋 活动/比赛要求深度解读');
-  const reqText = truncate(p.requirement || '本方案基于通用思政教育场景设计，适用于多类活动形式。核心方向：贴近青年、引导价值、实践育人。', 600);
-  s2.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
-    x: 0.5, y: 1.15, w: 12.33, h: 5.5,
-    fill: { color: LBGC }, rectRadius: 0.1
-  });
-  s2.addText(reqText, {
-    x: 0.8, y: 1.3, w: 11.73, h: 5.2,
-    fontSize: 13, color: DARK, fontFace: 'Microsoft YaHei',
-    lineSpacingMultiple: 1.6, valign: 'top'
-  });
-
-  // === Slides 3–5: Topic presentations ===
-  const topics = p.topicTitles || [p.keyword + '与思政教育', '青年文化的价值引领', '从现象到使命'];
-  const topicBodies = [p.topics || p.raw, p.framework || '', p.angles || ''];
-
-  for (let i = 0; i < 3; i++) {
-    const sT = addSlide({});
-    const tTitle = `选题${['一','二','三'][i]}方案展示`;
-    addTitle(sT, `📌 ${tTitle}`);
-    sT.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
-      x: 0.5, y: 1.15, w: 12.33, h: 5.5,
-      fill: { color: LBGC }, rectRadius: 0.1
-    });
-    const topicTitle = topics[i] || `选题${i+1}`;
-    sT.addText(`【选题标题】${topicTitle}`, {
-      x: 0.8, y: 1.25, w: 11.73, h: 0.55,
-      fontSize: 15, bold: true, color: ACCENT, fontFace: 'Microsoft YaHei'
-    });
-    sT.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
-      x: 0.8, y: 1.8, w: 11.73, h: 0, line: { color: '#d4af37', width: 1 }
-    });
-    const body = truncate(topicBodies[i] || '详细内容请查阅完整方案文档', 480);
-    sT.addText(body, {
-      x: 0.8, y: 1.95, w: 11.73, h: 4.55,
-      fontSize: 12, color: DARK, fontFace: 'Microsoft YaHei',
-      lineSpacingMultiple: 1.55, valign: 'top'
-    });
-  }
-
-  // === Slide 6: Framework & Logic ===
-  const s6 = addSlide({});
-  addTitle(s6, '📝 内容大纲与核心逻辑递进');
-  const fwText = truncate(p.framework || p.raw.slice(0, 600), 600);
-  // Three-stage boxes
-  const stages = ['第一阶段：现象导入与共情共鸣', '第二阶段：理论分析与价值引领', '第三阶段：实践转化与行动倡议'];
-  const stageColors = ['e8f0f8', 'd4e4f2', 'aacce8'];
-  stages.forEach((stg, idx) => {
-    const xPos = 0.4 + idx * 4.3;
-    s6.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
-      x: xPos, y: 1.2, w: 3.9, h: 5.5,
-      fill: { color: stageColors[idx] }, rectRadius: 0.1
-    });
-    s6.addText(stg, {
-      x: xPos + 0.1, y: 1.3, w: 3.7, h: 0.8,
-      fontSize: 11, bold: true, color: ACCENT, fontFace: 'Microsoft YaHei',
-      align: 'center', lineSpacingMultiple: 1.3
-    });
-    s6.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
-      x: xPos + 0.1, y: 2.1, w: 3.7, h: 0, line: { color: ACCENT, width: 1 }
-    });
-    const bodySlice = fwText.slice(idx * 180, (idx+1) * 180) || '详见完整方案';
-    s6.addText(bodySlice, {
-      x: xPos + 0.1, y: 2.2, w: 3.7, h: 4.2,
-      fontSize: 11, color: DARK, fontFace: 'Microsoft YaHei',
-      lineSpacingMultiple: 1.5, valign: 'top'
-    });
-  });
-
-  // === Slide 7: Effects & Policy ===
-  const s7 = addSlide({});
-  addTitle(s7, '🎯 育人实效、深挖方向与政策关联');
-  let effText = '';
-  if (p.effect) effText += '【育人实效】\n' + p.effect.slice(0, 250) + '\n\n';
-  if (p.deepdive) effText += '【深挖方向】\n' + p.deepdive.slice(0, 200) + '\n\n';
-  if (p.theories) effText += '【政策理论关联】\n' + p.theories.slice(0, 200);
-  if (!effText) effText = truncate(p.raw, 600);
-  s7.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
-    x: 0.5, y: 1.15, w: 12.33, h: 5.5, fill: { color: LBGC }, rectRadius: 0.1
-  });
-  s7.addText(effText, {
-    x: 0.8, y: 1.3, w: 11.73, h: 5.2,
-    fontSize: 12.5, color: DARK, fontFace: 'Microsoft YaHei',
-    lineSpacingMultiple: 1.6, valign: 'top'
-  });
-
-  // === Slide 8: Thank You ===
-  const s8 = addSlide({ darkBg: true });
-  s8.addText('感谢聆听', {
-    x: 1, y: 2.0, w: 11.33, h: 1.5,
-    fontSize: 44, bold: true, color: WHITE, fontFace: 'Microsoft YaHei', align: 'center'
-  });
-  s8.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
-    x: 2.5, y: 3.6, w: 8.33, h: 0, line: { color: GOLD, width: 2 }
-  });
-  s8.addText('思政热点选题助手 · 智能体版', {
-    x: 1, y: 3.9, w: 11.33, h: 0.7,
-    fontSize: 18, color: GOLD, fontFace: 'Microsoft YaHei', align: 'center'
-  });
-  s8.addText('为高校辅导员设计 · 以技术赋能教育', {
-    x: 1, y: 4.7, w: 11.33, h: 0.6,
-    fontSize: 13, color: 'aacce8', fontFace: 'Microsoft YaHei', align: 'center'
-  });
-
-  pptx.writeFile({ fileName: `思政选题方案_${p.keyword || '方案'}_${p.scenario || ''}.pptx` });
-}
-
-// ============================================================
-// SAVE TO KB (Quick modal)
-// ============================================================
-function openSaveModal() {
-  const kw = currentParsed.keyword || $('kwInput').value.trim();
-  const sc = currentParsed.scenario || document.querySelector('input[name="scenario"]:checked')?.value || '班会设计';
-  $('saveKbTitle').value = kw + (sc ? '·' + sc : '') + '方案';
-  $('saveKbCat').value = sc || '班会设计';
-  $('saveKbStatus').textContent = '';
-  $('saveModalOverlay').classList.add('show');
-}
-
-function closeSaveModal() { $('saveModalOverlay').classList.remove('show'); }
-
-function confirmSaveKb() {
-  const title = $('saveKbTitle').value.trim();
-  const cat   = $('saveKbCat').value;
-  if (!title) { $('saveKbStatus').textContent = '⚠️ 请输入标题'; $('saveKbStatus').style.color='#c0392b'; return; }
-  if (!currentRawText) { $('saveKbStatus').textContent = '⚠️ 暂无可保存的内容'; $('saveKbStatus').style.color='#c0392b'; return; }
-  const entries = getKbEntries();
-  entries.unshift({ id: Date.now(), title, category: cat, content: currentRawText, createdAt: new Date().toISOString() });
-  saveKbEntries(entries);
-  $('saveKbStatus').textContent = '✅ 已成功保存到知识库！';
-  $('saveKbStatus').style.color = '#27ae60';
-  setTimeout(closeSaveModal, 1000);
-}
-
-// ============================================================
-// WXPUSHER
-// ============================================================
-function saveWxSettings() {
-  const token = $('wxAppToken').value.trim();
-  const uid   = $('wxUid').value.trim();
-  if (!token || !uid) { showStatus($('inputStatus'), '请填写 AppToken 和 UID', 'error'); return; }
-  localStorage.setItem(LS_WX_TOKEN, token);
-  localStorage.setItem(LS_WX_UID, uid);
-  showStatus($('inputStatus'), '✅ 微信推送设置已保存', 'success');
-  setTimeout(() => hideStatus($('inputStatus')), 2500);
-}
-
-async function testWxPush() {
-  const token = $('wxAppToken').value.trim() || localStorage.getItem(LS_WX_TOKEN);
-  const uid   = $('wxUid').value.trim() || localStorage.getItem(LS_WX_UID);
-  if (!token || !uid) { showStatus($('inputStatus'), '请先填写并保存 WxPusher 设置', 'error'); return; }
-  const btn = $('testWxBtn');
-  btn.disabled = true; btn.textContent = '⏳ 发送中…';
-  try {
-    const resp = await fetch('https://wxpusher.zhimengeng.com/api/v1/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        appToken: token,
-        uids: [uid],
-        summary: '🧪 思政助手 · 测试推送',
-        content: '<h2>🧪 测试推送成功！</h2><p>如果您收到这条消息，说明 WxPusher 配置正确。<br>每周一早上您将自动收到「辅导员周度思政热点雷达」。</p>',
-        contentType: 2
-      })
-    });
-    const data = await resp.json();
-    if (data.code === 1000) {
-      showStatus($('inputStatus'), '✅ 测试推送发送成功！请检查微信', 'success');
-    } else {
-      showStatus($('inputStatus'), '❌ 推送失败：' + (data.msg || '未知错误'), 'error');
+  function flushSlide() {
+    if (!curSlide) return;
+    if (contentBuf.length > 0) {
+      const txt = contentBuf.join('\n').slice(0, 800);
+      curSlide.addText(txt, { x: 0.5, y: 1.4, w: 12.3, h: 5.6, fontSize: 13, color: '333333', valign: 'top', wrap: true });
     }
-  } catch (e) {
-    showStatus($('inputStatus'), '❌ 网络错误：' + e.message, 'error');
+    curSlide = null; contentBuf = [];
   }
-  btn.disabled = false; btn.textContent = '📤 测试推送';
-  setTimeout(() => hideStatus($('inputStatus')), 4000);
+
+  for (const line of lines) {
+    const h2 = line.match(/^## (.+)/);
+    if (h2) {
+      flushSlide();
+      curSlide = pptx.addSlide();
+      curSlide.background = { color: 'F8FAFC' };
+      curSlide.addText(h2[1], { x: 0.5, y: 0.3, w: 12.3, h: 0.9, fontSize: 20, bold: true, color: '2c5f8a' });
+      curSlide.addShape(pptx.ShapeType.rect, { x: 0.5, y: 1.1, w: 12.3, h: 0.05, fill: { color: 'E2E8F0' } });
+    } else if (curSlide) {
+      const clean = line.replace(/\*\*/g, '').replace(/^[-*] /, '• ').replace(/^#+\s*/, '');
+      if (clean.trim()) contentBuf.push(clean);
+    }
+  }
+  flushSlide();
+  await pptx.writeFile({ fileName: '思政选题方案.pptx' });
 }
 
 // ============================================================
-// EXPORT DROPDOWN
+// KEYWORD GROUPS
 // ============================================================
-function toggleExportMenu() { $('exportMenu').classList.toggle('open'); }
-function closeExportMenu()  { $('exportMenu').classList.remove('open'); }
-
-// ============================================================
-// API KEY / SETTINGS SAVE
-// ============================================================
-function saveApiKey() {
-  const k = $('apiKeyInput').value.trim();
-  if (!k) { showStatus($('inputStatus'), '请输入 API Key', 'error'); return; }
-  localStorage.setItem(LS_API, k);
-  showStatus($('inputStatus'), '✅ API Key 已保存', 'success');
-  setTimeout(() => hideStatus($('inputStatus')), 2000);
-}
-
-function saveSerperKey() {
-  const k = $('serperKeyInput').value.trim();
-  if (!k) { showStatus($('inputStatus'), '请输入 Serper Key', 'error'); return; }
-  localStorage.setItem(LS_SERPER, k);
-  updateSearchHint();
-  showStatus($('inputStatus'), '✅ Serper Key 已保存', 'success');
-  setTimeout(() => hideStatus($('inputStatus')), 2000);
-}
-
-function updateSearchHint() {
-  const hasKey = !!localStorage.getItem(LS_SERPER);
-  $('hintSerperKey').classList.toggle('show', !hasKey && $('chkWebSearch').checked);
+function renderKwGroups() {
+  $('kwGroups').innerHTML = KEYWORD_GROUPS.map(g => `
+    <div class="kw-group">
+      <div class="kw-group-name">${g.name}</div>
+      <div class="kw-tags">${g.tags.map(t => `<span class="kw-tag" data-w="${esc(t)}">${esc(t)}</span>`).join('')}</div>
+    </div>
+  `).join('');
+  $('kwGroups').addEventListener('click', e => {
+    if (e.target.classList.contains('kw-tag')) {
+      const w = e.target.dataset.w;
+      const cur = $('kwInput').value.trim();
+      $('kwInput').value = cur ? cur + '、' + w : w;
+    }
+  });
 }
 
 // ============================================================
 // INIT
 // ============================================================
 function init() {
-  // Restore saved keys
+  // Load saved keys
   const savedApi = localStorage.getItem(LS_API);
-  if (savedApi) {
-    $('apiKeyInput').value = savedApi;
-    $('apiPanel').classList.add('collapsed');
-    $('apiToggleBtn').textContent = '展开 ▼';
-  }
   const savedSerper = localStorage.getItem(LS_SERPER);
+  if (savedApi) { $('apiKeyInput').value = savedApi; $('apiPanel').classList.add('collapsed'); $('apiToggleBtn').textContent = '展开 ▼'; }
   if (savedSerper) $('serperKeyInput').value = savedSerper;
 
-  const savedWxToken = localStorage.getItem(LS_WX_TOKEN);
-  if (savedWxToken) $('wxAppToken').value = savedWxToken;
-  const savedWxUid = localStorage.getItem(LS_WX_UID);
-  if (savedWxUid) $('wxUid').value = savedWxUid;
-
   renderKwGroups();
-  updateSearchHint();
 
-  // ===== Event Listeners =====
-
-  // API Panel
-  $('saveApiKeyBtn').onclick = saveApiKey;
-  $('saveSerperKeyBtn').onclick = saveSerperKey;
-  $('apiToggleBtn').onclick = () => {
-    const collapsed = $('apiPanel').classList.toggle('collapsed');
-    $('apiToggleBtn').textContent = collapsed ? '展开 ▼' : '收起 ▲';
-  };
-
-  // Generate
-  $('generateBtn').onclick = handleGenerate;
-
-  // Copy / Clear
-  $('copyBtn').onclick = handleCopy;
-  $('clearBtn').onclick = () => {
-    if (confirm('确定清空所有内容重新开始？')) {
-      clearAll();
-      logClear();
-      $('kwInput').value = '';
-      $('requirementText').value = '';
-      $('reqFileInfo').innerHTML = '';
-      $('reqFileStatus').textContent = '';
-      document.querySelectorAll('input[name="scenario"]').forEach(r => r.checked = false);
-      document.querySelectorAll('.scenario-opt').forEach(el => el.classList.remove('selected'));
-    }
-  };
-
-  // Agent log clear
-  $('logClearBtn').onclick = logClear;
-
-  // Refresh keywords
-  $('btnRefresh').onclick = refreshKeywords;
-
-  // Follow-up
-  $('sendFollowupBtn').onclick = handleFollowup;
-  $('followupInput').addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleFollowup();
+  // API key save
+  $('saveApiKeyBtn').addEventListener('click', () => {
+    const k = $('apiKeyInput').value.trim();
+    if (!k) { showStatus($('inputStatus'), '请输入 API Key', 'error'); return; }
+    localStorage.setItem(LS_API, k);
+    showStatus($('inputStatus'), '✅ DeepSeek Key 已保存', 'success');
+    setTimeout(() => hideStatus($('inputStatus')), 2500);
   });
 
-  // Scenario click
+  $('saveSerperKeyBtn').addEventListener('click', () => {
+    const k = $('serperKeyInput').value.trim();
+    if (k) localStorage.setItem(LS_SERPER, k);
+    showStatus($('inputStatus'), k ? '✅ Serper Key 已保存' : '已清除 Serper Key', k ? 'success' : 'error');
+    setTimeout(() => hideStatus($('inputStatus')), 2500);
+  });
+
+  // API panel toggle
+  $('apiToggleBtn').addEventListener('click', () => {
+    const c = $('apiPanel').classList.toggle('collapsed');
+    $('apiToggleBtn').textContent = c ? '展开 ▼' : '收起 ▲';
+  });
+
+  // Collapsible requirement panel
+  $('reqToggle').addEventListener('click', () => {
+    $('reqPanel').classList.toggle('open');
+  });
+
+  // Scenario select visual
   $('scenarioGroup').addEventListener('change', () => {
     document.querySelectorAll('.scenario-opt').forEach(el => {
       el.classList.toggle('selected', el.querySelector('input').checked);
     });
   });
 
-  // Collapsible requirements
-  $('reqToggle').onclick = () => $('reqPanel').classList.toggle('open');
+  // Generate
+  $('generateBtn').addEventListener('click', handleGenerate);
 
-  // File uploads
-  $('reqFile').addEventListener('change', e => {
-    handleFileUpload(e.target.files[0], $('requirementText'), $('reqFileInfo'), $('reqFileStatus'));
+  // Copy / Clear
+  $('copyBtn').addEventListener('click', handleCopy);
+  $('clearBtn').addEventListener('click', handleClear);
+
+  // Follow-up
+  $('sendFollowupBtn').addEventListener('click', handleFollowup);
+  $('followupInput').addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleFollowup();
   });
-  $('kbFormFile').addEventListener('change', e => {
-    handleFileUpload(e.target.files[0], $('kbFormContent'), $('kbFormFileInfo'), $('kbFormFileStatus'));
-  });
-
-  // WxPusher
-  $('saveWxBtn').onclick = saveWxSettings;
-  $('testWxBtn').onclick = testWxPush;
-
-  // Search checkbox hint
-  $('chkWebSearch').addEventListener('change', updateSearchHint);
 
   // Export dropdown
-  $('exportBtn').onclick = e => { e.stopPropagation(); toggleExportMenu(); };
-  $('exportWordBtn').onclick = () => { exportWord(); closeExportMenu(); };
-  $('exportPptBtn').onclick = () => { exportPpt(); closeExportMenu(); };
-  document.addEventListener('click', e => {
-    if (!$('exportWrap').contains(e.target)) closeExportMenu();
+  $('exportBtn').addEventListener('click', e => {
+    e.stopPropagation();
+    $('exportMenu').classList.toggle('open');
   });
+  document.addEventListener('click', () => $('exportMenu').classList.remove('open'));
+  $('exportWordBtn').addEventListener('click', () => { $('exportMenu').classList.remove('open'); exportWord(); });
+  $('exportPptBtn').addEventListener('click', () => { $('exportMenu').classList.remove('open'); exportPpt(); });
 
-  // Save to KB
-  $('saveToKbBtn').onclick = openSaveModal;
-  $('saveKbConfirmBtn').onclick = confirmSaveKb;
-  $('saveKbCancelBtn').onclick = closeSaveModal;
-  $('saveModalOverlay').addEventListener('click', e => {
-    if (e.target === $('saveModalOverlay')) closeSaveModal();
-  });
-
-  // KB Modal
-  $('kbOpenBtn').onclick = () => { $('kbOverlay').classList.add('show'); renderKbList(); };
-  $('kbCloseBtn').onclick = () => $('kbOverlay').classList.remove('show');
-  $('kbOverlay').addEventListener('click', e => {
-    if (e.target === $('kbOverlay')) $('kbOverlay').classList.remove('show');
-  });
-  $('kbAddBtn').onclick = () => $('kbAddForm').classList.remove('hidden');
-  $('kbCancelBtn').onclick = () => { $('kbAddForm').classList.add('hidden'); clearKbForm(); };
-  $('kbSaveBtn').onclick = saveKbEntry;
-  $('kbCatGroup').addEventListener('change', () => {
-    document.querySelectorAll('.kb-cat-opt').forEach(el => {
-      el.classList.toggle('selected', el.querySelector('input').checked);
-    });
-  });
+  // Log clear
+  $('logClearBtn').addEventListener('click', logClear);
 }
 
 init();
