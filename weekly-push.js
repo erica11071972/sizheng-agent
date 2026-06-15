@@ -10,70 +10,15 @@ if (!DEEPSEEK_API_KEY || !WX_APP_TOKEN || WX_UIDS.length === 0) {
   process.exit(1);
 }
 
-// Get current date
-const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const dateStr = `${year}年${month}月`;
-
-// Define System and User Prompts
-const systemPrompt = `你是一位高校思政教育专家和青年文化研究专家。
-你的任务是为高校辅导员提供最新一期的【周度思政热点雷达】，帮助他们把握青年大学生的最新特征和引导方向。
-输出格式要求极其精美，结构化，使用清晰的项目符号和分割线。`;
-
-const userPrompt = `现在是 ${dateStr}，请为我生成最新一期的《辅导员周度思政热点雷达》。
-请列出当前最热门的 3 个青年网络文化、社交现象或亚文化，并为每一个热点提供：
-1. 【热点透视】：用100字左右剖析这个现象在大学生中的表现与底层社会心理。
-2. 【思政切入】：如何将该热点转化为思想政治教育的切入点，实现顺势育人。
-3. 【推荐选题】：针对该热点，为辅导员提供 2 个极具创意和文采的选题（如：“一豆一谷”亦有道：...）。
-
-请以易于在手机微信阅读的排版输出。`;
-
 async function main() {
-  console.log('🚀 Starting Weekly Push Generation...');
-  console.log(`📅 Target Month: ${dateStr}`);
+  console.log('🚀 Starting PURE PLAIN TEXT Diagnostic Push...');
 
   try {
-    // 1. Call DeepSeek API
-    console.log('📡 Calling DeepSeek API...');
-    const dsResponse = await fetch('https://api.deepseek.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000
-      })
-    });
+    const pushSummary = `您的思政智能体微信通道测试成功！`;
+    const testContent = `🎯【极简测试消息】恭喜！您的思政选题助手微信物理通道已彻底测通！\n\n这是一条由您的 GitHub 自动机器人发出、不带任何 HTML/Markdown 格式的纯文本消息。\n\n如果您在手机微信上看到了这条消息，请回复我「收到」，我们将立刻把正式的长篇大论版微信卡片也修复好！\n\n测试时间：${new Date().toLocaleString()}`;
 
-    if (!dsResponse.ok) {
-      const errorText = await dsResponse.text();
-      throw new Error(`DeepSeek API failed: ${dsResponse.status} ${errorText}`);
-    }
-
-    const dsData = await dsResponse.json();
-    let content = dsData.choices[0].message.content;
-    console.log('✅ DeepSeek content generated successfully!');
-
-    // 2. Format WeChat Message (HTML or Markdown)
-    const pushTitle = `🎯 ${year}年第${getWeekNumber(now)}周 | 辅导员思政热点雷达`;
-    
-    // Safety check: Clean special XML break characters for WeChat Template Messages
-    content = content
-      .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F]/g, '') // Remove bad control characters
-      .replace(/&(?!(amp|lt|gt|quot|apos);)/g, '&amp;'); // Escape raw ampersands
-
-    const pushSummary = `本周《青年思政热点雷达》已完美出炉！点击立即查看最接地气的选题灵感与思政切入大纲。`;
-
-    // 3. Send via WxPusher
-    console.log('📤 Sending push notification via WxPusher...');
+    // Send via WxPusher (ContentType = 1, Plain Text)
+    console.log('📤 Sending PURE TEXT push notification via WxPusher...');
     const pushResponse = await fetch('https://wxpusher.zjiecode.com/api/send/message', {
       method: 'POST',
       headers: {
@@ -81,9 +26,9 @@ async function main() {
       },
       body: JSON.stringify({
         appToken: WX_APP_TOKEN,
-        content: content,
+        content: testContent,
         summary: pushSummary,
-        contentType: 3, // 3 means Markdown
+        contentType: 1, // 1 means Pure Text (No Markdown, bypasses WeChat XML blocks)
         uids: WX_UIDS
       })
     });
@@ -101,14 +46,6 @@ async function main() {
     console.error('❌ Run failed:', error);
     process.exit(1);
   }
-}
-
-// Utility to calculate week number
-function getWeekNumber(d) {
-  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
 }
 
 main();
