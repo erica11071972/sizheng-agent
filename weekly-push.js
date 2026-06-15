@@ -83,6 +83,7 @@ async function main() {
     });
 
     const pushResult = await pushResponse.json();
+    console.log('📬 WxPusher Server Response:', JSON.stringify(pushResult));
     if (pushResult.code === 1000) {
       console.log('🎉 Push notification sent successfully! Check your WeChat!');
     } else {
