@@ -59,12 +59,18 @@ async function main() {
     }
 
     const dsData = await dsResponse.json();
-    const content = dsData.choices[0].message.content;
+    let content = dsData.choices[0].message.content;
     console.log('✅ DeepSeek content generated successfully!');
 
     // 2. Format WeChat Message (HTML or Markdown)
     const pushTitle = `🎯 ${year}年第${getWeekNumber(now)}周 | 辅导员思政热点雷达`;
-    const pushSummary = `本周青年热点思政转化灵感已送达，点击查看。`;
+    
+    // Safety check: Clean special XML break characters for WeChat Template Messages
+    content = content
+      .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F]/g, '') // Remove bad control characters
+      .replace(/&(?!(amp|lt|gt|quot|apos);)/g, '&amp;'); // Escape raw ampersands
+
+    const pushSummary = `本周《青年思政热点雷达》已完美出炉！点击立即查看最接地气的选题灵感与思政切入大纲。`;
 
     // 3. Send via WxPusher
     console.log('📤 Sending push notification via WxPusher...');
@@ -84,6 +90,7 @@ async function main() {
 
     const pushResult = await pushResponse.json();
     console.log('📬 WxPusher Server Response:', JSON.stringify(pushResult));
+    
     if (pushResult.code === 1000) {
       console.log('🎉 Push notification sent successfully! Check your WeChat!');
     } else {
