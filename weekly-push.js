@@ -68,7 +68,7 @@ async function main() {
 
     // 3. Send via WxPusher
     console.log('📤 Sending push notification via WxPusher...');
-    const pushResponse = await fetch('https://wxpusher.zhimengeng.com/api/send/message', {
+    const pushResponse = await fetch('https://wxpusher.zjiecode.com/api/send/message', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
