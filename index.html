@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>思政热点选题助手 · 为高校辅导员设计</title>
+<title>思政热点选题助手 · 智能体版</title>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js" defer></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -11,21 +12,29 @@
   --primary: #2c5f8a;
   --primary-light: #3a7bb5;
   --primary-bg: #e8f0f8;
-  --bg: #f5f7fa;
+  --primary-bg-light: #f0f5fa;
+  --gold: #d4af37;
+  --bg: #f8fafc;
   --white: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #555;
-  --text-muted: #888;
-  --border: #e0e4e8;
+  --text: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border: #e2e8f0;
   --shadow: 0 2px 12px rgba(44,95,138,0.08);
-  --shadow-lg: 0 4px 24px rgba(44,95,138,0.12);
-  --radius: 8px;
-  --radius-sm: 6px;
+  --shadow-lg: 0 4px 24px rgba(44,95,138,0.15);
+  --radius: 10px;
+  --radius-sm: 7px;
   --transition: 0.2s ease;
+  --log-bg: #0f172a;
+  --log-text: #e2e8f0;
+  --log-accent: #38bdf8;
+  --log-warn: #fbbf24;
+  --log-success: #34d399;
+  --log-error: #f87171;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 15px;
@@ -33,1150 +42,364 @@ body {
   min-height: 100vh;
 }
 
-/* ========== Header ========== */
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ===== Header ===== */
 .header {
   background: var(--white);
   border-bottom: 1px solid var(--border);
-  padding: 16px 24px;
+  padding: 0 24px;
+  height: 60px;
   display: flex;
   align-items: center;
-  gap: 12px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 200;
 }
+.header-logo { font-size: 18px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+.header-subtitle { font-size: 12px; color: var(--text-muted); margin-left: 8px; padding-left: 8px; border-left: 1px solid var(--border); }
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 
-.header h1 {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-subtitle {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-left: 4px;
-}
-
-.header-right {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-kb {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 14px;
-  background: var(--primary-bg);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.btn-kb:hover {
-  background: var(--primary);
-  color: var(--white);
-}
-
-/* ========== API Key Panel ========== */
-.api-panel {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.api-panel-inner {
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.api-panel label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  white-space: nowrap;
-}
-
-.api-panel input[type="password"],
-.api-panel input[type="text"] {
-  flex: 1;
-  min-width: 200px;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: monospace;
-  transition: border-color var(--transition);
-}
-
-.api-panel input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
-}
-
-.api-hint {
-  font-size: 12px;
-  color: var(--text-muted);
-  width: 100%;
-}
-
+/* ===== Buttons ===== */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition);
-  white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: all var(--transition); white-space: nowrap; font-family: inherit;
 }
-
-.btn-primary {
-  background: var(--primary);
-  color: var(--white);
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-light); }
+.btn-outline { background: var(--white); color: var(--primary); border: 1px solid var(--primary); }
+.btn-outline:hover:not(:disabled) { background: var(--primary-bg); }
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-gold:hover:not(:disabled) { background: #b8952a; }
+.btn-sm { padding: 5px 12px; font-size: 13px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-kb {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 14px; background: var(--primary-bg); color: var(--primary);
+  border: 1px solid var(--primary); border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: all var(--transition);
 }
+.btn-kb:hover { background: var(--primary); color: var(--white); }
 
-.btn-primary:hover {
-  background: var(--primary-light);
+/* ===== API Panel ===== */
+.api-panel { background: var(--white); border-bottom: 1px solid var(--border); }
+.api-panel.collapsed .api-panel-inner { display: none; }
+.api-panel-inner { padding: 14px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.api-panel label { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.api-panel input[type="password"], .api-panel input[type="text"] {
+  flex: 1; min-width: 160px; padding: 7px 11px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 12px; font-family: monospace; transition: border-color var(--transition);
 }
-
-.btn-outline {
-  background: var(--white);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-}
-
-.btn-outline:hover {
-  background: var(--primary-bg);
-}
-
-.btn-sm {
-  padding: 5px 12px;
-  font-size: 13px;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.api-toggle {
-  font-size: 13px;
-  color: var(--primary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0;
-  background: none;
-  border: none;
-  margin-left: auto;
-}
-
+.api-panel input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.api-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+.api-hint { font-size: 11px; color: var(--text-muted); width: 100%; }
+.api-hint a { color: var(--primary); }
+.api-toggle { font-size: 12px; color: var(--primary); cursor: pointer; background: none; border: none; margin-left: auto; padding: 4px 8px; font-family: inherit; }
 .api-toggle:hover { text-decoration: underline; }
 
-.api-panel.collapsed .api-panel-inner { display: none; }
-
-/* ========== Main Layout ========== */
+/* ===== Main Layout ===== */
 .main {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 20px 24px;
-  display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 20px;
-  align-items: start;
+  max-width: 1500px; margin: 0 auto; padding: 20px 24px;
+  display: grid; grid-template-columns: 380px 1fr; gap: 20px; align-items: start;
 }
 
-/* ========== Left Panel (Input) ========== */
-.input-panel {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 100px);
-  overflow-y: auto;
+/* ===== Left Panel ===== */
+.left-panel {
+  display: flex; flex-direction: column; gap: 14px;
+  position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto;
 }
 
-.section-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+/* ===== Card ===== */
+.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; }
+.card-title {
+  font-size: 13px; font-weight: 700; color: var(--primary);
+  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px;
 }
 
-.input-field {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 15px;
-  font-family: inherit;
-  resize: none;
-  transition: border-color var(--transition);
-  margin-bottom: 16px;
-}
+/* ===== Agent Config ===== */
+.agent-option { display: flex; align-items: flex-start; gap: 9px; padding: 7px 8px; border-radius: 6px; cursor: pointer; transition: background var(--transition); margin-bottom: 2px; }
+.agent-option:hover { background: var(--primary-bg-light); }
+.agent-option input[type="checkbox"] { accent-color: var(--primary); width: 15px; height: 15px; flex-shrink: 0; margin-top: 2px; }
+.agent-option-text { flex: 1; }
+.agent-option-label { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; }
+.agent-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.agent-key-hint { font-size: 11px; color: #f59e0b; background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 3px 7px; margin-top: 4px; display: none; }
+.agent-key-hint.show { display: block; }
 
-.input-field:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
-}
+/* ===== WxPusher Settings ===== */
+.wx-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.wx-row label { font-size: 12px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; min-width: 80px; }
+.wx-row input { flex: 1; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: monospace; }
+.wx-row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(44,95,138,0.1); }
+.wx-actions { display: flex; gap: 8px; margin-top: 6px; }
 
-.input-field[rows] { min-height: 60px; }
-
-/* ========== Collapsible Panel (Activity Requirements) ========== */
-.collapsible-panel {
-  margin-bottom: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-
+/* ===== Collapsible ===== */
+.collapsible { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .collapsible-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  background: var(--primary-bg);
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--transition);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; background: var(--primary-bg-light); cursor: pointer; user-select: none;
 }
+.collapsible-header:hover { background: #dce6f2; }
+.collapsible-title { font-size: 13px; font-weight: 700; color: var(--primary); }
+.collapsible-arrow { font-size: 11px; color: var(--primary); transition: transform var(--transition); }
+.collapsible.open .collapsible-arrow { transform: rotate(180deg); }
+.collapsible-body { display: none; padding: 14px; }
+.collapsible.open .collapsible-body { display: block; }
 
-.collapsible-header:hover {
-  background: #d4e4f2;
-}
-
-.collapsible-header-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.collapsible-arrow {
-  font-size: 12px;
-  color: var(--primary);
-  transition: transform var(--transition);
-}
-
-.collapsible-panel.open .collapsible-arrow {
-  transform: rotate(180deg);
-}
-
-.collapsible-body {
-  display: none;
-  padding: 16px;
-}
-
-.collapsible-panel.open .collapsible-body {
-  display: block;
-}
-
-.requirement-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: inherit;
-  resize: vertical;
+/* ===== Inputs ===== */
+.input-field {
+  width: 100%; padding: 9px 13px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  font-size: 14px; font-family: inherit; resize: none;
   transition: border-color var(--transition);
-  margin-bottom: 10px;
 }
+.input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.req-textarea { width: 100%; min-height: 90px; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; }
+.req-textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
 
-.requirement-textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
+/* File Upload */
+.file-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.file-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 11px; background: var(--white); color: var(--primary); border: 1px dashed var(--primary); border-radius: var(--radius-sm); font-size: 12px; cursor: pointer; }
+.file-btn:hover { background: var(--primary-bg); }
+.file-input { display: none; }
+.file-info { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+.file-name { color: var(--primary); font-weight: 600; }
+.file-remove { color: #c0392b; cursor: pointer; background: none; border: none; font-size: 12px; font-family: inherit; }
+.file-remove:hover { text-decoration: underline; }
+.file-status { font-size: 11px; color: var(--text-muted); margin-top: 5px; min-height: 14px; }
+
+/* ===== Scenario ===== */
+.section-label { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.scenario-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+.scenario-opt {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; transition: all var(--transition);
 }
+.scenario-opt:hover { border-color: var(--primary); background: var(--primary-bg-light); }
+.scenario-opt.selected { border-color: var(--primary); background: var(--primary-bg); }
+.scenario-opt input[type="radio"] { accent-color: var(--primary); width: 14px; height: 14px; }
+.scenario-opt input[type="radio"]:checked + span { color: var(--primary); font-weight: 600; }
 
-.file-upload-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
+/* ===== Keywords ===== */
+.kw-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.btn-refresh { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--white); color: var(--primary); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 11px; cursor: pointer; font-family: inherit; transition: all var(--transition); }
+.btn-refresh:hover:not(:disabled) { background: var(--primary-bg); border-color: var(--primary); }
+.btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-refresh .spin { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--primary); border-top-color: transparent; border-radius: 50%; animation: doSpin 0.8s linear infinite; }
+@keyframes doSpin { to { transform: rotate(360deg); } }
 
-.file-upload-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 14px;
-  background: var(--white);
-  color: var(--primary);
-  border: 1px dashed var(--primary);
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
+.kw-group { margin-bottom: 10px; }
+.kw-group-name { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; }
+.kw-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.kw-tag { padding: 3px 9px; background: var(--primary-bg); color: var(--primary); border-radius: 20px; font-size: 11px; cursor: pointer; border: 1px solid transparent; transition: all var(--transition); }
+.kw-tag:hover { background: var(--primary); color: var(--white); }
 
-.file-upload-btn:hover {
-  background: var(--primary-bg);
-}
-
-.file-upload-input {
-  display: none;
-}
-
-.file-info {
-  font-size: 12px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.file-info .file-name {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.file-info .file-chars {
-  color: var(--text-secondary);
-}
-
-.file-remove-btn {
-  color: #c0392b;
-  cursor: pointer;
-  font-size: 12px;
-  background: none;
-  border: none;
-  padding: 0 2px;
-}
-
-.file-remove-btn:hover {
-  text-decoration: underline;
-}
-
-.requirement-status {
-  font-size: 12px;
-  color: var(--text-muted);
-  min-height: 18px;
-}
-
-/* ========== Keyword Groups & Refresh ========== */
-.keyword-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.keyword-header-row .section-title {
-  margin-bottom: 0;
-}
-
-.btn-refresh {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  background: var(--white);
-  color: var(--primary);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.btn-refresh:hover:not(:disabled) {
-  background: var(--primary-bg);
-  border-color: var(--primary);
-}
-
-.btn-refresh:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-refresh .spinner {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 2px solid var(--primary);
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Keyword Groups */
-.keyword-groups {
-  margin-bottom: 20px;
-}
-
-.keyword-group {
-  margin-bottom: 12px;
-}
-
-.keyword-group-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.keyword-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.keyword-tag {
-  display: inline-block;
-  padding: 4px 10px;
-  background: var(--primary-bg);
-  color: var(--primary);
-  border-radius: 20px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all var(--transition);
-  border: 1px solid transparent;
-}
-
-.keyword-tag:hover {
-  background: var(--primary);
-  color: var(--white);
-}
-
-/* Scenario Selection */
-.scenario-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-.scenario-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition);
-  font-size: 14px;
-}
-
-.scenario-option:hover {
-  border-color: var(--primary);
-  background: var(--primary-bg);
-}
-
-.scenario-option input[type="radio"] {
-  accent-color: var(--primary);
-  width: 16px;
-  height: 16px;
-}
-
-.scenario-option input[type="radio"]:checked + span {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.scenario-option.selected {
-  border-color: var(--primary);
-  background: var(--primary-bg);
-}
-
-/* Generate Button */
+/* ===== Generate Button ===== */
 .btn-generate {
-  width: 100%;
-  padding: 14px 24px;
-  font-size: 17px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all var(--transition);
-  box-shadow: 0 4px 12px rgba(44,95,138,0.2);
-  letter-spacing: 1px;
+  width: 100%; padding: 13px 20px; font-size: 16px; font-weight: 700;
+  background: linear-gradient(135deg, #2c5f8a 0%, #3a7bb5 100%);
+  color: var(--white); border: none; border-radius: var(--radius); cursor: pointer;
+  transition: all var(--transition); box-shadow: 0 4px 14px rgba(44,95,138,0.2);
+  letter-spacing: 0.5px; font-family: inherit;
 }
+.btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(44,95,138,0.3); }
+.btn-generate:active:not(:disabled) { transform: none; }
+.btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-.btn-generate:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(44,95,138,0.3);
+/* ===== Status Messages ===== */
+.status-msg { padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 10px; display: none; }
+.status-msg.error { background: #fff0f0; color: #c0392b; border: 1px solid #f5c6cb; display: block; }
+.status-msg.success { background: #f0fff4; color: #27ae60; border: 1px solid #c3e6cb; display: block; }
+
+/* ===== Right Panel ===== */
+.right-panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+/* ===== Agent Log Terminal ===== */
+.agent-log-wrap { background: var(--log-bg); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.agent-log-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: #0a1628; border-bottom: 1px solid #1e3352; }
+.agent-log-title { font-size: 12px; font-weight: 700; color: var(--log-accent); display: flex; align-items: center; gap: 7px; font-family: monospace; letter-spacing: 0.5px; }
+.log-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--log-success); }
+.log-dot.idle { background: #475569; }
+.log-dot.active { animation: logPulse 1.5s ease-in-out infinite; }
+@keyframes logPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(52,211,153,0.4); } 50% { box-shadow: 0 0 0 5px rgba(52,211,153,0); } }
+.agent-log-btns { display: flex; gap: 6px; }
+.agent-log-clear { background: none; border: 1px solid #334155; color: #64748b; padding: 2px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: monospace; transition: all var(--transition); }
+.agent-log-clear:hover { border-color: var(--log-accent); color: var(--log-accent); }
+.agent-log-body { padding: 10px 14px; max-height: 200px; overflow-y: auto; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11.5px; line-height: 1.65; color: var(--log-text); }
+.log-entry { padding: 1.5px 0; animation: logIn 0.25s ease; }
+@keyframes logIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+.log-time { color: #475569; }
+.log-tag { color: var(--log-accent); }
+.log-c-info { color: var(--log-text); }
+.log-c-warn { color: var(--log-warn); }
+.log-c-success { color: var(--log-success); }
+.log-c-error { color: var(--log-error); }
+.log-c-gold { color: #fbbf24; font-weight: 600; }
+.log-placeholder { color: #334155; text-align: center; padding: 24px 0; font-size: 11px; }
+
+/* radar sweep animation */
+.log-radar { display: flex; align-items: center; gap: 6px; padding: 3px 0; }
+.radar-bars { display: flex; gap: 2px; align-items: center; }
+.radar-bars span { display: inline-block; width: 3px; background: var(--log-accent); border-radius: 2px; animation: radarBar 1.2s ease-in-out infinite; }
+.radar-bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.radar-bars span:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+.radar-bars span:nth-child(3) { height: 14px; animation-delay: 0.2s; }
+.radar-bars span:nth-child(4) { height: 10px; animation-delay: 0.3s; }
+.radar-bars span:nth-child(5) { height: 6px; animation-delay: 0.4s; }
+@keyframes radarBar { 0%,100% { opacity: 0.3; transform: scaleY(0.5); } 50% { opacity: 1; transform: scaleY(1); } }
+
+/* ===== Output Area ===== */
+.output-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.output-toolbar { display: flex; align-items: center; gap: 6px; }
+
+/* Export Dropdown */
+.export-wrap { position: relative; display: inline-block; }
+.export-menu {
+  position: absolute; top: calc(100% + 4px); right: 0;
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg); z-index: 300; min-width: 170px; display: none; overflow: hidden;
 }
+.export-menu.open { display: block; }
+.export-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-size: 13px; color: var(--text); cursor: pointer; background: none; border: none; width: 100%; text-align: left; font-family: inherit; transition: background var(--transition); }
+.export-item:hover { background: var(--primary-bg); }
+.export-item + .export-item { border-top: 1px solid var(--border); }
 
-.btn-generate:active:not(:disabled) {
-  transform: translateY(0);
-}
+.output-area { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; min-height: 300px; }
+.output-placeholder { color: var(--text-muted); text-align: center; padding: 60px 20px; font-size: 14px; }
+.output-placeholder .icon { font-size: 44px; margin-bottom: 14px; display: block; }
 
-.btn-generate:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
+/* Markdown */
+.md-out h1 { font-size: 20px; font-weight: 700; color: var(--primary); margin: 24px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--border); }
+.md-out h1:first-child { margin-top: 0; }
+.md-out h2 { font-size: 17px; font-weight: 700; color: var(--primary); margin: 20px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+.md-out h2:first-child { margin-top: 0; }
+.md-out h3 { font-size: 15px; font-weight: 600; color: var(--text); margin: 16px 0 6px; }
+.md-out p { margin-bottom: 9px; line-height: 1.8; }
+.md-out strong { color: var(--primary); font-weight: 700; }
+.md-out em { font-style: italic; color: var(--text-secondary); }
+.md-out ul, .md-out ol { margin: 8px 0 8px 22px; }
+.md-out li { margin-bottom: 5px; line-height: 1.7; }
+.md-out blockquote { border-left: 3px solid var(--primary); padding-left: 14px; margin: 12px 0; color: var(--text-secondary); font-style: italic; background: var(--primary-bg-light); border-radius: 0 4px 4px 0; padding: 8px 14px; }
+.md-out code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 12px; font-family: monospace; }
+.md-out pre { background: var(--bg); padding: 14px; border-radius: var(--radius-sm); overflow-x: auto; margin: 12px 0; }
+.md-out pre code { background: none; padding: 0; }
+.md-out hr { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+.md-out .hidden { display: none; }
 
-/* ========== Right Panel (Output) ========== */
-.output-panel {
-  min-height: 400px;
-}
-
-.output-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.output-toolbar {
-  display: flex;
-  gap: 8px;
-}
-
-.output-area {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 24px;
-  min-height: 300px;
-  position: relative;
-}
-
-.output-placeholder {
-  color: var(--text-muted);
-  text-align: center;
-  padding: 60px 20px;
-  font-size: 15px;
-}
-
-.output-placeholder .icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-/* Markdown rendered output */
-.md-output h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary);
-  margin: 24px 0 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
-
-.md-output h2:first-child {
-  margin-top: 0;
-}
-
-.md-output h3 {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text);
-  margin: 18px 0 8px;
-}
-
-.md-output p {
-  margin-bottom: 10px;
-  line-height: 1.8;
-}
-
-.md-output strong {
-  color: var(--primary);
-  font-weight: 700;
-}
-
-.md-output ul, .md-output ol {
-  margin: 8px 0 8px 20px;
-}
-
-.md-output li {
-  margin-bottom: 6px;
-  line-height: 1.7;
-}
-
-.md-output blockquote {
-  border-left: 3px solid var(--primary);
-  padding-left: 14px;
-  margin: 12px 0;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.md-output code {
-  background: var(--bg);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 13px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-}
-
-.md-output pre {
-  background: var(--bg);
-  padding: 14px;
-  border-radius: var(--radius-sm);
-  overflow-x: auto;
-  margin: 12px 0;
-}
-
-.md-output pre code {
-  background: none;
-  padding: 0;
-}
-
-/* Loading dots */
-.loading-dots {
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
-  padding: 12px 0;
-}
-
-.loading-dots span {
-  width: 8px;
-  height: 8px;
-  background: var(--primary);
-  border-radius: 50%;
-  animation: bounce 1.4s infinite ease-in-out both;
-}
-
+/* Loading */
+.loading-dots { display: inline-flex; gap: 4px; align-items: center; padding: 10px 0; }
+.loading-dots span { width: 7px; height: 7px; background: var(--primary); border-radius: 50%; animation: dotBounce 1.4s infinite ease-in-out both; }
 .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
 .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes dotBounce { 0%,80%,100% { transform: scale(0); } 40% { transform: scale(1); } }
+.loading-txt { color: var(--text-muted); font-size: 13px; margin-top: 6px; }
 
-@keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
-}
+/* Cursor blink */
+.cursor::after { content: '▌'; animation: blink 1s step-end infinite; color: var(--primary); }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-.loading-text {
-  color: var(--text-muted);
-  font-size: 14px;
-  margin-top: 8px;
-}
+/* Conversation turns */
+.conv-turn { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); }
+.conv-turn:last-child { border-bottom: none; }
+.turn-lbl { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.turn-lbl.user { color: var(--primary); }
 
-/* Conversation history */
-.conversation-turn {
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px dashed var(--border);
-}
+/* Save to KB button */
+.save-kb-bar { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+.btn-save-kb { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: linear-gradient(135deg, #2c5f8a 0%, #3a7bb5 100%); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; transition: all var(--transition); box-shadow: 0 2px 8px rgba(44,95,138,0.15); font-family: inherit; }
+.btn-save-kb:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(44,95,138,0.25); }
 
-.conversation-turn:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
+/* Follow-up */
+.followup-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+.followup-card h3 { font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.followup-ta { width: 100%; min-height: 70px; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; margin-bottom: 10px; }
+.followup-ta:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.followup-actions { display: flex; gap: 8px; }
 
-.turn-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+/* ===== KB Modal ===== */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 1000; display: none; justify-content: center; align-items: flex-start; padding-top: 50px; overflow-y: auto; }
+.overlay.show { display: flex; }
+.modal { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 92%; max-width: 700px; max-height: 85vh; overflow: hidden; display: flex; flex-direction: column; animation: modalIn 0.2s ease; }
+@keyframes modalIn { from { transform: translateY(-20px); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.modal-header h2 { font-size: 16px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+.modal-close { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: none; border: none; font-size: 20px; color: var(--text-muted); cursor: pointer; border-radius: 50%; transition: all var(--transition); font-family: inherit; }
+.modal-close:hover { background: var(--bg); color: var(--text); }
+.modal-body { overflow-y: auto; padding: 18px; flex: 1; }
 
-.turn-label.user { color: var(--primary); }
-
-/* ========== Follow-up Area ========== */
-.followup-area {
-  margin-top: 16px;
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  padding: 20px;
-}
-
-.followup-area h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.followup-textarea {
-  width: 100%;
-  min-height: 80px;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: inherit;
-  resize: vertical;
-  margin-bottom: 10px;
-  transition: border-color var(--transition);
-}
-
-.followup-textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
-}
-
-.followup-actions {
-  display: flex;
-  gap: 8px;
-}
-
-/* ========== Footer ========== */
-.footer {
-  text-align: center;
-  padding: 24px;
-  color: var(--text-muted);
-  font-size: 13px;
-  border-top: 1px solid var(--border);
-  background: var(--white);
-  margin-top: 32px;
-}
-
-/* ========== Error/Status ========== */
-.status-msg {
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  margin-bottom: 12px;
-  display: none;
-}
-
-.status-msg.error {
-  background: #fff0f0;
-  color: #c0392b;
-  border: 1px solid #f5c6cb;
-  display: block;
-}
-
-.status-msg.success {
-  background: #f0fff4;
-  color: #27ae60;
-  border: 1px solid #c3e6cb;
-  display: block;
-}
-
-/* ========== Knowledge Base Modal ========== */
-.kb-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 1000;
-  display: none;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
-  overflow-y: auto;
-}
-
-.kb-overlay.show {
-  display: flex;
-}
-
-.kb-modal {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
-  width: 90%;
-  max-width: 700px;
-  max-height: 85vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  animation: kbSlideIn 0.25s ease;
-}
-
-@keyframes kbSlideIn {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.kb-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-.kb-header h2 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.kb-close-btn {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: var(--text-muted);
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all var(--transition);
-}
-
-.kb-close-btn:hover {
-  background: var(--bg);
-  color: var(--text);
-}
-
-.kb-body {
-  overflow-y: auto;
-  padding: 20px;
-  flex: 1;
-}
-
-/* KB Add Form */
-.kb-add-form {
-  margin-bottom: 24px;
-  padding: 16px;
-  background: var(--bg);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
-
-.kb-add-form.hidden {
-  display: none;
-}
-
-.kb-form-row {
-  margin-bottom: 12px;
-}
-
-.kb-form-row label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
-}
-
-.kb-form-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color var(--transition);
-}
-
-.kb-form-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
-}
-
-.kb-form-textarea {
-  width: 100%;
-  min-height: 120px;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  font-family: inherit;
-  resize: vertical;
-  transition: border-color var(--transition);
-}
-
-.kb-form-textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(44,95,138,0.1);
-}
-
-.kb-category-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.kb-category-option {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.kb-category-option:hover {
-  border-color: var(--primary);
-  background: var(--primary-bg);
-}
-
-.kb-category-option input[type="radio"] {
-  accent-color: var(--primary);
-  width: 14px;
-  height: 14px;
-}
-
-.kb-category-option input[type="radio"]:checked + span {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.kb-category-option.selected {
-  border-color: var(--primary);
-  background: var(--primary-bg);
-}
-
-.kb-file-upload-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.kb-file-info {
-  font-size: 12px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.kb-form-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.kb-form-status {
-  font-size: 12px;
-  color: var(--text-muted);
-  min-height: 18px;
-  margin-top: 6px;
-}
+/* KB Form */
+.kb-add-form { margin-bottom: 18px; padding: 14px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); }
+.kb-add-form.hidden { display: none; }
+.kb-form-row { margin-bottom: 10px; }
+.kb-form-row label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px; }
+.kb-form-input { width: 100%; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; }
+.kb-form-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.kb-form-ta { width: 100%; min-height: 100px; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; resize: vertical; }
+.kb-form-ta:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.kb-cat-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.kb-cat-opt { display: flex; align-items: center; gap: 4px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; cursor: pointer; transition: all var(--transition); }
+.kb-cat-opt:hover { border-color: var(--primary); background: var(--primary-bg); }
+.kb-cat-opt.selected { border-color: var(--primary); background: var(--primary-bg); }
+.kb-cat-opt input[type="radio"] { accent-color: var(--primary); width: 12px; height: 12px; }
+.kb-form-status { font-size: 11px; color: var(--text-muted); margin-top: 4px; min-height: 14px; }
+.kb-form-actions { display: flex; gap: 8px; margin-top: 10px; }
 
 /* KB List */
-.kb-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.kb-cat-section { margin-bottom: 8px; }
+.kb-cat-title { font-size: 13px; font-weight: 700; color: var(--primary); padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px solid var(--border); }
+.kb-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 9px 11px; background: var(--bg); border-radius: var(--radius-sm); border: 1px solid var(--border); transition: border-color var(--transition); margin-bottom: 5px; }
+.kb-item:hover { border-color: var(--primary); }
+.kb-item-content { flex: 1; min-width: 0; }
+.kb-item-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.kb-item-preview { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kb-del-btn { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; background: none; border: none; color: #c0392b; cursor: pointer; border-radius: 50%; font-size: 14px; flex-shrink: 0; font-family: inherit; }
+.kb-del-btn:hover { background: #fff0f0; }
+.kb-empty { text-align: center; color: var(--text-muted); padding: 24px; font-size: 13px; }
+
+/* ===== Save KB Quick Modal ===== */
+.save-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1100; display: none; justify-content: center; align-items: center; }
+.save-modal-overlay.show { display: flex; }
+.save-modal { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); width: 90%; max-width: 440px; padding: 24px; animation: modalIn 0.2s ease; }
+.save-modal h3 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 7px; }
+.save-modal-field { margin-bottom: 12px; }
+.save-modal-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+.save-modal-field input, .save-modal-field select { width: 100%; padding: 8px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; }
+.save-modal-field input:focus, .save-modal-field select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(44,95,138,0.1); }
+.save-modal-actions { display: flex; gap: 8px; margin-top: 16px; }
+.save-modal-status { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
+
+/* ===== Footer ===== */
+.footer { text-align: center; padding: 18px; color: var(--text-muted); font-size: 12px; border-top: 1px solid var(--border); background: var(--white); margin-top: 24px; }
+
+/* ===== Responsive ===== */
+@media (max-width: 960px) {
+  .main { grid-template-columns: 1fr; padding: 12px; }
+  .left-panel { position: static; max-height: none; }
 }
-
-.kb-category-section {
-  margin-bottom: 8px;
-}
-
-.kb-category-section-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--primary);
-  padding-bottom: 6px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--border);
-}
-
-.kb-item {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  transition: all var(--transition);
-}
-
-.kb-item:hover {
-  border-color: var(--primary);
-}
-
-.kb-item-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.kb-item-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-
-.kb-item-preview {
-  font-size: 12px;
-  color: var(--text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.kb-item-badge {
-  display: inline-block;
-  padding: 2px 8px;
-  background: var(--primary-bg);
-  color: var(--primary);
-  border-radius: 12px;
-  font-size: 11px;
-  margin-right: 6px;
-  margin-bottom: 4px;
-}
-
-.kb-item-actions {
-  flex-shrink: 0;
-}
-
-.kb-delete-btn {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: #c0392b;
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 16px;
-  transition: all var(--transition);
-}
-
-.kb-delete-btn:hover {
-  background: #fff0f0;
-}
-
-.kb-empty {
-  text-align: center;
-  color: var(--text-muted);
-  padding: 30px;
-  font-size: 14px;
-}
-
-/* KB Add button at top */
-.kb-top-actions {
-  margin-bottom: 16px;
-}
-
-/* ========== Responsive ========== */
-@media (max-width: 900px) {
-  .main {
-    grid-template-columns: 1fr;
-    padding: 16px;
-  }
-
-  .input-panel {
-    position: static;
-    max-height: none;
-  }
-
-  .header {
-    padding: 12px 16px;
-  }
-
-  .header h1 {
-    font-size: 17px;
-  }
-
-  .api-panel-inner {
-    padding: 12px 16px;
-  }
-
-  .kb-modal {
-    width: 95%;
-    max-height: 90vh;
-  }
-}
-
 @media (max-width: 600px) {
-  .header h1 {
-    font-size: 15px;
-  }
-
-  .header-subtitle {
-    display: none;
-  }
-
-  .main {
-    padding: 12px;
-    gap: 12px;
-  }
-
-  .output-area {
-    padding: 16px;
-  }
-
-  .input-panel {
-    padding: 16px;
-  }
-
-  .header-right {
-    gap: 4px;
-  }
-
-  .btn-kb {
-    padding: 4px 10px;
-    font-size: 12px;
-  }
+  .header { padding: 0 14px; }
+  .header-logo { font-size: 14px; }
+  .header-subtitle { display: none; }
+  .main { padding: 10px; gap: 10px; }
+  .output-area { padding: 14px; }
 }
-
-/* ========== Scrollbar ========== */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #aaa; }
-
-/* ========== Cursor animation ========== */
-.cursor-blink::after {
-  content: '▌';
-  animation: blink 1s step-end infinite;
-  color: var(--primary);
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* Hidden utility */
-.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
 <!-- ========== Header ========== -->
 <header class="header">
-  <h1>📖 思政热点选题助手</h1>
-  <span class="header-subtitle">为高校辅导员设计</span>
+  <div class="header-logo">📖 思政热点选题助手</div>
+  <span class="header-subtitle">智能体版 · Agent Platform</span>
   <div class="header-right">
     <button class="btn-kb" id="kbOpenBtn">📚 知识库</button>
   </div>
@@ -1185,169 +408,217 @@ body {
 <!-- ========== API Key Panel ========== -->
 <div class="api-panel" id="apiPanel">
   <div class="api-panel-inner">
-    <label for="apiKeyInput">🔑 DeepSeek API Key：</label>
-    <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxxxxxx" autocomplete="off">
+    <label for="apiKeyInput">🔑 DeepSeek Key：</label>
+    <input type="password" id="apiKeyInput" placeholder="sk-xxxxxxxxxxxx" autocomplete="off">
     <button class="btn btn-primary btn-sm" id="saveApiKeyBtn">保存</button>
-    <span class="api-hint">🔒 Key 仅存储在您的浏览器本地，不会上传至任何服务器</span>
+    <div class="api-divider"></div>
+    <label for="serperKeyInput">🔍 Serper Key：</label>
+    <input type="password" id="serperKeyInput" placeholder="联网搜索（可选）" autocomplete="off">
+    <button class="btn btn-primary btn-sm" id="saveSerperKeyBtn">保存</button>
     <button class="api-toggle" id="apiToggleBtn">收起 ▲</button>
+    <div class="api-hint">
+      🔒 Key 仅保存在您的浏览器本地，不会上传至任何服务器。
+      Serper 免费 2500 次/月 → <a href="https://serper.dev" target="_blank" rel="noopener">serper.dev</a>
+    </div>
   </div>
 </div>
 
-<!-- ========== Main Content ========== -->
+<!-- ========== Main Layout ========== -->
 <div class="main">
 
-  <!-- Left: Input Panel -->
-  <aside class="input-panel">
+  <!-- ===== Left Panel ===== -->
+  <div class="left-panel">
 
-    <!-- Activity Requirements (Collapsible) -->
-    <div class="collapsible-panel" id="requirementPanel">
-      <div class="collapsible-header" id="requirementToggle">
-        <span class="collapsible-header-title">📄 活动/比赛要求（选填）</span>
-        <span class="collapsible-arrow">▼</span>
-      </div>
-      <div class="collapsible-body">
-        <textarea class="requirement-textarea" id="requirementText" placeholder="粘贴比赛通知、主题要求、评分标准等内容..."></textarea>
-        <div class="file-upload-row">
-          <label class="file-upload-btn" for="requirementFile">
-            📎 上传 PDF / Word
-          </label>
-          <input type="file" class="file-upload-input" id="requirementFile" accept=".pdf,.docx">
-          <div class="file-info" id="requirementFileInfo"></div>
+    <!-- Agent Config Card -->
+    <div class="card">
+      <div class="card-title">🤖 智能体配置</div>
+      <div class="agent-option" id="optWebSearch">
+        <input type="checkbox" id="chkWebSearch">
+        <div class="agent-option-text">
+          <div class="agent-option-label">开启自动联网搜索</div>
+          <div class="agent-option-desc">通过 Serper API 搜索 Google 获取最新资讯作为上下文</div>
+          <div class="agent-key-hint" id="hintSerperKey">⚠️ 请先填写并保存 Serper API Key</div>
         </div>
-        <div class="requirement-status" id="requirementStatus"></div>
+      </div>
+      <div class="agent-option">
+        <input type="checkbox" id="chkSelfEval">
+        <div class="agent-option-text">
+          <div class="agent-option-label">开启双阶段自我评估纠错</div>
+          <div class="agent-option-desc">初稿完成后，AI 自动评分并将低于 90 分的内容优化</div>
+        </div>
+      </div>
+      <div class="agent-option">
+        <input type="checkbox" id="chkTfidf" checked>
+        <div class="agent-option-text">
+          <div class="agent-option-label">开启本地语义关联检索（TF-IDF）</div>
+          <div class="agent-option-desc">基于向量余弦相似度从知识库匹配最相关优秀案例</div>
+        </div>
       </div>
     </div>
 
-    <!-- Scenario Selection -->
-    <div class="section-title">🎯 使用场景</div>
-    <div class="scenario-group" id="scenarioGroup">
-      <label class="scenario-option" data-scenario="演讲比赛">
-        <input type="radio" name="scenario" value="演讲比赛">
-        <span>🎤 演讲比赛</span>
-      </label>
-      <label class="scenario-option" data-scenario="班会设计">
-        <input type="radio" name="scenario" value="班会设计">
-        <span>📚 班会设计</span>
-      </label>
-      <label class="scenario-option" data-scenario="课题申报">
-        <input type="radio" name="scenario" value="课题申报">
-        <span>📋 课题申报</span>
-      </label>
-      <label class="scenario-option" data-scenario="主题宣讲">
-        <input type="radio" name="scenario" value="主题宣讲">
-        <span>📢 主题宣讲</span>
-      </label>
-      <label class="scenario-option" data-scenario="技能大赛">
-        <input type="radio" name="scenario" value="技能大赛">
-        <span>🏆 技能大赛</span>
-      </label>
-    </div>
-
-    <!-- Keywords -->
-    <div class="keyword-header-row">
-      <div class="section-title">📝 热点词输入</div>
-    </div>
-    <textarea class="input-field" id="keywordInput" rows="3" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学..."></textarea>
-
-    <div class="keyword-header-row">
-      <div class="section-title">📚 内置热点词库 <span style="font-weight:400;font-size:12px;color:var(--text-muted)">（点击填入）</span></div>
-      <button class="btn-refresh" id="refreshKeywordsBtn">🔄 刷新热点词</button>
-    </div>
-    <div class="keyword-groups" id="keywordGroups"></div>
-
-    <div id="inputStatus" class="status-msg"></div>
-    <button class="btn-generate" id="generateBtn">🔍 生成选题方案</button>
-  </aside>
-
-  <!-- Right: Output Panel -->
-  <section class="output-panel">
-    <div class="output-header">
-      <div class="section-title" style="margin-bottom:0">📄 生成结果</div>
-      <div class="output-toolbar">
-        <button class="btn btn-outline btn-sm" id="copyBtn" title="复制全部内容" disabled>📋 复制</button>
-        <button class="btn btn-outline btn-sm" id="clearBtn" title="清空重新开始" disabled>🗑️ 清空</button>
+    <!-- WeChat Push Card -->
+    <div class="card">
+      <div class="card-title">📅 微信推送设置（WxPusher）</div>
+      <div class="wx-row">
+        <label>AppToken：</label>
+        <input type="password" id="wxAppToken" placeholder="AT_xxxxxxxxxxxxxxxx">
+      </div>
+      <div class="wx-row">
+        <label>UID：</label>
+        <input type="text" id="wxUid" placeholder="UID_xxxxxxxxxxxxxxxx">
+      </div>
+      <div class="wx-actions">
+        <button class="btn btn-outline btn-sm" id="saveWxBtn">💾 保存</button>
+        <button class="btn btn-gold btn-sm" id="testWxBtn">📤 测试推送</button>
       </div>
     </div>
 
-    <div class="output-area" id="outputArea">
-      <div class="output-placeholder" id="outputPlaceholder">
-        <span class="icon">💡</span>
-        在左侧输入热点词并选择场景，<br>点击「生成选题方案」开始
+    <!-- Input Card -->
+    <div class="card">
+      <!-- Activity Requirements -->
+      <div class="collapsible" id="reqPanel">
+        <div class="collapsible-header" id="reqToggle">
+          <span class="collapsible-title">📄 活动/比赛要求（选填）</span>
+          <span class="collapsible-arrow">▼</span>
+        </div>
+        <div class="collapsible-body">
+          <textarea class="req-textarea" id="requirementText" placeholder="粘贴比赛通知、主题要求、评分标准..."></textarea>
+          <div class="file-row">
+            <label class="file-btn" for="reqFile">📎 上传 PDF/Word</label>
+            <input type="file" class="file-input" id="reqFile" accept=".pdf,.docx">
+            <div class="file-info" id="reqFileInfo"></div>
+          </div>
+          <div class="file-status" id="reqFileStatus"></div>
+        </div>
       </div>
-      <div class="md-output hidden" id="mdOutput"></div>
+
+      <div style="height:14px"></div>
+
+      <!-- Scenario Selection -->
+      <div class="section-label">🎯 使用场景</div>
+      <div class="scenario-group" id="scenarioGroup">
+        <label class="scenario-opt" data-v="演讲比赛"><input type="radio" name="scenario" value="演讲比赛"><span>🎤 演讲比赛</span></label>
+        <label class="scenario-opt" data-v="班会设计"><input type="radio" name="scenario" value="班会设计"><span>📚 班会设计</span></label>
+        <label class="scenario-opt" data-v="课题申报"><input type="radio" name="scenario" value="课题申报"><span>📋 课题申报</span></label>
+        <label class="scenario-opt" data-v="主题宣讲"><input type="radio" name="scenario" value="主题宣讲"><span>📢 主题宣讲</span></label>
+        <label class="scenario-opt" data-v="技能大赛"><input type="radio" name="scenario" value="技能大赛"><span>🏆 技能大赛</span></label>
+      </div>
+
+      <!-- Keyword Input -->
+      <div class="section-label">✏️ 输入热点词</div>
+      <textarea class="input-field" id="kwInput" rows="2" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学..."></textarea>
+
+      <!-- Built-in Keywords -->
+      <div class="kw-header">
+        <div class="section-label" style="margin-bottom:0">📌 内置热点词库</div>
+        <button class="btn-refresh" id="btnRefresh">🔄 AI 刷新</button>
+      </div>
+      <div id="kwGroups" style="margin-bottom:14px"></div>
+
+      <div id="inputStatus" class="status-msg"></div>
+      <button class="btn-generate" id="generateBtn">🔍 生成选题方案</button>
     </div>
 
-    <!-- Follow-up Area -->
-    <div class="followup-area hidden" id="followupArea">
+  </div><!-- end left-panel -->
+
+  <!-- ===== Right Panel ===== -->
+  <div class="right-panel">
+
+    <!-- Agent Terminal Log -->
+    <div class="agent-log-wrap">
+      <div class="agent-log-header">
+        <div class="agent-log-title">
+          <span class="log-dot idle" id="logDot"></span>
+          ⚡ 智能体决策舱 · Agent Terminal
+        </div>
+        <div class="agent-log-btns">
+          <button class="agent-log-clear" id="logClearBtn">清空日志</button>
+        </div>
+      </div>
+      <div class="agent-log-body" id="logBody">
+        <div class="log-placeholder">等待 Agent 启动… 配置左侧选项后点击「生成选题方案」开始</div>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div>
+      <div class="output-header">
+        <div class="section-label" style="margin-bottom:0">📄 生成结果</div>
+        <div class="output-toolbar">
+          <div class="export-wrap" id="exportWrap">
+            <button class="btn btn-outline btn-sm" id="exportBtn" disabled>📥 导出 ▾</button>
+            <div class="export-menu" id="exportMenu">
+              <button class="export-item" id="exportWordBtn">📝 导出 Word (.doc)</button>
+              <button class="export-item" id="exportPptBtn">📊 导出 PPT (.pptx)</button>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm" id="copyBtn" disabled>📋 复制</button>
+          <button class="btn btn-outline btn-sm" id="clearBtn" disabled>🗑️ 清空</button>
+        </div>
+      </div>
+
+      <div class="output-area" id="outputArea">
+        <div class="output-placeholder" id="outputPlaceholder">
+          <span class="icon">💡</span>
+          在左侧输入热点词并选择场景，<br>点击「生成选题方案」开始
+        </div>
+        <div class="md-out hidden" id="mdOutput"></div>
+      </div>
+
+      <!-- Save to KB -->
+      <div class="save-kb-bar hidden" id="saveKbBar">
+        <button class="btn-save-kb" id="saveToKbBtn">💾 保存此方案到本地知识库</button>
+      </div>
+    </div>
+
+    <!-- Follow-up -->
+    <div class="followup-card hidden" id="followupCard">
       <h3>💬 继续优化</h3>
-      <textarea class="followup-textarea" id="followupInput" placeholder="例如：
-• 把选题一的角度改得更接地气一些
-• 帮我把内容框架扩展成适合45分钟班会的详细方案
-• 再生成3个更创新的选题标题
-• 结合最新的党代会精神重新调整切入角度"></textarea>
+      <textarea class="followup-ta" id="followupInput" placeholder="例如：把选题一的角度改得更接地气一些… (Ctrl+Enter 发送)"></textarea>
       <div class="followup-actions">
         <button class="btn btn-primary" id="sendFollowupBtn">✨ 发送修改意见</button>
       </div>
+      <div id="followupStatus" class="status-msg" style="margin-top:8px"></div>
     </div>
 
-    <div id="followupStatus" class="status-msg" style="margin-top:12px"></div>
-  </section>
-</div>
+  </div><!-- end right-panel -->
+</div><!-- end main -->
 
-<!-- ========== Knowledge Base Modal ========== -->
-<div class="kb-overlay" id="kbOverlay">
-  <div class="kb-modal" id="kbModal">
-    <div class="kb-header">
-      <h2>📚 知识库</h2>
-      <button class="kb-close-btn" id="kbCloseBtn">&times;</button>
+<!-- ========== KB Modal ========== -->
+<div class="overlay" id="kbOverlay">
+  <div class="modal" id="kbModal">
+    <div class="modal-header">
+      <h2>📚 本地知识库</h2>
+      <button class="modal-close" id="kbCloseBtn">&times;</button>
     </div>
-    <div class="kb-body" id="kbBody">
-      <!-- Top Actions -->
-      <div class="kb-top-actions">
+    <div class="modal-body">
+      <div style="margin-bottom:14px">
         <button class="btn btn-primary btn-sm" id="kbAddBtn">＋ 添加新条目</button>
       </div>
-
-      <!-- Add Form -->
       <div class="kb-add-form hidden" id="kbAddForm">
         <div class="kb-form-row">
           <label>标题</label>
-          <input type="text" class="kb-form-input" id="kbFormTitle" placeholder="输入条目标题...">
+          <input type="text" class="kb-form-input" id="kbFormTitle" placeholder="输入条目标题…">
         </div>
         <div class="kb-form-row">
           <label>分类</label>
-          <div class="kb-category-group" id="kbCategoryGroup">
-            <label class="kb-category-option">
-              <input type="radio" name="kbCategory" value="演讲比赛">
-              <span>🎤 演讲比赛</span>
-            </label>
-            <label class="kb-category-option">
-              <input type="radio" name="kbCategory" value="班会设计">
-              <span>📚 班会设计</span>
-            </label>
-            <label class="kb-category-option">
-              <input type="radio" name="kbCategory" value="课题申报">
-              <span>📋 课题申报</span>
-            </label>
-            <label class="kb-category-option">
-              <input type="radio" name="kbCategory" value="主题宣讲">
-              <span>📢 主题宣讲</span>
-            </label>
-            <label class="kb-category-option">
-              <input type="radio" name="kbCategory" value="技能大赛">
-              <span>🏆 技能大赛</span>
-            </label>
+          <div class="kb-cat-group" id="kbCatGroup">
+            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="演讲比赛"><span>🎤 演讲比赛</span></label>
+            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="班会设计"><span>📚 班会设计</span></label>
+            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="课题申报"><span>📋 课题申报</span></label>
+            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="主题宣讲"><span>📢 主题宣讲</span></label>
+            <label class="kb-cat-opt"><input type="radio" name="kbCat" value="技能大赛"><span>🏆 技能大赛</span></label>
           </div>
         </div>
         <div class="kb-form-row">
           <label>内容</label>
-          <textarea class="kb-form-textarea" id="kbFormContent" placeholder="粘贴案例内容、优秀方案、参考资料..."></textarea>
-          <div class="kb-file-upload-row">
-            <label class="file-upload-btn" for="kbFormFile">
-              📎 上传 PDF / Word
-            </label>
-            <input type="file" class="file-upload-input" id="kbFormFile" accept=".pdf,.docx">
-            <div class="kb-file-info" id="kbFormFileInfo"></div>
+          <textarea class="kb-form-ta" id="kbFormContent" placeholder="粘贴案例内容、优秀方案、参考资料…"></textarea>
+          <div class="file-row">
+            <label class="file-btn" for="kbFormFile">📎 上传 PDF/Word</label>
+            <input type="file" class="file-input" id="kbFormFile" accept=".pdf,.docx">
+            <div class="file-info" id="kbFormFileInfo"></div>
           </div>
+          <div class="file-status" id="kbFormFileStatus"></div>
         </div>
         <div class="kb-form-status" id="kbFormStatus"></div>
         <div class="kb-form-actions">
@@ -1355,874 +626,782 @@ body {
           <button class="btn btn-outline btn-sm" id="kbCancelBtn">取消</button>
         </div>
       </div>
-
-      <!-- KB List -->
-      <div id="kbList" class="kb-list"></div>
+      <div id="kbList"></div>
     </div>
   </div>
 </div>
 
-<!-- ========== Footer ========== -->
-<footer class="footer">
-  思政热点选题助手 · 为高校辅导员设计
-</footer>
+<!-- ========== Save-to-KB Quick Modal ========== -->
+<div class="save-modal-overlay" id="saveModalOverlay">
+  <div class="save-modal">
+    <h3>💾 保存方案到知识库</h3>
+    <div class="save-modal-field">
+      <label>标题</label>
+      <input type="text" id="saveKbTitle" placeholder="输入方案标题…">
+    </div>
+    <div class="save-modal-field">
+      <label>分类</label>
+      <select id="saveKbCat">
+        <option value="演讲比赛">🎤 演讲比赛</option>
+        <option value="班会设计">📚 班会设计</option>
+        <option value="课题申报">📋 课题申报</option>
+        <option value="主题宣讲">📢 主题宣讲</option>
+        <option value="技能大赛">🏆 技能大赛</option>
+      </select>
+    </div>
+    <div class="save-modal-actions">
+      <button class="btn btn-primary" id="saveKbConfirmBtn">确认保存</button>
+      <button class="btn btn-outline" id="saveKbCancelBtn">取消</button>
+    </div>
+    <div class="save-modal-status" id="saveKbStatus"></div>
+  </div>
+</div>
+
+<footer class="footer">思政热点选题助手 · 智能体版 · 为高校辅导员设计</footer>
 
 <script>
-// ========== Constants ==========
+'use strict';
+// ============================================================
+// CONSTANTS & STATE
+// ============================================================
 const API_URL = 'https://api.deepseek.com/v1/chat/completions';
+const SERPER_URL = 'https://google.serper.dev/search';
 const MODEL = 'deepseek-chat';
-const STORAGE_KEY = 'sz_api_key';
-const KB_STORAGE_KEY = 'sizheng_knowledge_base';
-const KEYWORDS_STORAGE_KEY = 'sz_refreshed_keywords';
+const LS_API = 'sz_api_key';
+const LS_SERPER = 'sz_serper_key';
+const LS_KB = 'sz_knowledge_base';
+const LS_KW = 'sz_refreshed_keywords';
+const LS_WX_TOKEN = 'sz_wx_token';
+const LS_WX_UID = 'sz_wx_uid';
 
-const SYSTEM_PROMPT_BASE = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征和行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
+const SYSTEM_PROMPT = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征和行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
 
-你的核心能力是：将当代青年热点文化现象（亚文化、网络流行语、社会思潮等）与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
+你的核心能力是：将当代青年热点文化现象与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
 
-输出风格要求：
-- 标题要有文采，可使用对仗、引用、创意表达（参考示例："一豆一谷"亦有道、从"搭子"到"伙伴"）
-- 分析要有深度，不停留于表面，要挖掘现象背后的社会心理和价值诉求
-- 理论要扎实，能自然引用相关政策、理论依据
-- 实操性强，给出的框架要能真正用于演讲、班会、课题
-- 语言兼顾学术性和可读性，不过度堆砌术语`;
+输出要求：
+- 标题有文采，可使用对仗、引用、创意表达
+- 分析有深度，不停留于表面现象
+- 理论扎实，自然引用相关政策和理论依据
+- 实操性强，框架可真正用于演讲、班会、课题
+- 语言兼顾学术性和可读性`;
 
-const DEFAULT_KEYWORD_GROUPS = [
-  {
-    name: '🛍️ 亚文化消费',
-    tags: ['拼豆', '吃谷', '谷子经济', '二次元', 'cosplay', '盲盒']
-  },
-  {
-    name: '🤝 社交方式',
-    tags: ['搭子文化', 'City Walk', '多巴胺穿搭', '断亲', '独居青年']
-  },
-  {
-    name: '🌐 网络文化',
-    tags: ['发疯文学', '显眼包', 'MBTI热', 'emo', '精神内耗', '整顿职场']
-  },
-  {
-    name: '💭 价值观念',
-    tags: ['躺平', '内卷', '考研上岸', '慢就业', '银发经济关注']
-  },
-  {
-    name: '🚀 新兴现象',
-    tags: ['AI焦虑', '数字游民', '特种兵旅游', '反向旅游', '搭子经济']
-  }
+const DEFAULT_GROUPS = [
+  { name: '🛍️ 亚文化消费', tags: ['拼豆','吃谷','谷子经济','二次元','cosplay','盲盒','手办'] },
+  { name: '🤝 社交方式',   tags: ['搭子文化','City Walk','断亲','独居青年','多巴胺穿搭','反向旅游'] },
+  { name: '🌐 网络文化',   tags: ['发疯文学','显眼包','MBTI热','emo','精神内耗','整顿职场','松弛感'] },
+  { name: '💭 价值观念',   tags: ['躺平','内卷','考研上岸','慢就业','特种兵旅游','搭子经济'] },
+  { name: '🚀 新兴现象',   tags: ['AI焦虑','数字游民','DeepSeek热','具身智能','绿色消费','银发经济'] }
 ];
 
-// ========== State ==========
 let conversationHistory = [];
-let isGenerating = false;
 let currentRawText = '';
-let pdfJsLoaded = false;
-let mammothLoaded = false;
+let currentParsed = {};
+let isGenerating = false;
+let pdfJsReady = false;
+let mammothReady = false;
 
-// ========== DOM Elements ==========
+// ============================================================
+// UTILITIES
+// ============================================================
 const $ = id => document.getElementById(id);
+const html = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
-const apiKeyInput = $('apiKeyInput');
-const saveApiKeyBtn = $('saveApiKeyBtn');
-const apiToggleBtn = $('apiToggleBtn');
-const apiPanel = $('apiPanel');
-const keywordInput = $('keywordInput');
-const keywordGroupsEl = $('keywordGroups');
-const scenarioGroup = $('scenarioGroup');
-const generateBtn = $('generateBtn');
-const outputArea = $('outputArea');
-const outputPlaceholder = $('outputPlaceholder');
-const mdOutput = $('mdOutput');
-const copyBtn = $('copyBtn');
-const clearBtn = $('clearBtn');
-const followupArea = $('followupArea');
-const followupInput = $('followupInput');
-const sendFollowupBtn = $('sendFollowupBtn');
-const inputStatus = $('inputStatus');
-const followupStatus = $('followupStatus');
-const refreshKeywordsBtn = $('refreshKeywordsBtn');
+function nowStr() {
+  const d = new Date();
+  return [d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map(n => String(n).padStart(2,'0')).join(':');
+}
 
-// Activity requirements
-const requirementPanel = $('requirementPanel');
-const requirementToggle = $('requirementToggle');
-const requirementText = $('requirementText');
-const requirementFile = $('requirementFile');
-const requirementFileInfo = $('requirementFileInfo');
-const requirementStatus = $('requirementStatus');
+function showStatus(el, msg, type) {
+  el.textContent = msg;
+  el.className = 'status-msg ' + type;
+}
+function hideStatus(el) { el.style.display = 'none'; el.className = 'status-msg'; }
 
-// Knowledge base
-const kbOpenBtn = $('kbOpenBtn');
-const kbOverlay = $('kbOverlay');
-const kbModal = $('kbModal');
-const kbCloseBtn = $('kbCloseBtn');
-const kbAddBtn = $('kbAddBtn');
-const kbAddForm = $('kbAddForm');
-const kbFormTitle = $('kbFormTitle');
-const kbFormContent = $('kbFormContent');
-const kbFormFile = $('kbFormFile');
-const kbFormFileInfo = $('kbFormFileInfo');
-const kbFormStatus = $('kbFormStatus');
-const kbSaveBtn = $('kbSaveBtn');
-const kbCancelBtn = $('kbCancelBtn');
-const kbList = $('kbList');
-const kbCategoryGroup = $('kbCategoryGroup');
+// ============================================================
+// TF-IDF ENGINE
+// ============================================================
+const TfIdf = (() => {
+  const STOPWORDS = new Set([
+    '的','了','在','是','我','有','和','就','不','人','都','一','上','也','很','到',
+    '说','要','去','你','会','着','没有','看','好','自己','这','他','她','它','们',
+    '那','来','从','把','被','让','给','为','什么','怎么','里','而','及','与','或',
+    '但','如果','虽然','因为','所以','关于','对于','通过','作为','可以','可能','应该',
+    '等','个','种','年','月','日','之','中','大','小','多','少','么','以及','并且',
+    '然而','因此','其中','以上','以下','然后','首先','其次','最后','各','该','此',
+    '这个','那个','这些','那些','其','且','并','又','再','还','才'
+  ]);
 
-// ========== Init ==========
-function init() {
-  // Load API key
-  const savedKey = localStorage.getItem(STORAGE_KEY);
-  if (savedKey) {
-    apiKeyInput.value = savedKey;
-    apiPanel.classList.add('collapsed');
-    apiToggleBtn.textContent = '展开 ▼';
+  let corpus = [];
+  let docTFs = [];
+  let idf = {};
+
+  function tokenize(text) {
+    if (!text) return [];
+    const cleaned = text.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, ' ');
+    const raw = cleaned.split(/\s+/).filter(t => t.length > 0 && !STOPWORDS.has(t));
+    const bigrams = [];
+    for (const t of raw) {
+      if (t.length >= 2) {
+        for (let i = 0; i <= t.length - 2; i++) bigrams.push(t.slice(i, i+2));
+      }
+    }
+    return [...raw, ...bigrams];
   }
 
-  // Build keyword groups (from localStorage or default)
-  renderKeywordGroups();
-
-  // Bind events
-  saveApiKeyBtn.addEventListener('click', saveApiKey);
-  apiToggleBtn.addEventListener('click', toggleApiPanel);
-  generateBtn.addEventListener('click', handleGenerate);
-  copyBtn.addEventListener('click', handleCopy);
-  clearBtn.addEventListener('click', handleClear);
-  sendFollowupBtn.addEventListener('click', handleFollowup);
-  refreshKeywordsBtn.addEventListener('click', handleRefreshKeywords);
-
-  // Scenario selection visual
-  scenarioGroup.addEventListener('change', () => {
-    document.querySelectorAll('.scenario-option').forEach(el => {
-      el.classList.toggle('selected', el.querySelector('input').checked);
-    });
-  });
-
-  // Enter to send followup (Ctrl+Enter or Cmd+Enter)
-  followupInput.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      handleFollowup();
+  function buildIndex(entries) {
+    corpus = entries;
+    docTFs = [];
+    const docFreq = {};
+    for (const e of entries) {
+      const text = (e.title||'') + ' ' + (e.content||'') + ' ' + (e.category||'');
+      const tokens = tokenize(text);
+      const tf = {};
+      for (const t of tokens) tf[t] = (tf[t]||0) + 1;
+      const n = tokens.length || 1;
+      const normTf = {};
+      for (const t in tf) {
+        normTf[t] = tf[t] / n;
+        docFreq[t] = (docFreq[t]||0) + 1;
+      }
+      docTFs.push(normTf);
     }
-  });
+    const N = entries.length || 1;
+    idf = {};
+    for (const t in docFreq) idf[t] = Math.log((N+1)/(docFreq[t]+1)) + 1;
+  }
 
-  // Activity requirements collapsible
-  requirementToggle.addEventListener('click', () => {
-    requirementPanel.classList.toggle('open');
-  });
+  function search(query, topN) {
+    topN = topN || 3;
+    if (!corpus.length) return [];
+    const qTokens = tokenize(query);
+    if (!qTokens.length) return [];
+    const qTf = {};
+    for (const t of qTokens) qTf[t] = (qTf[t]||0) + 1;
+    const qLen = qTokens.length;
+    for (const t in qTf) qTf[t] /= qLen;
 
-  // Activity requirements file upload
-  requirementFile.addEventListener('change', (e) => {
-    handleFileUpload(e.target.files[0], requirementText, requirementFileInfo, requirementStatus);
-  });
-
-  // Knowledge base
-  kbOpenBtn.addEventListener('click', openKnowledgeBase);
-  kbCloseBtn.addEventListener('click', closeKnowledgeBase);
-  kbOverlay.addEventListener('click', (e) => {
-    if (e.target === kbOverlay) closeKnowledgeBase();
-  });
-  kbAddBtn.addEventListener('click', () => {
-    kbAddForm.classList.remove('hidden');
-  });
-  kbCancelBtn.addEventListener('click', () => {
-    kbAddForm.classList.add('hidden');
-    clearKbForm();
-  });
-  kbSaveBtn.addEventListener('click', saveKbEntry);
-
-  // KB category selection visual
-  kbCategoryGroup.addEventListener('change', () => {
-    document.querySelectorAll('.kb-category-option').forEach(el => {
-      el.classList.toggle('selected', el.querySelector('input').checked);
+    const scores = corpus.map((e, i) => {
+      const dtf = docTFs[i];
+      const terms = new Set([...Object.keys(qTf), ...Object.keys(dtf)]);
+      let dot = 0, qNorm = 0, dNorm = 0;
+      for (const t of terms) {
+        const qv = (qTf[t]||0) * (idf[t]||1);
+        const dv = (dtf[t]||0) * (idf[t]||1);
+        dot  += qv * dv;
+        qNorm += qv * qv;
+        dNorm += dv * dv;
+      }
+      const sim = (qNorm > 0 && dNorm > 0) ? dot / (Math.sqrt(qNorm) * Math.sqrt(dNorm)) : 0;
+      return { entry: e, score: sim };
     });
-  });
 
-  // KB form file upload
-  kbFormFile.addEventListener('change', (e) => {
-    handleFileUpload(e.target.files[0], kbFormContent, kbFormFileInfo, kbFormStatus);
+    return scores.sort((a,b) => b.score - a.score).slice(0, topN).filter(r => r.score > 0.005);
+  }
+
+  return { buildIndex, search };
+})();
+
+// ============================================================
+// AGENT LOG
+// ============================================================
+let logActive = false;
+
+function logInit() {
+  logActive = true;
+  $('logBody').innerHTML = '';
+  $('logDot').className = 'log-dot active';
+  logMsg('info', '🚀 Agent 系统已启动，正在分析任务…');
+}
+
+function logMsg(type, message) {
+  if (!logActive) return;
+  const body = $('logBody');
+  const div = document.createElement('div');
+  div.className = 'log-entry';
+  div.innerHTML = `<span class="log-time">[${nowStr()}]</span> <span class="log-tag">[Agent]</span> <span class="log-c-${type}">${message}</span>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function logRadarStart(msg) {
+  if (!logActive) return;
+  const body = $('logBody');
+  const div = document.createElement('div');
+  div.className = 'log-radar';
+  div.id = 'logRadar';
+  div.innerHTML = `<span class="log-time">[${nowStr()}]</span> <span class="log-tag">[Agent]</span> <span class="log-c-info">${msg}</span> <div class="radar-bars"><span></span><span></span><span></span><span></span><span></span></div>`;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function logRadarEnd() {
+  const r = $('logRadar');
+  if (r) r.remove();
+}
+
+function logDeactivate() {
+  logActive = false;
+  $('logDot').className = 'log-dot idle';
+}
+
+function logClear() {
+  $('logBody').innerHTML = '<div class="log-placeholder">日志已清空</div>';
+  $('logDot').className = 'log-dot idle';
+  logActive = false;
+}
+
+// ============================================================
+// SERPER WEB SEARCH
+// ============================================================
+async function serperSearch(query) {
+  const key = localStorage.getItem(LS_SERPER);
+  if (!key) return [];
+  try {
+    const resp = await fetch(SERPER_URL, {
+      method: 'POST',
+      headers: { 'X-API-KEY': key, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: query, num: 8, gl: 'cn', hl: 'zh-cn' })
+    });
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    return (data.organic || []).map(r => ({ title: r.title||'', snippet: r.snippet||'' }));
+  } catch { return []; }
+}
+
+// ============================================================
+// DEEPSEEK STREAM API
+// ============================================================
+function streamDeepSeek(messages, onChunk, onDone, onError) {
+  const apiKey = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
+  if (!apiKey) { onError('请先设置 DeepSeek API Key'); return; }
+
+  isGenerating = true;
+  fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+    body: JSON.stringify({ model: MODEL, messages, stream: true, temperature: 0.7, max_tokens: 4096 })
+  }).then(async resp => {
+    if (!resp.ok) {
+      const t = await resp.text().catch(() => '');
+      if (resp.status === 401) onError('API Key 无效或已过期');
+      else if (resp.status === 429) onError('请求过于频繁，请稍后重试');
+      else onError(`请求失败 (${resp.status}): ${t.slice(0,200)}`);
+      isGenerating = false;
+      return;
+    }
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop() || '';
+      for (const line of lines) {
+        const trim = line.trim();
+        if (!trim || trim === 'data: [DONE]') continue;
+        if (!trim.startsWith('data: ')) continue;
+        try {
+          const j = JSON.parse(trim.slice(6));
+          const delta = j.choices?.[0]?.delta?.content;
+          if (delta) onChunk(delta);
+        } catch { /* skip */ }
+      }
+    }
+    isGenerating = false;
+    onDone();
+  }).catch(err => {
+    isGenerating = false;
+    onError('网络错误: ' + err.message);
   });
 }
 
-// ========== File Upload & Text Extraction ==========
-function handleFileUpload(file, targetTextarea, infoEl, statusEl) {
-  if (!file) return;
+function streamDeepSeekAsync(messages) {
+  return new Promise((resolve, reject) => {
+    let full = '';
+    streamDeepSeek(messages, chunk => { full += chunk; }, () => resolve(full), reject);
+  });
+}
 
+// ============================================================
+// MARKDOWN RENDERER
+// ============================================================
+function renderMd(text) {
+  if (!text) return '';
+  let t = text;
+  t = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Code blocks
+  t = t.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
+  t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Headings
+  t = t.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  t = t.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  t = t.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Bold / italic
+  t = t.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Blockquote
+  t = t.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Lists
+  t = t.replace(/^(\s*)[-*] (.+)$/gm, (_, indent, item) => `<li style="margin-left:${indent.length*16}px">${item}</li>`);
+  t = t.replace(/^(\s*)\d+\. (.+)$/gm, (_, indent, item) => `<li style="margin-left:${indent.length*16}px">${item}</li>`);
+  t = t.replace(/(<li[\s\S]*?<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // HR
+  t = t.replace(/^---$/gm, '<hr>');
+  // Paragraphs
+  t = t.replace(/\n\n/g, '</p><p>');
+  t = t.replace(/\n/g, '<br>');
+  // Clean up around block elements
+  ['h1','h2','h3','ul','ol','pre','blockquote','hr'].forEach(tag => {
+    t = t.replace(new RegExp(`<p>(<${tag}[^>]*>)`, 'g'), '$1');
+    t = t.replace(new RegExp(`(</${tag}>)<\/p>`, 'g'), '$1');
+  });
+  t = t.replace(/<p><\/p>/g, '');
+  t = t.replace(/<br>(<li)/g, '$1');
+  t = `<p>${t}</p>`;
+  return t;
+}
+
+// ============================================================
+// OUTPUT MANAGEMENT
+// ============================================================
+function showMdOutput(html_content) {
+  $('outputPlaceholder').classList.add('hidden');
+  $('mdOutput').classList.remove('hidden');
+  $('mdOutput').innerHTML = html_content;
+  $('copyBtn').disabled = false;
+  $('clearBtn').disabled = false;
+  $('exportBtn').disabled = false;
+}
+
+function clearAll() {
+  $('mdOutput').innerHTML = '';
+  $('mdOutput').classList.add('hidden');
+  $('outputPlaceholder').classList.remove('hidden');
+  $('copyBtn').disabled = true;
+  $('clearBtn').disabled = true;
+  $('exportBtn').disabled = true;
+  $('followupCard').classList.add('hidden');
+  $('saveKbBar').classList.add('hidden');
+  $('followupInput').value = '';
+  hideStatus($('followupStatus'));
+  currentRawText = '';
+  currentParsed = {};
+  conversationHistory = [];
+}
+
+// ============================================================
+// FILE UPLOAD (PDF / DOCX)
+// ============================================================
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) { res(); return; }
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+async function extractPdfText(file) {
+  if (!pdfJsReady) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js');
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfJsReady = true;
+  }
+  const ab = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({ data: ab }).promise;
+  let text = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const tc = await page.getTextContent();
+    text += tc.items.map(x => x.str).join('') + '\n';
+  }
+  return text.trim();
+}
+
+async function extractDocxText(file) {
+  if (!mammothReady) {
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js');
+    mammothReady = true;
+  }
+  const ab = await file.arrayBuffer();
+  const r = await window.mammoth.extractRawText({ arrayBuffer: ab });
+  return (r.value || '').trim();
+}
+
+async function handleFileUpload(file, targetTA, infoEl, statusEl) {
+  if (!file) return;
   const ext = file.name.split('.').pop().toLowerCase();
   if (ext !== 'pdf' && ext !== 'docx') {
     statusEl.textContent = '⚠️ 仅支持 PDF 和 Word (.docx) 文件';
     statusEl.style.color = '#c0392b';
     return;
   }
-
-  statusEl.textContent = '⏳ 正在提取文字...';
+  statusEl.textContent = '⏳ 正在提取文字…';
   statusEl.style.color = 'var(--text-muted)';
   infoEl.innerHTML = '';
-
-  if (ext === 'pdf') {
-    loadPdfJs().then(() => {
-      extractPdfText(file).then(text => {
-        targetTextarea.value = text;
-        const charCount = text.length;
-        infoEl.innerHTML = `<span class="file-name">📄 ${escapeHtml(file.name)}</span><span class="file-chars">（${charCount} 字）</span><button class="file-remove-btn" title="移除">✕</button>`;
-        bindFileRemoveBtn(infoEl, file.name, targetTextarea, infoEl, statusEl);
-        statusEl.textContent = '✅ 文字提取成功';
-        statusEl.style.color = '#27ae60';
-      }).catch(err => {
-        statusEl.textContent = '❌ PDF 提取失败：' + err.message;
-        statusEl.style.color = '#c0392b';
-      });
-    }).catch(err => {
-      statusEl.textContent = '❌ PDF.js 加载失败，请检查网络';
-      statusEl.style.color = '#c0392b';
-    });
-  } else if (ext === 'docx') {
-    loadMammoth().then(() => {
-      extractDocxText(file).then(text => {
-        targetTextarea.value = text;
-        const charCount = text.length;
-        infoEl.innerHTML = `<span class="file-name">📄 ${escapeHtml(file.name)}</span><span class="file-chars">（${charCount} 字）</span><button class="file-remove-btn" title="移除">✕</button>`;
-        bindFileRemoveBtn(infoEl, file.name, targetTextarea, infoEl, statusEl);
-        statusEl.textContent = '✅ 文字提取成功';
-        statusEl.style.color = '#27ae60';
-      }).catch(err => {
-        statusEl.textContent = '❌ Word 提取失败：' + err.message;
-        statusEl.style.color = '#c0392b';
-      });
-    }).catch(err => {
-      statusEl.textContent = '❌ mammoth.js 加载失败，请检查网络';
-      statusEl.style.color = '#c0392b';
-    });
-  }
-}
-
-function bindFileRemoveBtn(infoEl, fileName, targetTextarea, infoElRef, statusElRef) {
-  const removeBtn = infoEl.querySelector('.file-remove-btn');
-  if (removeBtn) {
-    removeBtn.addEventListener('click', () => {
-      targetTextarea.value = '';
-      infoElRef.innerHTML = '';
-      statusElRef.textContent = '';
-      // Reset file input
-      const fileInput = infoElRef.closest('.collapsible-body, .kb-add-form')?.querySelector('.file-upload-input');
-      if (fileInput) fileInput.value = '';
-    });
-  }
-}
-
-function loadPdfJs() {
-  if (pdfJsLoaded) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-    script.onload = () => {
-      pdfJsLoaded = true;
-      if (window['pdfjsLib']) {
-        window['pdfjsLib'].GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      }
-      resolve();
+  try {
+    const text = ext === 'pdf' ? await extractPdfText(file) : await extractDocxText(file);
+    targetTA.value = text;
+    infoEl.innerHTML = `<span class="file-name">📄 ${html(file.name)}</span> <span>(${text.length} 字)</span> <button class="file-remove" title="移除">✕</button>`;
+    infoEl.querySelector('.file-remove').onclick = () => {
+      targetTA.value = ''; infoEl.innerHTML = ''; statusEl.textContent = '';
     };
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
-
-function loadMammoth() {
-  if (mammothLoaded) return Promise.resolve();
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js';
-    script.onload = () => { mammothLoaded = true; resolve(); };
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-}
-
-async function extractPdfText(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdf = await window['pdfjsLib'].getDocument({ data: arrayBuffer }).promise;
-  let fullText = '';
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const textContent = await page.getTextContent();
-    const pageText = textContent.items.map(item => item.str).join('');
-    fullText += pageText + '\n';
+    statusEl.textContent = '✅ 文字提取成功';
+    statusEl.style.color = '#27ae60';
+  } catch (e) {
+    statusEl.textContent = '❌ 提取失败: ' + e.message;
+    statusEl.style.color = '#c0392b';
   }
-  return fullText.trim();
 }
 
-async function extractDocxText(file) {
-  const arrayBuffer = await file.arrayBuffer();
-  const result = await window['mammoth'].extractRawText({ arrayBuffer });
-  return (result.value || '').trim();
-}
-
-// ========== Keyword Groups ==========
-function renderKeywordGroups() {
-  // Try loading from localStorage first
-  const cached = localStorage.getItem(KEYWORDS_STORAGE_KEY);
+// ============================================================
+// KEYWORD GROUPS
+// ============================================================
+function renderKwGroups() {
   let groups;
-  if (cached) {
-    try {
-      groups = JSON.parse(cached);
-    } catch (e) {
-      groups = DEFAULT_KEYWORD_GROUPS;
-    }
-  } else {
-    groups = DEFAULT_KEYWORD_GROUPS;
-  }
+  try { groups = JSON.parse(localStorage.getItem(LS_KW) || 'null'); } catch { groups = null; }
+  if (!groups) groups = DEFAULT_GROUPS;
 
-  keywordGroupsEl.innerHTML = groups.map(g => `
-    <div class="keyword-group">
-      <div class="keyword-group-title">${g.name}</div>
-      <div class="keyword-tags">
-        ${g.tags.map(t => `<span class="keyword-tag" data-word="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join('')}
-      </div>
+  $('kwGroups').innerHTML = groups.map(g => `
+    <div class="kw-group">
+      <div class="kw-group-name">${html(g.name)}</div>
+      <div class="kw-tags">${g.tags.map(t => `<span class="kw-tag" data-w="${html(t)}">${html(t)}</span>`).join('')}</div>
     </div>
   `).join('');
 
-  keywordGroupsEl.addEventListener('click', (e) => {
-    if (e.target.classList.contains('keyword-tag')) {
-      const word = e.target.dataset.word;
-      const current = keywordInput.value.trim();
-      keywordInput.value = current ? current + '、' + word : word;
-      keywordInput.focus();
+  $('kwGroups').onclick = e => {
+    if (e.target.classList.contains('kw-tag')) {
+      const w = e.target.dataset.w;
+      const cur = $('kwInput').value.trim();
+      $('kwInput').value = cur ? cur + '、' + w : w;
     }
+  };
+}
+
+async function refreshKeywords() {
+  const key = localStorage.getItem(LS_API) || $('apiKeyInput').value.trim();
+  if (!key) { showStatus($('inputStatus'), '请先设置 DeepSeek API Key', 'error'); return; }
+  const btn = $('btnRefresh');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> 刷新中…';
+
+  const now = new Date();
+  const prompt = `现在是${now.getFullYear()}年${now.getMonth()+1}月，请列出30个当前最热门的中国青年亚文化关键词，分5个类别各6个：亚文化消费、社交方式、网络文化、价值观念、新兴现象。每行格式：类别名：词1、词2、词3、词4、词5、词6`;
+
+  try {
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+      body: JSON.stringify({ model: MODEL, messages: [{ role:'user', content: prompt }], temperature: 0.7, max_tokens: 800 })
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    const content = data.choices?.[0]?.message?.content || '';
+    const emojiMap = { '亚文化消费':'🛍️','社交方式':'🤝','网络文化':'🌐','价值观念':'💭','新兴现象':'🚀' };
+    const newGroups = [];
+    for (const line of content.split('\n').filter(l => l.trim())) {
+      const m = line.match(/^(.+?)[：:]\s*(.+)/);
+      if (m) {
+        const name = m[1].trim();
+        const tags = m[2].split(/[、，,；;\s]+/).filter(t => t.trim());
+        const emoji = emojiMap[name] || '📌';
+        if (tags.length) newGroups.push({ name: emoji + ' ' + name, tags: tags.slice(0, 6) });
+      }
+    }
+    if (newGroups.length >= 3) {
+      localStorage.setItem(LS_KW, JSON.stringify(newGroups));
+      renderKwGroups();
+      showStatus($('inputStatus'), '✅ 热点词已刷新', 'success');
+      setTimeout(() => hideStatus($('inputStatus')), 2500);
+    }
+  } catch (e) {
+    showStatus($('inputStatus'), '❌ 刷新失败: ' + e.message, 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '🔄 AI 刷新';
+}
+
+// ============================================================
+// KNOWLEDGE BASE
+// ============================================================
+function getKbEntries() {
+  try { return JSON.parse(localStorage.getItem(LS_KB) || '[]'); } catch { return []; }
+}
+function saveKbEntries(arr) { localStorage.setItem(LS_KB, JSON.stringify(arr)); }
+
+function getKbContext(keyword, scenario) {
+  const entries = getKbEntries();
+  if (!entries.length) return { text: '', cases: [] };
+
+  const useTfidf = $('chkTfidf').checked;
+  let picked = [];
+
+  if (useTfidf) {
+    TfIdf.buildIndex(entries);
+    const query = keyword + ' ' + scenario + ' ' + keyword;
+    const results = TfIdf.search(query, 3);
+    picked = results.map(r => ({ entry: r.entry, score: (r.score * 100).toFixed(1) }));
+  } else {
+    // Fallback: category match
+    picked = entries.filter(e => e.category === scenario)
+      .slice(0, 3).map(e => ({ entry: e, score: null }));
+  }
+
+  if (!picked.length) return { text: '', cases: [] };
+
+  let text = '\n\n【参考知识库中的优秀案例】\n\n';
+  const cases = [];
+  picked.forEach((p, i) => {
+    const sc = p.score ? `（相似度：${p.score}%）` : '';
+    text += `案例${i+1}：${p.entry.title}${sc}\n${p.entry.content.slice(0, 600)}\n\n`;
+    cases.push({ title: p.entry.title, score: p.score });
+  });
+  text += '请参考以上案例的质量标准、表达风格、结构设计和理论深度。';
+  return { text, cases };
+}
+
+// KB CRUD
+function renderKbList() {
+  const entries = getKbEntries();
+  if (!entries.length) {
+    $('kbList').innerHTML = '<div class="kb-empty">知识库为空，点击上方「＋ 添加新条目」开始添加</div>';
+    return;
+  }
+  const catOrder = ['演讲比赛','班会设计','课题申报','主题宣讲','技能大赛'];
+  const catEmoji = { '演讲比赛':'🎤','班会设计':'📚','课题申报':'📋','主题宣讲':'📢','技能大赛':'🏆' };
+  const grouped = {};
+  for (const e of entries) {
+    if (!grouped[e.category]) grouped[e.category] = [];
+    grouped[e.category].push(e);
+  }
+  let h = '';
+  for (const cat of catOrder) {
+    if (!grouped[cat]?.length) continue;
+    h += `<div class="kb-cat-section"><div class="kb-cat-title">${catEmoji[cat]||'📌'} ${cat}（${grouped[cat].length}条）</div>`;
+    for (const item of grouped[cat]) {
+      h += `<div class="kb-item">
+        <div class="kb-item-content">
+          <div class="kb-item-title">${html(item.title)}</div>
+          <div class="kb-item-preview">${html(item.content.slice(0,60))}…</div>
+        </div>
+        <button class="kb-del-btn" data-id="${item.id}" title="删除">🗑️</button>
+      </div>`;
+    }
+    h += '</div>';
+  }
+  $('kbList').innerHTML = h;
+  $('kbList').querySelectorAll('.kb-del-btn').forEach(btn => {
+    btn.onclick = () => {
+      if (!confirm('确定删除该条目吗？')) return;
+      saveKbEntries(getKbEntries().filter(e => e.id !== Number(btn.dataset.id)));
+      renderKbList();
+    };
   });
 }
 
-// ========== Refresh Keywords ==========
-async function handleRefreshKeywords() {
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    showStatus(inputStatus, '请先设置 DeepSeek API Key', 'error');
-    return;
-  }
-
-  refreshKeywordsBtn.disabled = true;
-  refreshKeywordsBtn.innerHTML = '<span class="spinner"></span> 刷新中...';
-
-  const now = new Date();
-  const yearMonth = `${now.getFullYear()}年${now.getMonth() + 1}月`;
-
-  const prompt = `现在是${yearMonth}，请列出30个当前最热门的中国青年亚文化、网络流行语、社会现象关键词，用于高校思政教育选题。按以下5个分类各列6个：亚文化消费、社交方式、网络文化、价值观念、新兴现象。每个词用顿号分隔，只输出词语，不要解释。格式：分类名：词1、词2、词3、词4、词5、词6`;
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'user', content: prompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 1024
-      })
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`请求失败 (${response.status})：${errText}`);
-    }
-
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content || '';
-
-    if (!content.trim()) {
-      throw new Error('AI 返回内容为空');
-    }
-
-    // Parse response
-    const newGroups = parseKeywordResponse(content);
-    if (newGroups.length === 0) {
-      throw new Error('无法解析返回内容，请重试');
-    }
-
-    // Save to localStorage
-    localStorage.setItem(KEYWORDS_STORAGE_KEY, JSON.stringify(newGroups));
-
-    // Re-render
-    keywordGroupsEl.innerHTML = '';
-    renderKeywordGroups();
-
-    showStatus(inputStatus, '✅ 热点词已刷新', 'success');
-    setTimeout(() => { inputStatus.style.display = 'none'; }, 2000);
-  } catch (err) {
-    showStatus(inputStatus, '❌ 刷新失败：' + err.message, 'error');
-  } finally {
-    refreshKeywordsBtn.disabled = false;
-    refreshKeywordsBtn.innerHTML = '🔄 刷新热点词';
-  }
-}
-
-function parseKeywordResponse(text) {
-  const groups = [];
-  const lines = text.split('\n').filter(l => l.trim());
-
-  for (const line of lines) {
-    const match = line.match(/^(.+?)[:：]\s*(.+)/);
-    if (match) {
-      const name = match[1].trim();
-      const tagsStr = match[2].trim();
-      const tags = tagsStr.split(/[、，,;；\s]+/).filter(t => t.trim());
-      if (tags.length > 0) {
-        // Add emoji prefix if not present
-        let displayName = name;
-        if (!/^[\p{Emoji}]/u.test(name)) {
-          const emojiMap = {
-            '亚文化消费': '🛍️',
-            '社交方式': '🤝',
-            '网络文化': '🌐',
-            '价值观念': '💭',
-            '新兴现象': '🚀'
-          };
-          const emoji = emojiMap[name] || '📌';
-          displayName = emoji + ' ' + name;
-        }
-        groups.push({ name: displayName, tags: tags.slice(0, 6) });
-      }
-    }
-  }
-
-  // If we have fewer than 5 groups, pad with defaults
-  const defaultNames = [
-    { name: '🛍️ 亚文化消费', tags: DEFAULT_KEYWORD_GROUPS[0].tags },
-    { name: '🤝 社交方式', tags: DEFAULT_KEYWORD_GROUPS[1].tags },
-    { name: '🌐 网络文化', tags: DEFAULT_KEYWORD_GROUPS[2].tags },
-    { name: '💭 价值观念', tags: DEFAULT_KEYWORD_GROUPS[3].tags },
-    { name: '🚀 新兴现象', tags: DEFAULT_KEYWORD_GROUPS[4].tags }
-  ];
-
-  while (groups.length < 5) {
-    const idx = groups.length;
-    // Try to find matching default
-    const defaultGroup = defaultNames.find(d => d.name.includes(defaultNames[idx].name.replace(/^[^\s]+\s/, '')));
-    if (defaultGroup) {
-      groups.push({ name: defaultGroup.name, tags: defaultGroup.tags });
-    } else {
-      groups.push(defaultNames[idx]);
-    }
-  }
-
-  return groups.slice(0, 5);
-}
-
-// ========== Knowledge Base ==========
-function getKbEntries() {
-  try {
-    return JSON.parse(localStorage.getItem(KB_STORAGE_KEY) || '[]');
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveKbEntries(entries) {
-  localStorage.setItem(KB_STORAGE_KEY, JSON.stringify(entries));
-}
-
-function openKnowledgeBase() {
-  kbOverlay.classList.add('show');
-  renderKbList();
-}
-
-function closeKnowledgeBase() {
-  kbOverlay.classList.remove('show');
-  kbAddForm.classList.add('hidden');
-  clearKbForm();
-}
-
 function clearKbForm() {
-  kbFormTitle.value = '';
-  kbFormContent.value = '';
-  kbFormFile.value = '';
-  kbFormFileInfo.innerHTML = '';
-  kbFormStatus.textContent = '';
-  document.querySelectorAll('.kb-category-option').forEach(el => {
+  $('kbFormTitle').value = '';
+  $('kbFormContent').value = '';
+  $('kbFormFile').value = '';
+  $('kbFormFileInfo').innerHTML = '';
+  $('kbFormFileStatus').textContent = '';
+  $('kbFormStatus').textContent = '';
+  document.querySelectorAll('.kb-cat-opt').forEach(el => {
     el.classList.remove('selected');
     el.querySelector('input').checked = false;
   });
 }
 
 function saveKbEntry() {
-  const title = kbFormTitle.value.trim();
-  const categoryRadio = document.querySelector('input[name="kbCategory"]:checked');
-  const content = kbFormContent.value.trim();
-
-  if (!title) {
-    kbFormStatus.textContent = '⚠️ 请输入标题';
-    kbFormStatus.style.color = '#c0392b';
-    return;
-  }
-  if (!categoryRadio) {
-    kbFormStatus.textContent = '⚠️ 请选择分类';
-    kbFormStatus.style.color = '#c0392b';
-    return;
-  }
-  if (!content) {
-    kbFormStatus.textContent = '⚠️ 请输入内容或上传文件';
-    kbFormStatus.style.color = '#c0392b';
-    return;
-  }
+  const title = $('kbFormTitle').value.trim();
+  const catEl = document.querySelector('input[name="kbCat"]:checked');
+  const content = $('kbFormContent').value.trim();
+  if (!title) { $('kbFormStatus').textContent = '⚠️ 请输入标题'; $('kbFormStatus').style.color='#c0392b'; return; }
+  if (!catEl)  { $('kbFormStatus').textContent = '⚠️ 请选择分类'; $('kbFormStatus').style.color='#c0392b'; return; }
+  if (!content){ $('kbFormStatus').textContent = '⚠️ 请输入内容或上传文件'; $('kbFormStatus').style.color='#c0392b'; return; }
 
   const entries = getKbEntries();
-  entries.unshift({
-    id: Date.now(),
-    title,
-    category: categoryRadio.value,
-    content,
-    createdAt: new Date().toISOString()
-  });
+  entries.unshift({ id: Date.now(), title, category: catEl.value, content, createdAt: new Date().toISOString() });
   saveKbEntries(entries);
-
-  kbFormStatus.textContent = '✅ 已保存';
-  kbFormStatus.style.color = '#27ae60';
-
-  setTimeout(() => {
-    kbAddForm.classList.add('hidden');
-    clearKbForm();
-    renderKbList();
-  }, 500);
+  $('kbFormStatus').textContent = '✅ 已保存！';
+  $('kbFormStatus').style.color = '#27ae60';
+  setTimeout(() => { $('kbAddForm').classList.add('hidden'); clearKbForm(); renderKbList(); }, 600);
 }
 
-function deleteKbEntry(id) {
-  if (!confirm('确定删除该条目吗？')) return;
-  const entries = getKbEntries().filter(e => e.id !== id);
-  saveKbEntries(entries);
-  renderKbList();
+// ============================================================
+// SELF-EVALUATION
+// ============================================================
+async function selfEvaluate(draft, keyword, scenario) {
+  const prompt = `你是资深思想政治教育特级专家和全国高校辅导员年度人物评委。请对以下思政选题方案进行严格评估：
+
+【热点词】${keyword}
+【场景】${scenario}
+
+【待评方案】
+${draft}
+
+评估标准（满分100分）：
+1. 政治站位（30%）：是否准确体现党的教育方针、核心价值观、习近平新时代中国特色社会主义思想
+2. 育人实效（25%）：方案是否有真正的教育价值和学生获得感
+3. 青年契合度（25%）：是否真正贴近当代大学生的心理特征和文化语境
+4. 结构文采（20%）：标题文采、逻辑结构、表达质量
+
+请按以下格式输出：
+【评分】XX分
+【分评】政治站位：XX/30，育人实效：XX/25，青年契合度：XX/25，结构文采：XX/20
+【批判意见】
+1. xxx
+2. xxx
+3. xxx
+【修正方案】（如果评分低于90分，请给出完整修正后的方案；否则写"初稿质量优秀，无需大幅修改"）`;
+
+  return await streamDeepSeekAsync([{ role:'user', content: prompt }]).catch(e => '【评估失败】' + e.message);
 }
 
-function renderKbList() {
-  const entries = getKbEntries();
-  if (entries.length === 0) {
-    kbList.innerHTML = '<div class="kb-empty">知识库为空，点击上方「＋ 添加新条目」开始添加</div>';
-    return;
-  }
+function parseEval(text) {
+  const scoreM = text.match(/【评分】\s*(\d+)/);
+  const opinionM = text.match(/【批判意见】\s*([\s\S]*?)(?=【|$)/);
+  const fixM = text.match(/【修正方案】\s*([\s\S]*)/);
+  return {
+    score: scoreM ? parseInt(scoreM[1]) : null,
+    opinion: opinionM ? opinionM[1].trim() : '',
+    fix: fixM ? fixM[1].trim() : ''
+  };
+}
 
-  // Group by category
-  const categoryOrder = ['演讲比赛', '班会设计', '课题申报', '主题宣讲', '技能大赛'];
-  const categoryEmojis = {
-    '演讲比赛': '🎤',
-    '班会设计': '📚',
-    '课题申报': '📋',
-    '主题宣讲': '📢',
-    '技能大赛': '🏆'
+// ============================================================
+// PARSE OUTPUT STRUCTURE (for export)
+// ============================================================
+function parseStructure(raw, keyword, scenario) {
+  const out = { keyword, scenario, raw };
+  const lines = raw.split('\n');
+  let sec = 'intro';
+  const secs = {};
+  const buf = [];
+
+  const keyMap = {
+    '活动要求': 'requirement', '比赛要求': 'requirement',
+    '推荐选题': 'topics', '选题推荐': 'topics',
+    '思政切入': 'angles', '切入角度': 'angles',
+    '内容框架': 'framework', '内容大纲': 'framework',
+    '深挖方向': 'deepdive', '探索方向': 'deepdive',
+    '理论': 'theories', '政策': 'theories',
+    '育人实效': 'effect', '教育价值': 'effect',
+    '契合度': 'alignment',
   };
 
-  const grouped = {};
-  for (const entry of entries) {
-    if (!grouped[entry.category]) grouped[entry.category] = [];
-    grouped[entry.category].push(entry);
-  }
-
-  let html = '';
-  for (const cat of categoryOrder) {
-    const items = grouped[cat];
-    if (!items || items.length === 0) continue;
-    const emoji = categoryEmojis[cat] || '📌';
-    html += `<div class="kb-category-section">`;
-    html += `<div class="kb-category-section-title">${emoji} ${cat}（${items.length}条）</div>`;
-    for (const item of items) {
-      const preview = item.content.substring(0, 50) + (item.content.length > 50 ? '...' : '');
-      html += `
-        <div class="kb-item">
-          <div class="kb-item-content">
-            <div class="kb-item-title">${escapeHtml(item.title)}</div>
-            <div class="kb-item-preview">${escapeHtml(preview)}</div>
-          </div>
-          <div class="kb-item-actions">
-            <button class="kb-delete-btn" data-id="${item.id}" title="删除">🗑️</button>
-          </div>
-        </div>
-      `;
-    }
-    html += '</div>';
-  }
-
-  kbList.innerHTML = html;
-
-  // Bind delete buttons
-  kbList.querySelectorAll('.kb-delete-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      deleteKbEntry(Number(btn.dataset.id));
-    });
-  });
-}
-
-// ========== API Key ==========
-function saveApiKey() {
-  const key = apiKeyInput.value.trim();
-  if (!key) {
-    showStatus(inputStatus, '请输入 API Key', 'error');
-    return;
-  }
-  localStorage.setItem(STORAGE_KEY, key);
-  showStatus(inputStatus, '✅ API Key 已保存', 'success');
-  setTimeout(() => { inputStatus.style.display = 'none'; }, 2000);
-}
-
-function toggleApiPanel() {
-  const collapsed = apiPanel.classList.toggle('collapsed');
-  apiToggleBtn.textContent = collapsed ? '展开 ▼' : '收起 ▲';
-}
-
-// ========== Markdown Renderer ==========
-function renderMarkdown(text) {
-  if (!text) return '';
-  let html = text;
-
-  // Escape HTML (but preserve our markdown)
-  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  // Code blocks (``` ... ```)
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
-  });
-
-  // Inline code
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-  // Headers
-  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-
-  // Bold
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-  // Italic
-  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
-  // Blockquote
-  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-
-  // Unordered list items
-  html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
-
-  // Ordered list items
-  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
-
-  // Wrap consecutive <li> in <ul>
-  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
-
-  // Horizontal rule
-  html = html.replace(/^---$/gm, '<hr>');
-
-  // Paragraphs: double newlines
-  html = html.replace(/\n\n/g, '</p><p>');
-  html = html.replace(/\n/g, '<br>');
-
-  // Clean up: don't wrap block-level elements in <p>
-  html = html.replace(/<p><(h[123]|ul|ol|pre|blockquote|hr)/g, '<$1');
-  html = html.replace(/<\/(h[123]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
-  html = html.replace(/<p><\/p>/g, '');
-
-  // Fix list items that got <br>
-  html = html.replace(/<br>(\s*<li>)/g, '$1');
-
-  return html;
-}
-
-// ========== Status Messages ==========
-function showStatus(el, msg, type) {
-  el.textContent = msg;
-  el.className = 'status-msg ' + type;
-}
-
-function hideStatus(el) {
-  el.style.display = 'none';
-  el.className = 'status-msg';
-}
-
-// ========== API Call ==========
-function getApiKey() {
-  return apiKeyInput.value.trim();
-}
-
-async function callDeepSeekStream(messages, onChunk, onComplete, onError) {
-  const apiKey = getApiKey();
-  if (!apiKey) {
-    onError('请先设置 DeepSeek API Key');
-    return;
-  }
-
-  isGenerating = true;
-
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: messages,
-        stream: true,
-        temperature: 0.7,
-        max_tokens: 4096
-      })
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      if (response.status === 401) {
-        onError('API Key 无效或已过期，请检查后重试');
-      } else if (response.status === 429) {
-        onError('请求过于频繁，请稍后重试');
-      } else {
-        onError(`请求失败 (${response.status})：${errText}`);
+  for (const line of lines) {
+    const h = line.match(/^##\s+(.+)/);
+    if (h) {
+      if (buf.length) secs[sec] = buf.join('\n').trim();
+      buf.length = 0;
+      const title = h[1];
+      let found = false;
+      for (const [k, v] of Object.entries(keyMap)) {
+        if (title.includes(k)) { sec = v; found = true; break; }
       }
-      isGenerating = false;
-      return;
+      if (!found) sec = 'other_' + title;
+    } else {
+      buf.push(line);
     }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed === 'data: [DONE]') continue;
-        if (!trimmed.startsWith('data: ')) continue;
-
-        try {
-          const json = JSON.parse(trimmed.slice(6));
-          const delta = json.choices?.[0]?.delta?.content;
-          if (delta) {
-            onChunk(delta);
-          }
-        } catch (e) {
-          // skip parse errors
-        }
-      }
-    }
-
-    onComplete();
-  } catch (err) {
-    onError('网络错误：' + err.message);
-  } finally {
-    isGenerating = false;
   }
+  if (buf.length) secs[sec] = buf.join('\n').trim();
+
+  Object.assign(out, secs);
+
+  // Extract topic titles
+  const topicRe = /\*\*选题[一二三\d]+[：:]\*\*[「『""]?([^」』""」\n]+)/g;
+  const topicTitles = [];
+  let m;
+  while ((m = topicRe.exec(raw)) !== null) topicTitles.push(m[1].trim());
+  out.topicTitles = topicTitles.length ? topicTitles : [keyword + '与思政教育'];
+
+  return out;
 }
 
-// ========== Output Management ==========
-function showOutput(html) {
-  outputPlaceholder.classList.add('hidden');
-  mdOutput.classList.remove('hidden');
-  mdOutput.innerHTML = html;
-  copyBtn.disabled = false;
-  clearBtn.disabled = false;
-}
+// ============================================================
+// MAIN GENERATE FLOW
+// ============================================================
+async function handleGenerate() {
+  const keyword = $('kwInput').value.trim();
+  if (!keyword) { showStatus($('inputStatus'), '请输入或选择一个热点词', 'error'); return; }
+  const scenarioEl = document.querySelector('input[name="scenario"]:checked');
+  if (!scenarioEl) { showStatus($('inputStatus'), '请选择使用场景', 'error'); return; }
+  const scenario = scenarioEl.value;
+  const requirement = $('requirementText').value.trim();
+  const doSearch = $('chkWebSearch').checked;
+  const doEval = $('chkSelfEval').checked;
 
-function appendOutput(html) {
-  outputPlaceholder.classList.add('hidden');
-  mdOutput.classList.remove('hidden');
-  mdOutput.innerHTML += html;
-}
-
-function clearOutput() {
-  mdOutput.innerHTML = '';
-  mdOutput.classList.add('hidden');
-  outputPlaceholder.classList.remove('hidden');
-  copyBtn.disabled = true;
-  clearBtn.disabled = true;
-  followupArea.classList.add('hidden');
-  followupInput.value = '';
-  hideStatus(followupStatus);
-}
-
-// ========== Get Knowledge Base Context ==========
-function getKbContextForScenario(scenario) {
-  const entries = getKbEntries();
-  const matched = entries.filter(e => e.category === scenario);
-  if (matched.length === 0) return { text: '', count: 0 };
-  const picked = matched.slice(0, 3);
-  let text = '\n\n【参考知识库中的优秀案例】\n以下是同类场景的优秀作品/方案，请参考其风格、结构和深度：\n\n';
-  picked.forEach((item, idx) => {
-    text += `案例${idx + 1}：${item.title}\n${item.content}\n\n`;
-  });
-  text += '请在生成内容时，参考以上案例的质量标准和表达风格。';
-  return { text, count: picked.length, scenario };
-}
-
-// ========== Generate ==========
-function handleGenerate() {
-  const keyword = keywordInput.value.trim();
-  if (!keyword) {
-    showStatus(inputStatus, '请输入或选择一个热点词', 'error');
-    return;
-  }
-
-  const selectedScenario = document.querySelector('input[name="scenario"]:checked');
-  if (!selectedScenario) {
-    showStatus(inputStatus, '请选择一个使用场景', 'error');
-    return;
-  }
-
-  const scenario = selectedScenario.value;
-  const requirement = requirementText.value.trim();
-
-  // Clear previous conversation
+  // Reset
   conversationHistory = [];
   currentRawText = '';
+  logInit();
+  logMsg('info', `🔍 分析用户需求：主题【${keyword}】 场景【${scenario}】…`);
 
-  // Build user prompt based on whether activity requirements are provided
+  // === Step 1: TF-IDF KB search ===
+  let kbContext = { text: '', cases: [] };
+  if ($('chkTfidf').checked && getKbEntries().length) {
+    logMsg('info', '🧠 启动本地知识库语义检索，基于 TF-IDF 匹配最相关的优秀案例…');
+    kbContext = getKbContext(keyword, scenario);
+    if (kbContext.cases.length) {
+      for (const c of kbContext.cases) {
+        logMsg('success', `✅ 匹配到最相关的优秀案例：《${html(c.title)}》${c.score ? '（相似度：' + c.score + '%）' : ''}`);
+      }
+    } else {
+      logMsg('warn', '⚠️ 知识库中暂无高相似度案例，将依靠内置知识生成');
+    }
+  }
+
+  // === Step 2: Web search ===
+  let searchContext = '';
+  if (doSearch) {
+    const serperKey = localStorage.getItem(LS_SERPER);
+    if (serperKey) {
+      const q = `${keyword} 大学生 思政教育 思想引导`;
+      logMsg('info', `🌐 决定启动联网搜索，检索关于"${html(q)}"的最新资讯…`);
+      logRadarStart('正在搜索中');
+      const results = await serperSearch(q);
+      logRadarEnd();
+      if (results.length) {
+        searchContext = '\n\n【网络搜索参考资料】\n以下是最新的网络资讯摘要，请结合这些信息丰富你的方案：\n\n';
+        results.forEach((r, i) => { searchContext += `来源${i+1}：${r.title}\n${r.snippet}\n\n`; });
+        logMsg('success', `🌐 联网搜索完成，获取到 ${results.length} 条相关资讯`);
+      } else {
+        logMsg('warn', '⚠️ 搜索未获取到有效结果，将依靠内置知识生成');
+      }
+    } else {
+      logMsg('warn', '⚠️ 未配置 Serper Key，通过 AI 进行模拟检索…');
+      searchContext = `\n\n（模拟联网模式：请基于你的知识储备，提供关于"${keyword}"在大学生群体中的最新社会反应和教育价值的分析）\n`;
+    }
+  }
+
+  // === Step 3: Build prompt ===
+  logMsg('info', '🛠️ 调用 DeepSeek V3/R1 引擎进行内容规划生成中…');
+
   let userPrompt = `热点词：${keyword}\n使用场景：${scenario}`;
+  if (requirement) userPrompt += `\n\n【活动/比赛要求】\n${requirement}`;
+  userPrompt += kbContext.text;
+  userPrompt += searchContext;
+  userPrompt += `\n\n请根据以上信息，为我生成思政教育选题方案。请按以下结构输出：`;
 
   if (requirement) {
-    userPrompt += `\n\n【活动/比赛要求】\n${requirement}`;
-  }
-
-  // Get knowledge base context
-  const kbContext = getKbContextForScenario(scenario);
-  if (kbContext.count > 0) {
-    userPrompt += kbContext.text;
-  }
-
-  userPrompt += '\n\n请根据上述信息，为我生成思政教育选题方案。';
-
-  if (requirement) {
-    userPrompt += `\n请按以下结构输出：
+    userPrompt += `
 
 ## 📋 活动要求解读
-（总结该活动/比赛的核心主题、参赛方向、评分重点，3-5条要点）
+（总结核心主题、参赛方向、评分重点，3-5条要点）
 
 ## 📌 推荐选题（3个）
 **选题一：**「标题」—— 对应要求：XXX
 **选题二：**「标题」—— 对应要求：XXX
 **选题三：**「标题」—— 对应要求：XXX
 
-## 🧭 思政切入角度
-（结合活动要求的切入点）
-
-## 📝 内容框架
-（框架设计说明如何满足活动评分要求）
-
-## 💡 可深挖探索方向
-
-## 🔗 可关联的思政理论/政策
-
-## ✅ 与活动要求的契合度说明
-（逐条说明生成的内容是如何对应活动要求的）`;
-
-    if (kbContext.count > 0) {
-      userPrompt += `\n\n📖 本次生成参考了知识库中${kbContext.count}篇${scenario}类优秀案例`;
-    }
-  } else {
-    userPrompt += `\n请按以下结构输出：
-
-## 📌 推荐选题（3个）
-**选题一：**「标题」
-**选题二：**「标题」
-**选题三：**「标题」
-
-## 🧭 思政切入角度
+## 🔍 思政切入角度
 （3-4个核心切入点，每个50字左右）
 
 ## 📝 内容框架
@@ -2232,169 +1411,660 @@ function handleGenerate() {
 （4-5个延伸方向，含简短说明）
 
 ## 🔗 可关联的思政理论/政策
-（相关理论依据、政策文件、重要论述）`;
+（列出相关理论依据、政策文件、重要讲话）
 
-    if (kbContext.count > 0) {
-      userPrompt += `\n\n📖 本次生成参考了知识库中${kbContext.count}篇${scenario}类优秀案例`;
-    }
+## ✅ 与活动要求的契合度说明`;
+  } else {
+    userPrompt += `
+
+## 📌 推荐选题（3个）
+**选题一：**「标题」
+**选题二：**「标题」
+**选题三：**「标题」
+
+## 🔍 思政切入角度
+（3-4个核心切入点，每个50字左右）
+
+## 📝 内容框架
+（以选题一为例，给出三段式/四段式框架，含小标题和各段核心内容）
+
+## 💡 可深挖探索方向
+（4-5个延伸方向，含简短说明）
+
+## 🔗 可关联的思政理论/政策
+（列出相关理论依据、政策文件、重要讲话）
+
+## 🎯 育人实效与教育价值`;
   }
 
   conversationHistory = [
-    { role: 'system', content: SYSTEM_PROMPT_BASE },
+    { role: 'system', content: SYSTEM_PROMPT },
     { role: 'user', content: userPrompt }
   ];
 
-  // UI state
-  generateBtn.disabled = true;
-  generateBtn.textContent = '⏳ 生成中...';
-  hideStatus(inputStatus);
+  // === UI: generating state ===
+  $('generateBtn').disabled = true;
+  $('generateBtn').textContent = '⏳ 生成中…';
+  hideStatus($('inputStatus'));
 
-  // Show loading
-  outputPlaceholder.classList.add('hidden');
-  mdOutput.classList.remove('hidden');
-  mdOutput.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在生成选题方案，请稍候...</div>';
+  $('outputPlaceholder').classList.add('hidden');
+  $('mdOutput').classList.remove('hidden');
+  $('mdOutput').innerHTML = `<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在生成选题方案，请稍候…</div>`;
 
-  let fullText = '';
+  // === Phase 1: Draft generation ===
+  let draft = '';
+  await new Promise(resolve => {
+    streamDeepSeek(
+      conversationHistory,
+      chunk => {
+        draft += chunk;
+        currentRawText = draft;
+        $('mdOutput').innerHTML = renderMd(draft) + '<span class="cursor"></span>';
+        $('outputArea').scrollTop = 99999;
+      },
+      () => {
+        conversationHistory.push({ role: 'assistant', content: draft });
+        currentRawText = draft;
+        $('mdOutput').innerHTML = renderMd(draft);
+        $('copyBtn').disabled = false;
+        $('clearBtn').disabled = false;
+        $('exportBtn').disabled = false;
+        resolve();
+      },
+      err => {
+        $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px">❌ ${html(err)}</div>`;
+        logMsg('error', '❌ 生成失败：' + html(err));
+        logDeactivate();
+        $('generateBtn').disabled = false;
+        $('generateBtn').textContent = '🔍 生成选题方案';
+        resolve();
+      }
+    );
+  });
 
-  callDeepSeekStream(
-    conversationHistory,
-    (chunk) => {
-      fullText += chunk;
-      currentRawText = fullText;
-      mdOutput.innerHTML = renderMarkdown(fullText) + '<span class="cursor-blink"></span>';
-      // Auto scroll
-      outputArea.scrollTop = outputArea.scrollHeight;
-    },
-    () => {
-      conversationHistory.push({ role: 'assistant', content: fullText });
-      currentRawText = fullText;
-      mdOutput.innerHTML = renderMarkdown(fullText);
-      followupArea.classList.remove('hidden');
-      generateBtn.disabled = false;
-      generateBtn.textContent = '🔍 生成选题方案';
-      copyBtn.disabled = false;
-      clearBtn.disabled = false;
-    },
-    (err) => {
-      mdOutput.innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${escapeHtml(err)}</div>`;
-      generateBtn.disabled = false;
-      generateBtn.textContent = '🔍 生成选题方案';
+  if (!draft) {
+    $('generateBtn').disabled = false;
+    $('generateBtn').textContent = '🔍 生成选题方案';
+    return;
+  }
+
+  // === Phase 2: Self-evaluation (if enabled) ===
+  if (doEval) {
+    logMsg('warn', '⚖️ 启动自我评估机制，正在对初稿进行多维度评审…');
+    const evalText = await selfEvaluate(draft, keyword, scenario);
+    const ev = parseEval(evalText);
+
+    if (ev.score !== null) {
+      const color = ev.score >= 90 ? 'success' : ev.score >= 70 ? 'warn' : 'error';
+      logMsg(color, `⚖️ 评分：${ev.score}分`);
     }
-  );
+    if (ev.opinion) {
+      const lines = ev.opinion.split('\n').filter(l => l.trim()).slice(0, 4);
+      for (const ln of lines) logMsg('warn', `💬 评估意见：${html(ln.trim().slice(0, 100))}`);
+    }
+
+    const needFix = ev.fix && !ev.fix.includes('初稿质量优秀') && !ev.fix.includes('无需大幅修改');
+    if (needFix && (ev.score === null || ev.score < 90)) {
+      logMsg('info', '🔄 评分低于90分，启动第二阶段自我纠错优化…');
+      let fixed = '';
+      await new Promise(resolve => {
+        streamDeepSeek(
+          [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: userPrompt },
+            { role: 'assistant', content: draft },
+            { role: 'user', content: `根据以下评估意见，请给出完整的优化后方案：\n\n${ev.opinion}\n\n请直接输出完整修正后的方案，不需要重复评分信息。` }
+          ],
+          chunk => {
+            fixed += chunk;
+            $('mdOutput').innerHTML = renderMd(fixed) + '<span class="cursor"></span>';
+            $('outputArea').scrollTop = 99999;
+          },
+          () => {
+            conversationHistory = [
+              { role: 'system', content: SYSTEM_PROMPT },
+              { role: 'user', content: userPrompt },
+              { role: 'assistant', content: fixed }
+            ];
+            currentRawText = fixed;
+            $('mdOutput').innerHTML = renderMd(fixed);
+            resolve();
+          },
+          err => {
+            logMsg('error', '❌ 优化失败：' + html(err));
+            resolve();
+          }
+        );
+      });
+    } else {
+      logMsg('success', '👍 初稿质量优秀（≥90分），无需大幅修改');
+    }
+  }
+
+  // === Done ===
+  currentParsed = parseStructure(currentRawText, keyword, scenario);
+  logMsg('success', '✨ 终稿输出完成！');
+  logDeactivate();
+
+  $('generateBtn').disabled = false;
+  $('generateBtn').textContent = '🔍 生成选题方案';
+  $('followupCard').classList.remove('hidden');
+  $('saveKbBar').classList.remove('hidden');
+  $('copyBtn').disabled = false;
+  $('clearBtn').disabled = false;
+  $('exportBtn').disabled = false;
 }
 
-// ========== Follow-up ==========
+// ============================================================
+// FOLLOW-UP
+// ============================================================
 function handleFollowup() {
-  const feedback = followupInput.value.trim();
-  if (!feedback) {
-    showStatus(followupStatus, '请输入修改意见', 'error');
-    return;
-  }
+  const feedback = $('followupInput').value.trim();
+  if (!feedback) { showStatus($('followupStatus'), '请输入修改意见', 'error'); return; }
+  if (isGenerating) { showStatus($('followupStatus'), '正在生成中，请稍后…', 'error'); return; }
 
-  if (isGenerating) {
-    showStatus(followupStatus, '正在生成中，请稍后...', 'error');
-    return;
-  }
-
-  // Append user message to conversation
   conversationHistory.push({ role: 'user', content: feedback });
+  $('followupInput').value = '';
+  $('sendFollowupBtn').disabled = true;
+  $('sendFollowupBtn').textContent = '⏳ 生成中…';
+  hideStatus($('followupStatus'));
 
-  // Show user feedback in output
-  appendOutput(`
-    <div class="conversation-turn">
-      <div class="turn-label user">👤 修改意见</div>
-      <div class="md-output"><p>${escapeHtml(feedback)}</p></div>
-    </div>
-  `);
+  // Show user message in output
+  $('mdOutput').innerHTML += `<div class="conv-turn"><div class="turn-lbl user">👤 修改意见</div><div>${html(feedback)}</div></div>`;
+  $('mdOutput').innerHTML += `<div id="followupResponse"><div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-txt">正在优化…</div></div>`;
 
-  // Clear input
-  followupInput.value = '';
-  hideStatus(followupStatus);
-
-  // Show loading
-  appendOutput('<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在优化...</div>');
-
-  let fullText = '';
-  sendFollowupBtn.disabled = true;
-  sendFollowupBtn.textContent = '⏳ 生成中...';
-
-  callDeepSeekStream(
+  let resp = '';
+  streamDeepSeek(
     conversationHistory,
-    (chunk) => {
-      fullText += chunk;
-      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<div class="loading-dots">[\s\S]*?<\/div>/, '')
-        .replace(/<div class="loading-text">[\s\S]*?<\/div>/, '');
-      mdOutput.innerHTML += renderMarkdown(fullText) + '<span class="cursor-blink"></span>';
-      outputArea.scrollTop = outputArea.scrollHeight;
+    chunk => {
+      resp += chunk;
+      const el = $('followupResponse');
+      if (el) el.innerHTML = renderMd(resp) + '<span class="cursor"></span>';
+      $('outputArea').scrollTop = 99999;
     },
     () => {
-      conversationHistory.push({ role: 'assistant', content: fullText });
-      currentRawText += '\n\n' + fullText;
-      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<span class="cursor-blink"><\/span>/, '');
-      mdOutput.innerHTML += `
-        <div class="conversation-turn">
-          <div class="turn-label">🤖 AI 回复</div>
-          <div class="md-output">${renderMarkdown(fullText)}</div>
-        </div>
-      `;
-      sendFollowupBtn.disabled = false;
-      sendFollowupBtn.textContent = '✨ 发送修改意见';
+      conversationHistory.push({ role: 'assistant', content: resp });
+      currentRawText += '\n\n' + resp;
+      const el = $('followupResponse');
+      if (el) {
+        el.removeAttribute('id');
+        el.innerHTML = `<div class="conv-turn"><div class="turn-lbl">🤖 AI 回复</div><div class="md-out">${renderMd(resp)}</div></div>`;
+      }
+      currentParsed = parseStructure(currentRawText, currentParsed.keyword || '', currentParsed.scenario || '');
+      $('sendFollowupBtn').disabled = false;
+      $('sendFollowupBtn').textContent = '✨ 发送修改意见';
     },
-    (err) => {
-      mdOutput.innerHTML = mdOutput.innerHTML.replace(/<div class="loading-dots">[\s\S]*?<\/div>/, '')
-        .replace(/<div class="loading-text">[\s\S]*?<\/div>/, '');
-      mdOutput.innerHTML += `<div style="color:#c0392b;padding:10px;">❌ ${escapeHtml(err)}</div>`;
-      sendFollowupBtn.disabled = false;
-      sendFollowupBtn.textContent = '✨ 发送修改意见';
+    err => {
+      const el = $('followupResponse');
+      if (el) { el.removeAttribute('id'); el.innerHTML = `<div style="color:#c0392b">❌ ${html(err)}</div>`; }
+      showStatus($('followupStatus'), '❌ ' + err, 'error');
+      $('sendFollowupBtn').disabled = false;
+      $('sendFollowupBtn').textContent = '✨ 发送修改意见';
     }
   );
 }
 
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
-
-// ========== Copy ==========
+// ============================================================
+// COPY
+// ============================================================
 function handleCopy() {
-  const text = mdOutput.innerText || mdOutput.textContent;
+  const text = $('mdOutput').innerText || $('mdOutput').textContent || '';
   if (!text) return;
-
   navigator.clipboard.writeText(text).then(() => {
-    const origText = copyBtn.innerHTML;
-    copyBtn.innerHTML = '✅ 已复制';
-    setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+    const orig = $('copyBtn').innerHTML;
+    $('copyBtn').innerHTML = '✅ 已复制';
+    setTimeout(() => { $('copyBtn').innerHTML = orig; }, 2000);
   }).catch(() => {
-    // Fallback
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-    const origText = copyBtn.innerHTML;
-    copyBtn.innerHTML = '✅ 已复制';
-    setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch {}
+    document.body.removeChild(ta);
   });
 }
 
-// ========== Clear ==========
-function handleClear() {
-  clearOutput();
-  conversationHistory = [];
-  currentRawText = '';
-  keywordInput.value = '';
-  requirementText.value = '';
-  requirementFileInfo.innerHTML = '';
-  requirementStatus.textContent = '';
-  document.querySelectorAll('input[name="scenario"]').forEach(r => r.checked = false);
-  document.querySelectorAll('.scenario-option').forEach(el => el.classList.remove('selected'));
+// ============================================================
+// EXPORT: WORD
+// ============================================================
+function exportWord() {
+  const content = $('mdOutput').innerHTML;
+  if (!content) return;
+
+  const wordCss = `
+    body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color: #1e293b; line-height: 1.9; padding: 40px; max-width: 900px; margin: 0 auto; }
+    h1 { color: #2c5f8a; font-size: 24px; border-bottom: 2px solid #2c5f8a; padding-bottom: 8px; margin: 28px 0 12px; }
+    h2 { color: #2c5f8a; font-size: 19px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin: 22px 0 10px; }
+    h3 { color: #1e293b; font-size: 16px; margin: 18px 0 8px; }
+    strong { color: #2c5f8a; }
+    blockquote { border-left: 3px solid #2c5f8a; padding-left: 14px; color: #475569; font-style: italic; margin: 12px 0; background: #f0f5fa; padding: 8px 14px; border-radius: 0 4px 4px 0; }
+    ul, ol { margin-left: 22px; } li { margin-bottom: 5px; }
+    table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid #e2e8f0; padding: 8px 12px; }
+    th { background: #e8f0f8; color: #2c5f8a; font-weight: 600; }
+    hr { border: none; border-top: 1px solid #e2e8f0; margin: 16px 0; }
+    code { background: #f8fafc; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
+  `;
+
+  const mhtml = [
+    'MIME-Version: 1.0',
+    'Content-Type: multipart/related; boundary="BOUNDARY"',
+    '',
+    '--BOUNDARY',
+    'Content-Type: text/html; charset="utf-8"',
+    '',
+    `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${wordCss}</style></head><body>${content}</body></html>`,
+    '--BOUNDARY--'
+  ].join('\r\n');
+
+  const blob = new Blob([mhtml], { type: 'application/msword' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `思政选题方案_${currentParsed.keyword || ''}${currentParsed.scenario ? '_' + currentParsed.scenario : ''}.doc`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-// ========== Start ==========
+// ============================================================
+// EXPORT: PPT
+// ============================================================
+function exportPpt() {
+  if (typeof PptxGenJS === 'undefined') {
+    alert('PptxGenJS 尚未加载完成，请稍后重试。如持续失败请检查网络连接。');
+    return;
+  }
+
+  const p = currentParsed;
+  const ACCENT = '2c5f8a';
+  const GOLD   = 'd4af37';
+  const WHITE  = 'FFFFFF';
+  const DARK   = '1e293b';
+  const LBGC   = 'f0f5fa';
+
+  const pptx = new PptxGenJS();
+  pptx.defineLayout({ name: 'WIDE', width: 13.33, height: 7.5 });
+  pptx.layout = 'WIDE';
+
+  function addSlide(opts) {
+    const s = pptx.addSlide();
+    if (opts && opts.darkBg) s.background = { fill: { color: ACCENT } };
+    // bottom bar
+    s.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
+      x: 0, y: 7.05, w: '100%', h: 0.45,
+      fill: { color: opts && opts.darkBg ? '1a3f60' : ACCENT }
+    });
+    s.addText('思政热点选题助手 · 智能体版', {
+      x: 0.3, y: 7.1, w: 8, h: 0.35,
+      fontSize: 9, color: opts && opts.darkBg ? 'aacce8' : 'aacce8',
+      fontFace: 'Microsoft YaHei'
+    });
+    return s;
+  }
+
+  function addTitle(slide, titleText, isDark) {
+    slide.addText(titleText, {
+      x: 0.5, y: 0.28, w: 12.33, h: 0.65,
+      fontSize: 20, bold: true,
+      color: isDark ? WHITE : ACCENT,
+      fontFace: 'Microsoft YaHei'
+    });
+    slide.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
+      x: 0.5, y: 0.95, w: 12.33, h: 0,
+      line: { color: isDark ? GOLD : GOLD, width: 2 }
+    });
+  }
+
+  function truncate(text, max) {
+    if (!text) return '';
+    return text.length > max ? text.slice(0, max) + '…' : text;
+  }
+
+  // === Slide 1: Cover ===
+  const s1 = addSlide({ darkBg: true });
+  s1.addText('思政热点选题方案', {
+    x: 1, y: 1.6, w: 11.33, h: 1.4,
+    fontSize: 38, bold: true, color: WHITE, fontFace: 'Microsoft YaHei', align: 'center'
+  });
+  s1.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
+    x: 2.5, y: 3.1, w: 8.33, h: 0, line: { color: GOLD, width: 2 }
+  });
+  s1.addText(`${p.keyword || ''}  ·  ${p.scenario || ''}`, {
+    x: 1, y: 3.3, w: 11.33, h: 0.9,
+    fontSize: 22, color: GOLD, fontFace: 'Microsoft YaHei', align: 'center'
+  });
+  s1.addText(new Date().toLocaleDateString('zh-CN', { year:'numeric', month:'long', day:'numeric' }), {
+    x: 1, y: 4.4, w: 11.33, h: 0.6,
+    fontSize: 14, color: 'aacce8', fontFace: 'Microsoft YaHei', align: 'center'
+  });
+
+  // === Slide 2: Requirements ===
+  const s2 = addSlide({});
+  addTitle(s2, '📋 活动/比赛要求深度解读');
+  const reqText = truncate(p.requirement || '本方案基于通用思政教育场景设计，适用于多类活动形式。核心方向：贴近青年、引导价值、实践育人。', 600);
+  s2.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
+    x: 0.5, y: 1.15, w: 12.33, h: 5.5,
+    fill: { color: LBGC }, rectRadius: 0.1
+  });
+  s2.addText(reqText, {
+    x: 0.8, y: 1.3, w: 11.73, h: 5.2,
+    fontSize: 13, color: DARK, fontFace: 'Microsoft YaHei',
+    lineSpacingMultiple: 1.6, valign: 'top'
+  });
+
+  // === Slides 3–5: Topic presentations ===
+  const topics = p.topicTitles || [p.keyword + '与思政教育', '青年文化的价值引领', '从现象到使命'];
+  const topicBodies = [p.topics || p.raw, p.framework || '', p.angles || ''];
+
+  for (let i = 0; i < 3; i++) {
+    const sT = addSlide({});
+    const tTitle = `选题${['一','二','三'][i]}方案展示`;
+    addTitle(sT, `📌 ${tTitle}`);
+    sT.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
+      x: 0.5, y: 1.15, w: 12.33, h: 5.5,
+      fill: { color: LBGC }, rectRadius: 0.1
+    });
+    const topicTitle = topics[i] || `选题${i+1}`;
+    sT.addText(`【选题标题】${topicTitle}`, {
+      x: 0.8, y: 1.25, w: 11.73, h: 0.55,
+      fontSize: 15, bold: true, color: ACCENT, fontFace: 'Microsoft YaHei'
+    });
+    sT.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
+      x: 0.8, y: 1.8, w: 11.73, h: 0, line: { color: '#d4af37', width: 1 }
+    });
+    const body = truncate(topicBodies[i] || '详细内容请查阅完整方案文档', 480);
+    sT.addText(body, {
+      x: 0.8, y: 1.95, w: 11.73, h: 4.55,
+      fontSize: 12, color: DARK, fontFace: 'Microsoft YaHei',
+      lineSpacingMultiple: 1.55, valign: 'top'
+    });
+  }
+
+  // === Slide 6: Framework & Logic ===
+  const s6 = addSlide({});
+  addTitle(s6, '📝 内容大纲与核心逻辑递进');
+  const fwText = truncate(p.framework || p.raw.slice(0, 600), 600);
+  // Three-stage boxes
+  const stages = ['第一阶段：现象导入与共情共鸣', '第二阶段：理论分析与价值引领', '第三阶段：实践转化与行动倡议'];
+  const stageColors = ['e8f0f8', 'd4e4f2', 'aacce8'];
+  stages.forEach((stg, idx) => {
+    const xPos = 0.4 + idx * 4.3;
+    s6.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
+      x: xPos, y: 1.2, w: 3.9, h: 5.5,
+      fill: { color: stageColors[idx] }, rectRadius: 0.1
+    });
+    s6.addText(stg, {
+      x: xPos + 0.1, y: 1.3, w: 3.7, h: 0.8,
+      fontSize: 11, bold: true, color: ACCENT, fontFace: 'Microsoft YaHei',
+      align: 'center', lineSpacingMultiple: 1.3
+    });
+    s6.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
+      x: xPos + 0.1, y: 2.1, w: 3.7, h: 0, line: { color: ACCENT, width: 1 }
+    });
+    const bodySlice = fwText.slice(idx * 180, (idx+1) * 180) || '详见完整方案';
+    s6.addText(bodySlice, {
+      x: xPos + 0.1, y: 2.2, w: 3.7, h: 4.2,
+      fontSize: 11, color: DARK, fontFace: 'Microsoft YaHei',
+      lineSpacingMultiple: 1.5, valign: 'top'
+    });
+  });
+
+  // === Slide 7: Effects & Policy ===
+  const s7 = addSlide({});
+  addTitle(s7, '🎯 育人实效、深挖方向与政策关联');
+  let effText = '';
+  if (p.effect) effText += '【育人实效】\n' + p.effect.slice(0, 250) + '\n\n';
+  if (p.deepdive) effText += '【深挖方向】\n' + p.deepdive.slice(0, 200) + '\n\n';
+  if (p.theories) effText += '【政策理论关联】\n' + p.theories.slice(0, 200);
+  if (!effText) effText = truncate(p.raw, 600);
+  s7.addShape(pptx.ShapeType ? pptx.ShapeType.rect : 'rect', {
+    x: 0.5, y: 1.15, w: 12.33, h: 5.5, fill: { color: LBGC }, rectRadius: 0.1
+  });
+  s7.addText(effText, {
+    x: 0.8, y: 1.3, w: 11.73, h: 5.2,
+    fontSize: 12.5, color: DARK, fontFace: 'Microsoft YaHei',
+    lineSpacingMultiple: 1.6, valign: 'top'
+  });
+
+  // === Slide 8: Thank You ===
+  const s8 = addSlide({ darkBg: true });
+  s8.addText('感谢聆听', {
+    x: 1, y: 2.0, w: 11.33, h: 1.5,
+    fontSize: 44, bold: true, color: WHITE, fontFace: 'Microsoft YaHei', align: 'center'
+  });
+  s8.addShape(pptx.ShapeType ? pptx.ShapeType.line : 'line', {
+    x: 2.5, y: 3.6, w: 8.33, h: 0, line: { color: GOLD, width: 2 }
+  });
+  s8.addText('思政热点选题助手 · 智能体版', {
+    x: 1, y: 3.9, w: 11.33, h: 0.7,
+    fontSize: 18, color: GOLD, fontFace: 'Microsoft YaHei', align: 'center'
+  });
+  s8.addText('为高校辅导员设计 · 以技术赋能教育', {
+    x: 1, y: 4.7, w: 11.33, h: 0.6,
+    fontSize: 13, color: 'aacce8', fontFace: 'Microsoft YaHei', align: 'center'
+  });
+
+  pptx.writeFile({ fileName: `思政选题方案_${p.keyword || '方案'}_${p.scenario || ''}.pptx` });
+}
+
+// ============================================================
+// SAVE TO KB (Quick modal)
+// ============================================================
+function openSaveModal() {
+  const kw = currentParsed.keyword || $('kwInput').value.trim();
+  const sc = currentParsed.scenario || document.querySelector('input[name="scenario"]:checked')?.value || '班会设计';
+  $('saveKbTitle').value = kw + (sc ? '·' + sc : '') + '方案';
+  $('saveKbCat').value = sc || '班会设计';
+  $('saveKbStatus').textContent = '';
+  $('saveModalOverlay').classList.add('show');
+}
+
+function closeSaveModal() { $('saveModalOverlay').classList.remove('show'); }
+
+function confirmSaveKb() {
+  const title = $('saveKbTitle').value.trim();
+  const cat   = $('saveKbCat').value;
+  if (!title) { $('saveKbStatus').textContent = '⚠️ 请输入标题'; $('saveKbStatus').style.color='#c0392b'; return; }
+  if (!currentRawText) { $('saveKbStatus').textContent = '⚠️ 暂无可保存的内容'; $('saveKbStatus').style.color='#c0392b'; return; }
+  const entries = getKbEntries();
+  entries.unshift({ id: Date.now(), title, category: cat, content: currentRawText, createdAt: new Date().toISOString() });
+  saveKbEntries(entries);
+  $('saveKbStatus').textContent = '✅ 已成功保存到知识库！';
+  $('saveKbStatus').style.color = '#27ae60';
+  setTimeout(closeSaveModal, 1000);
+}
+
+// ============================================================
+// WXPUSHER
+// ============================================================
+function saveWxSettings() {
+  const token = $('wxAppToken').value.trim();
+  const uid   = $('wxUid').value.trim();
+  if (!token || !uid) { showStatus($('inputStatus'), '请填写 AppToken 和 UID', 'error'); return; }
+  localStorage.setItem(LS_WX_TOKEN, token);
+  localStorage.setItem(LS_WX_UID, uid);
+  showStatus($('inputStatus'), '✅ 微信推送设置已保存', 'success');
+  setTimeout(() => hideStatus($('inputStatus')), 2500);
+}
+
+async function testWxPush() {
+  const token = $('wxAppToken').value.trim() || localStorage.getItem(LS_WX_TOKEN);
+  const uid   = $('wxUid').value.trim() || localStorage.getItem(LS_WX_UID);
+  if (!token || !uid) { showStatus($('inputStatus'), '请先填写并保存 WxPusher 设置', 'error'); return; }
+  const btn = $('testWxBtn');
+  btn.disabled = true; btn.textContent = '⏳ 发送中…';
+  try {
+    const resp = await fetch('https://wxpusher.zhimengeng.com/api/v1/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        appToken: token,
+        uids: [uid],
+        summary: '🧪 思政助手 · 测试推送',
+        content: '<h2>🧪 测试推送成功！</h2><p>如果您收到这条消息，说明 WxPusher 配置正确。<br>每周一早上您将自动收到「辅导员周度思政热点雷达」。</p>',
+        contentType: 2
+      })
+    });
+    const data = await resp.json();
+    if (data.code === 1000) {
+      showStatus($('inputStatus'), '✅ 测试推送发送成功！请检查微信', 'success');
+    } else {
+      showStatus($('inputStatus'), '❌ 推送失败：' + (data.msg || '未知错误'), 'error');
+    }
+  } catch (e) {
+    showStatus($('inputStatus'), '❌ 网络错误：' + e.message, 'error');
+  }
+  btn.disabled = false; btn.textContent = '📤 测试推送';
+  setTimeout(() => hideStatus($('inputStatus')), 4000);
+}
+
+// ============================================================
+// EXPORT DROPDOWN
+// ============================================================
+function toggleExportMenu() { $('exportMenu').classList.toggle('open'); }
+function closeExportMenu()  { $('exportMenu').classList.remove('open'); }
+
+// ============================================================
+// API KEY / SETTINGS SAVE
+// ============================================================
+function saveApiKey() {
+  const k = $('apiKeyInput').value.trim();
+  if (!k) { showStatus($('inputStatus'), '请输入 API Key', 'error'); return; }
+  localStorage.setItem(LS_API, k);
+  showStatus($('inputStatus'), '✅ API Key 已保存', 'success');
+  setTimeout(() => hideStatus($('inputStatus')), 2000);
+}
+
+function saveSerperKey() {
+  const k = $('serperKeyInput').value.trim();
+  if (!k) { showStatus($('inputStatus'), '请输入 Serper Key', 'error'); return; }
+  localStorage.setItem(LS_SERPER, k);
+  updateSearchHint();
+  showStatus($('inputStatus'), '✅ Serper Key 已保存', 'success');
+  setTimeout(() => hideStatus($('inputStatus')), 2000);
+}
+
+function updateSearchHint() {
+  const hasKey = !!localStorage.getItem(LS_SERPER);
+  $('hintSerperKey').classList.toggle('show', !hasKey && $('chkWebSearch').checked);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  // Restore saved keys
+  const savedApi = localStorage.getItem(LS_API);
+  if (savedApi) {
+    $('apiKeyInput').value = savedApi;
+    $('apiPanel').classList.add('collapsed');
+    $('apiToggleBtn').textContent = '展开 ▼';
+  }
+  const savedSerper = localStorage.getItem(LS_SERPER);
+  if (savedSerper) $('serperKeyInput').value = savedSerper;
+
+  const savedWxToken = localStorage.getItem(LS_WX_TOKEN);
+  if (savedWxToken) $('wxAppToken').value = savedWxToken;
+  const savedWxUid = localStorage.getItem(LS_WX_UID);
+  if (savedWxUid) $('wxUid').value = savedWxUid;
+
+  renderKwGroups();
+  updateSearchHint();
+
+  // ===== Event Listeners =====
+
+  // API Panel
+  $('saveApiKeyBtn').onclick = saveApiKey;
+  $('saveSerperKeyBtn').onclick = saveSerperKey;
+  $('apiToggleBtn').onclick = () => {
+    const collapsed = $('apiPanel').classList.toggle('collapsed');
+    $('apiToggleBtn').textContent = collapsed ? '展开 ▼' : '收起 ▲';
+  };
+
+  // Generate
+  $('generateBtn').onclick = handleGenerate;
+
+  // Copy / Clear
+  $('copyBtn').onclick = handleCopy;
+  $('clearBtn').onclick = () => {
+    if (confirm('确定清空所有内容重新开始？')) {
+      clearAll();
+      logClear();
+      $('kwInput').value = '';
+      $('requirementText').value = '';
+      $('reqFileInfo').innerHTML = '';
+      $('reqFileStatus').textContent = '';
+      document.querySelectorAll('input[name="scenario"]').forEach(r => r.checked = false);
+      document.querySelectorAll('.scenario-opt').forEach(el => el.classList.remove('selected'));
+    }
+  };
+
+  // Agent log clear
+  $('logClearBtn').onclick = logClear;
+
+  // Refresh keywords
+  $('btnRefresh').onclick = refreshKeywords;
+
+  // Follow-up
+  $('sendFollowupBtn').onclick = handleFollowup;
+  $('followupInput').addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') handleFollowup();
+  });
+
+  // Scenario click
+  $('scenarioGroup').addEventListener('change', () => {
+    document.querySelectorAll('.scenario-opt').forEach(el => {
+      el.classList.toggle('selected', el.querySelector('input').checked);
+    });
+  });
+
+  // Collapsible requirements
+  $('reqToggle').onclick = () => $('reqPanel').classList.toggle('open');
+
+  // File uploads
+  $('reqFile').addEventListener('change', e => {
+    handleFileUpload(e.target.files[0], $('requirementText'), $('reqFileInfo'), $('reqFileStatus'));
+  });
+  $('kbFormFile').addEventListener('change', e => {
+    handleFileUpload(e.target.files[0], $('kbFormContent'), $('kbFormFileInfo'), $('kbFormFileStatus'));
+  });
+
+  // WxPusher
+  $('saveWxBtn').onclick = saveWxSettings;
+  $('testWxBtn').onclick = testWxPush;
+
+  // Search checkbox hint
+  $('chkWebSearch').addEventListener('change', updateSearchHint);
+
+  // Export dropdown
+  $('exportBtn').onclick = e => { e.stopPropagation(); toggleExportMenu(); };
+  $('exportWordBtn').onclick = () => { exportWord(); closeExportMenu(); };
+  $('exportPptBtn').onclick = () => { exportPpt(); closeExportMenu(); };
+  document.addEventListener('click', e => {
+    if (!$('exportWrap').contains(e.target)) closeExportMenu();
+  });
+
+  // Save to KB
+  $('saveToKbBtn').onclick = openSaveModal;
+  $('saveKbConfirmBtn').onclick = confirmSaveKb;
+  $('saveKbCancelBtn').onclick = closeSaveModal;
+  $('saveModalOverlay').addEventListener('click', e => {
+    if (e.target === $('saveModalOverlay')) closeSaveModal();
+  });
+
+  // KB Modal
+  $('kbOpenBtn').onclick = () => { $('kbOverlay').classList.add('show'); renderKbList(); };
+  $('kbCloseBtn').onclick = () => $('kbOverlay').classList.remove('show');
+  $('kbOverlay').addEventListener('click', e => {
+    if (e.target === $('kbOverlay')) $('kbOverlay').classList.remove('show');
+  });
+  $('kbAddBtn').onclick = () => $('kbAddForm').classList.remove('hidden');
+  $('kbCancelBtn').onclick = () => { $('kbAddForm').classList.add('hidden'); clearKbForm(); };
+  $('kbSaveBtn').onclick = saveKbEntry;
+  $('kbCatGroup').addEventListener('change', () => {
+    document.querySelectorAll('.kb-cat-opt').forEach(el => {
+      el.classList.toggle('selected', el.querySelector('input').checked);
+    });
+  });
+}
+
 init();
 </script>
-
 </body>
 </html>
