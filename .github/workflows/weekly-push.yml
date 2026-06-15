@@ -28,6 +28,5 @@ jobs:
       - name: Run weekly hotspot push
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          WX_APP_TOKEN: ${{ secrets.WX_APP_TOKEN }}
-          WX_UIDS: ${{ secrets.WX_UIDS }}
+          SCT_KEY: ${{ secrets.SCT_KEY }}
         run: node weekly-push.js
