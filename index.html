@@ -284,6 +284,69 @@ body {
   display: block;
 }
 
+/* 💡 实时热点发现库 */
+.hotspot-library {
+  background: linear-gradient(135deg, #f8fafc 0%, #f0f7ff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(44,95,138,0.04);
+}
+
+.hotspot-library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.hotspot-library-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.hotspot-library-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-refresh-keywords {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  background: var(--white);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btn-refresh-keywords:hover:not(:disabled) {
+  background: var(--primary);
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(44,95,138,0.2);
+}
+
+.btn-refresh-keywords:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-refresh-keywords.spinning .refresh-icon {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Keyword Groups */
 .keyword-groups {
   display: flex;
@@ -574,6 +637,167 @@ body {
   font-style: italic;
 }
 
+/* 📊 思政育人模块卡片样式 */
+.module-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.module-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.module-card:hover {
+  box-shadow: 0 4px 16px rgba(44,95,138,0.12);
+}
+
+.module-card-header {
+  padding: 14px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: background 0.15s ease;
+}
+
+.module-card-header:hover {
+  filter: brightness(0.97);
+}
+
+.module-card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.module-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.module-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.module-card-toggle {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.module-card.collapsed .module-card-toggle {
+  transform: rotate(-90deg);
+}
+
+.module-card-body {
+  padding: 0 18px 16px 18px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text);
+}
+
+.module-card.collapsed .module-card-body {
+  display: none;
+}
+
+.module-card-body h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 12px 0 6px;
+}
+
+.module-card-body p {
+  margin-bottom: 8px;
+}
+
+.module-card-body strong {
+  color: var(--primary);
+}
+
+.module-card-body ul, .module-card-body ol {
+  margin: 8px 0 8px 20px;
+}
+
+.module-card-body li {
+  margin-bottom: 4px;
+}
+
+.module-card-body blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 12px;
+  margin: 10px 0;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: var(--bg);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.module-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.module-card-footer .btn-sm {
+  font-size: 11px;
+  padding: 3px 10px;
+}
+
+/* 模块卡片颜色主题 */
+.module-card[data-module="1"] .module-card-header { background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); }
+.module-card[data-module="1"] .module-card-icon { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: white; }
+.module-card[data-module="2"] .module-card-header { background: linear-gradient(135deg, #ede9fe 0%, #f5f3ff 100%); }
+.module-card[data-module="2"] .module-card-icon { background: linear-gradient(135deg, #8b5cf6, #a78bfa); color: white; }
+.module-card[data-module="3"] .module-card-header { background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%); }
+.module-card[data-module="3"] .module-card-icon { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: white; }
+.module-card[data-module="4"] .module-card-header { background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%); }
+.module-card[data-module="4"] .module-card-icon { background: linear-gradient(135deg, #10b981, #34d399); color: white; }
+.module-card[data-module="5"] .module-card-header { background: linear-gradient(135deg, #fce7f3 0%, #fdf2f8 100%); }
+.module-card[data-module="5"] .module-card-icon { background: linear-gradient(135deg, #ec4899, #f472b6); color: white; }
+.module-card[data-module="6"] .module-card-header { background: linear-gradient(135deg, #e0e7ff 0%, #eef2ff 100%); }
+.module-card[data-module="6"] .module-card-icon { background: linear-gradient(135deg, #6366f1, #818cf8); color: white; }
+.module-card[data-module="7"] .module-card-header { background: linear-gradient(135deg, #fed7aa 0%, #fff7ed 100%); }
+.module-card[data-module="7"] .module-card-icon { background: linear-gradient(135deg, #f97316, #fb923c); color: white; }
+
+/* 一键展开/折叠全部 */
+.module-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.module-controls .btn-sm {
+  font-size: 12px;
+}
+
+/* 模块卡片流式加载中的 */
+.module-card.stream-loading {
+  opacity: 0.6;
+  border-color: var(--primary);
+}
+
 /* KB Drawer Overlay */
 .overlay {
   position: fixed;
@@ -727,6 +951,37 @@ body {
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+/* Loading dots */
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 0 10px;
+}
+
+.loading-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: loadDot 1.4s ease-in-out infinite;
+}
+
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loadDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.loading-text {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding-bottom: 16px;
+}
+
 @media (max-width: 960px) {
   .main { grid-template-columns: 1fr; padding: 12px; }
   .input-panel { position: static; max-height: none; }
@@ -743,7 +998,6 @@ body {
 </style>
 </head>
 <body>
-
 <!-- ========== Header ========== -->
 <header class="header">
   <h1>🐾 思政热点选题助手 <span class="header-subtitle">· 智能体决策版</span></h1>
@@ -825,19 +1079,19 @@ body {
       <textarea class="input-field" id="keywordInput" rows="2" style="margin-top:8px" placeholder="例如：拼豆、搭子文化、City Walk、发疯文学..."></textarea>
     </div>
 
-    <!-- Expandable Keyword Categories -->
-    <div class="collapse-block" id="keywordCollapseBlock">
-      <div class="collapse-header" id="requirementToggle">
-        <span>📦 内置热点词库（点击快捷填入）</span>
-        <span id="collapseArrow">展开 ▼</span>
-      </div>
-      <div class="collapse-content" id="requirementPanel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <span style="font-size:11px; color:var(--text-muted)">可点击词汇追加</span>
-          <button class="btn btn-outline btn-sm" id="refreshKeywordsBtn" style="padding:2px 8px; font-size:11px;">🔄 智能更新</button>
+    <!-- 💡 实时热点发现库 (直接展示，非折叠) -->
+    <div class="hotspot-library">
+      <div class="hotspot-library-header">
+        <span class="hotspot-library-title">💡 实时热点发现库</span>
+        <div class="hotspot-library-actions">
+          <button class="btn-refresh-keywords" id="refreshKeywordsBtn" title="AI生成最新热点词">
+            <span class="refresh-icon">🔄</span>
+            <span class="refresh-text">智能更新</span>
+          </button>
         </div>
-        <div class="keyword-groups" id="keywordGroups"></div>
       </div>
+      <p class="hotspot-library-hint" style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">可点击词汇追加到上方输入框，或一键刷新获取年度最新热点</p>
+      <div class="keyword-groups" id="keywordGroups"></div>
     </div>
 
     <!-- Scenarios -->
@@ -1040,7 +1294,6 @@ body {
 <footer class="footer">
   🐾 思政热点选题助手 · 智能体决策舱版本 · 专为高校辅导员设计
 </footer>
-
 <script>
 // ========== Constants & Keys ==========
 const API_URL = 'https://api.deepseek.com/v1/chat/completions';
@@ -1109,18 +1362,41 @@ function logClear() {
 }
 
 // Key Management helpers
+/**
+ * 🔧 密钥防呆净化器：自动去除空格、引号、Bearer 前缀
+ * 解决用户误粘贴 "Bearer sk-xxx" 或带引号/空格导致 403 的问题
+ */
+function sanitizeKey(raw) {
+  if (!raw) return '';
+  let k = raw.trim();
+  // 去除前后双引号、单引号
+  k = k.replace(/^['"\u201c\u201d]+/g, '').replace(/['"\u201c\u201d]+$/g, '');
+  // 去除内部多余空格（防止 sk-xxx  中间空格）
+  k = k.trim();
+  // 自动剥离 Bearer 前缀（忽略大小写），支持 Bearer 、bearer 、BEARER 等
+  const bearerRe = /^bearer\s+/i;
+  k = k.replace(bearerRe, '');
+  k = k.trim();
+  return k;
+}
+
 function saveApiKey() {
-  const key = $('apiKeyInput').value.trim();
+  const raw = $('apiKeyInput').value;
+  const key = sanitizeKey(raw);
   if (!key) { showStatus($('inputStatus'), '请输入 API Key', 'error'); return; }
   localStorage.setItem(STORAGE_KEY, key);
+  // 回显时显示净化后的值
+  $('apiKeyInput').value = key;
   showStatus($('inputStatus'), '✅ DeepSeek Key 已保存', 'success');
   logAppend('保存 DeepSeek API Key 成功', 'success');
   setTimeout(() => { $('inputStatus').style.display = 'none'; }, 2000);
 }
 
 function saveSerperKey() {
-  const key = $('serperKeyInput').value.trim();
+  const raw = $('serperKeyInput').value;
+  const key = sanitizeKey(raw);
   localStorage.setItem(SERPER_KEY, key);
+  $('serperKeyInput').value = key;
   showStatus($('inputStatus'), '✅ Serper API Key 已保存', 'success');
   logAppend('保存 Serper API Key 成功', 'success');
   updateSearchHint();
@@ -1128,8 +1404,10 @@ function saveSerperKey() {
 }
 
 function saveBochaKey() {
-  const key = $('bochaKeyInput').value.trim();
+  const raw = $('bochaKeyInput').value;
+  const key = sanitizeKey(raw);
   localStorage.setItem(BOCHA_KEY, key);
+  $('bochaKeyInput').value = key;
   showStatus($('inputStatus'), '✅ 博查 API Key 已保存', 'success');
   logAppend('保存博查 API Key 成功', 'success');
   updateSearchHint();
@@ -1199,7 +1477,813 @@ $('keywordGroups').addEventListener('click', (e) => {
     logAppend(`已追加热点词标签: 【${word}】`);
   }
 });
+// ========== SYSTEM PROMPT ==========
+const SYSTEM_PROMPT = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征 and 行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
 
+你的核心能力是：将当代青年热点文化现象（亚文化、网络流行语、社会思潮等）与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
+
+输出风格要求：
+- 标题要有文采，可使用对仗、引用、创意表达（参考示例："一豆一谷"亦有道、从"搭子"到"伙伴"）
+- 分析要有深度，不停留于表面，要挖掘现象背后的社会心理和价值诉求
+- 理论要扎实，能自然引用相关政策、理论依据
+- 实操性强，给出的框架要能真正用于演讲、班会、课题
+- 语言兼顾学术性和可读性，不过度堆砌术语
+
+**【强制输出格式要求】**
+你必须严格按照以下 7 个模块的顺序输出，每个模块使用 H2 标题（## ），不得增减或调换顺序：
+
+## 🔍 1. 热点现象
+描述最新热点现象的具体表现、数据特征、青年行为模式。要写出画面感和时代感。
+
+## 🧭 2. 现象解读
+从深层社会心理机制、思政理论映射角度进行解读，揭示现象背后的本质。
+
+## 📋 3. 政策热点
+关联官方红头文件、团中央导向、总书记关于青年工作的重要论述，要有具体引用。
+
+## 📌 4. 选题方向
+给出 3 个带精美对仗主副标题的选题，并逐一标注适用场景（比赛 / 班会 / 课题）。主副标题要工整对仗、有文采。
+
+## 📖 5. 经典案例
+模拟辅导员如何通过谈心谈话、主题班会成功干预/引导的真实感案例，要写出过程感。
+
+## 📝 6. 学术论文推荐
+推荐 3 篇相关领域的知网经典论文题目或阅读方向，附带简要推荐理由。
+
+## 🏆 7. 辅导员专业成长
+阐述此热点如何转化为辅导员撰写工作论文、申报课题、参加素质能力大赛的加分点和突破口。`;
+
+// ========== 📊 思政育人模块卡片渲染器 ==========
+/**
+ * 将 AI 返回的 7 模块 Markdown 文本解析为精美的学术卡片
+ * 支持流式渲染（未完成时也正常显示）
+ */
+const MODULE_CONFIG = [
+  { id: 1, icon: '🔍', title: '热点现象', desc: '最新热点描述、数据、行为特征' },
+  { id: 2, icon: '🧭', title: '现象解读', desc: '深层心理机制、思政理论映射' },
+  { id: 3, icon: '📋', title: '政策热点', desc: '官方红头文件、团中央导向、重要论述' },
+  { id: 4, icon: '📌', title: '选题方向', desc: '对仗主副标题、适用场景标注' },
+  { id: 5, icon: '📖', title: '经典案例', desc: '谈心谈话、主题班会成功引导案例' },
+  { id: 6, icon: '📝', title: '学术论文推荐', desc: '知网经典论文题目、阅读方向' },
+  { id: 7, icon: '🏆', title: '辅导员专业成长', desc: '工作论文、课题申报、能力大赛' }
+];
+
+/**
+ * 解析模块文本，提取 7 个模块
+ * 返回数组：[{id, icon, title, contentHtml}, ...]
+ */
+function parseModuleSections(text) {
+  // 匹配 ## 🔍 1. 热点现象 或 ## 🧭 2. 现象解读 等
+  const moduleRe = /##\s*([🔍🧭📋📌📖📝🏆])\s*\d+\.\s*(.+?)\n/g;
+  const sections = [];
+  let match;
+  let lastIndex = 0;
+
+  // Find all module headers
+  const headers = [];
+  while ((match = moduleRe.exec(text)) !== null) {
+    headers.push({
+      index: match.index,
+      end: match.index + match[0].length,
+      icon: match[1],
+      title: match[2].trim(),
+      raw: match[0]
+    });
+  }
+
+  if (headers.length === 0) {
+    // 如果没找到标准模块格式，fallback 到普通 markdown
+    return null;
+  }
+
+  // Extract content between headers
+  for (let i = 0; i < headers.length; i++) {
+    const start = headers[i].end;
+    const end = i + 1 < headers.length ? headers[i + 1].index : text.length;
+    const content = text.substring(start, end).trim();
+
+    sections.push({
+      id: headers[i].icon,
+      icon: headers[i].icon,
+      title: headers[i].title,
+      content: content
+    });
+  }
+
+  return sections;
+}
+
+/**
+ * 将单个模块的 Markdown 内容渲染为 HTML
+ */
+function renderModuleContent(markdown) {
+  if (!markdown) return '<p style="color:var(--text-muted)">等待 AI 生成中...</p>';
+  let html = markdown;
+
+  // Basic markdown -> HTML conversion for content
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // Code blocks
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><code>${code.trim()}</code></pre>`;
+  });
+
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // Headers (h3 and below within module)
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+
+  // Bold
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  // Italic
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  // Blockquotes
+  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  // Lists
+  html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+
+  // Horizontal rules
+  html = html.replace(/^---$/gm, '<hr>');
+
+  // Paragraphs
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+
+  // Cleanup
+  html = html.replace(/<p><(h[34]|ul|ol|pre|blockquote|hr)/g, '<$1');
+  html = html.replace(/<\/(h[34]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
+  html = html.replace(/<p><\/p>/g, '');
+
+  return html;
+}
+
+/**
+ * 主渲染函数：将 AI 原始文本渲染为 7 个精美模块卡片
+ */
+function renderModuleCards(text) {
+  if (!text) return '';
+
+  const sections = parseModuleSections(text);
+
+  // Fallback: if no modules detected, render as plain markdown
+  if (!sections || sections.length === 0) {
+    return '<div class="module-cards-container">' +
+      '<div class="module-card" data-module="0">' +
+      '<div class="module-card-header" onclick="this.parentElement.classList.toggle(\'collapsed\')">' +
+      '<div class="module-card-header-left">' +
+      '<div class="module-card-icon" style="background:linear-gradient(135deg,#64748b,#94a3b8);color:white;">📄</div>' +
+      '<div class="module-card-title">AI 生成中...</div>' +
+      '</div>' +
+      '<span class="module-card-toggle">▼</span>' +
+      '</div>' +
+      '<div class="module-card-body">' + renderMarkdown(text) + '</div>' +
+      '</div></div>';
+  }
+
+  // Build module cards HTML
+  let html = '<div class="module-cards-container">';
+
+  // Controls bar
+  html += `<div class="module-controls">
+    <button class="btn btn-outline btn-sm" onclick="expandAllModules()">📂 展开全部</button>
+    <button class="btn btn-outline btn-sm" onclick="collapseAllModules()">📁 折叠全部</button>
+  </div>`;
+
+  sections.forEach((section, idx) => {
+    const config = MODULE_CONFIG.find(m => m.icon === section.icon) || MODULE_CONFIG[idx];
+    const moduleId = config ? config.id : (idx + 1);
+
+    html += `
+    <div class="module-card" data-module="${moduleId}" id="moduleCard${moduleId}">
+      <div class="module-card-header" onclick="toggleModuleCard(${moduleId})">
+        <div class="module-card-header-left">
+          <div class="module-card-icon">${section.icon}</div>
+          <div>
+            <div class="module-card-title">${section.icon} ${moduleId}. ${section.title}</div>
+          </div>
+        </div>
+        <span class="module-card-toggle">▼</span>
+      </div>
+      <div class="module-card-body">
+        ${renderModuleContent(section.content)}
+      </div>
+      <div class="module-card-footer">
+        <button class="btn btn-outline btn-sm" onclick="copyModuleContent(${moduleId})">📋 复制此模块</button>
+        <button class="btn btn-outline btn-sm" onclick="exportModuleWord(${moduleId})">📄 导出 Word</button>
+        <button class="btn btn-outline btn-sm" onclick="exportModulePpt(${moduleId})">📊 导出 PPT</button>
+      </div>
+    </div>`;
+  });
+
+  html += '</div>';
+  return html;
+}
+
+/**
+ * 折叠/展开单个模块卡片
+ */
+function toggleModuleCard(id) {
+  const card = document.getElementById('moduleCard' + id);
+  if (card) {
+    card.classList.toggle('collapsed');
+  }
+}
+
+/**
+ * 展开所有模块
+ */
+function expandAllModules() {
+  document.querySelectorAll('.module-card').forEach(card => {
+    card.classList.remove('collapsed');
+  });
+}
+
+/**
+ * 折叠所有模块
+ */
+function collapseAllModules() {
+  document.querySelectorAll('.module-card').forEach(card => {
+    card.classList.add('collapsed');
+  });
+}
+
+/**
+ * 复制单个模块内容
+ */
+function copyModuleContent(id) {
+  const card = document.getElementById('moduleCard' + id);
+  if (!card) return;
+  const body = card.querySelector('.module-card-body');
+  if (!body) return;
+
+  // Get plain text from the module body
+  const text = body.innerText || body.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    logAppend(`模块 ${id} 内容已复制到剪贴板`, 'success');
+  }).catch(() => {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    logAppend(`模块 ${id} 内容已复制到剪贴板`, 'success');
+  });
+}
+
+/**
+ * 导出单个模块为 Word
+ */
+function exportModuleWord(id) {
+  const card = document.getElementById('moduleCard' + id);
+  if (!card) return;
+  const body = card.querySelector('.module-card-body');
+  if (!body) return;
+  const title = card.querySelector('.module-card-title')?.textContent || `模块 ${id}`;
+
+  const css = `
+    body { font-family: SimSun, Arial, sans-serif; line-height: 1.8; color: #1e293b; padding: 40px; }
+    h1 { color: #2c5f8a; text-align: center; font-size: 22pt; border-bottom: 2px solid #2c5f8a; padding-bottom: 12px; margin-bottom: 24px; }
+    h2 { color: #2c5f8a; font-size: 14pt; margin: 18px 0 10px; }
+    h3 { font-size: 12pt; font-weight: bold; margin: 14px 0 6px; }
+    p { font-size: 11pt; margin-bottom: 10px; text-indent: 22pt; }
+    strong { color: #2c5f8a; }
+    ul, ol { margin: 10px 0 10px 20px; }
+    li { font-size: 11pt; margin-bottom: 4px; }
+    blockquote { border-left: 3px solid #2c5f8a; padding-left: 12px; color: #475569; font-style: italic; background: #f8fafc; margin: 12px 0; padding: 8px 12px; }
+  `;
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><style>${css}</style></head><body><h1>${title}</h1>${body.innerHTML}</body></html>`;
+  const blob = new Blob(['\ufeff' + html], { type: 'application/msword;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '_')}.doc`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  logAppend(`模块 ${id} 已成功导出为 Word 文档`, 'success');
+}
+
+/**
+ * 导出单个模块为 PPT
+ */
+function exportModulePpt(id) {
+  const card = document.getElementById('moduleCard' + id);
+  if (!card) return;
+  const body = card.querySelector('.module-card-body');
+  if (!body) return;
+  const titleEl = card.querySelector('.module-card-title');
+  const title = titleEl ? titleEl.textContent : `模块 ${id}`;
+
+  // Extract text content from body
+  const text = body.innerText || body.textContent || '';
+  if (!text.trim()) {
+    logAppend('该模块暂无内容，无法导出 PPT', 'warn');
+    return;
+  }
+
+  if (typeof PptxGenJS === 'undefined') {
+    logAppend('正在加载 PptxGenJS 排版引擎...', 'info');
+    loadScript('https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js', () => {
+      generateModulePptFile(title, text);
+    });
+  } else {
+    generateModulePptFile(title, text);
+  }
+}
+
+function generateModulePptFile(title, text) {
+  logAppend('启动 PPT 智能排版生成...', 'info');
+  const ppt = new PptxGenJS();
+  ppt.layout = 'LAYOUT_16x9';
+
+  const PRIMARY_COLOR = '2C5F8A';
+  const TEXT_COLOR = '334155';
+  const GOLD_COLOR = 'D4AF37';
+  const WHITE = 'FFFFFF';
+  const LIGHT_BLUE = 'F0F5FA';
+
+  // Title slide
+  let s1 = ppt.addSlide();
+  s1.background = { fill: PRIMARY_COLOR };
+  s1.addText(title, {
+    x: '5%', y: '35%', w: '90%', h: '12%',
+    fontFace: 'Microsoft YaHei', fontSize: 28, bold: true, color: GOLD_COLOR, align: 'left'
+  });
+  s1.addText('高校思政热点选题智能体平台', {
+    x: '5%', y: '48%', w: '90%', h: '8%',
+    fontFace: 'Microsoft YaHei', fontSize: 14, color: WHITE, align: 'left'
+  });
+  s1.addShape(ppt.ShapeType.rect, { x: '5%', y: '58%', w: '12%', h: '0.5%', fill: GOLD_COLOR });
+
+  // Parse content into lines
+  const lines = text.split('\n').filter(l => l.trim());
+  let slide = ppt.addSlide();
+  slide.background = { fill: LIGHT_BLUE };
+  slide.addShape(ppt.ShapeType.rect, { x: '0%', y: '0%', w: '100%', h: '10%', fill: PRIMARY_COLOR });
+  slide.addText(title, {
+    x: '3%', y: '1.5%', w: '94%', h: '7%',
+    fontFace: 'Microsoft YaHei', fontSize: 18, bold: true, color: WHITE, align: 'left', valign: 'middle'
+  });
+
+  let currentY = 0.14;
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (trimmed.startsWith('#') || trimmed.startsWith('##') || trimmed.startsWith('###')) {
+      const cleanTitle = trimmed.replace(/^#+\s*/, '');
+      slide.addText(cleanTitle, {
+        x: '5%', y: `${currentY * 100}%`, w: '90%', h: '5%',
+        fontFace: 'Microsoft YaHei', fontSize: 14, bold: true, color: PRIMARY_COLOR
+      });
+      currentY += 0.06;
+    } else if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      slide.addText({ text: ' • ' + trimmed.replace(/^[-*]\s+/, ''), options: { bullet: true, color: TEXT_COLOR } }, {
+        x: '5%', y: `${currentY * 100}%`, w: '90%', h: '4%',
+        fontFace: 'Microsoft YaHei', fontSize: 12, color: TEXT_COLOR
+      });
+      currentY += 0.04;
+    } else {
+      slide.addText(trimmed, {
+        x: '5%', y: `${currentY * 100}%`, w: '90%', h: '4%',
+        fontFace: 'Microsoft YaHei', fontSize: 12, color: TEXT_COLOR
+      });
+      currentY += 0.04;
+    }
+
+    if (currentY > 0.92) {
+      slide = ppt.addSlide();
+      slide.background = { fill: LIGHT_BLUE };
+      slide.addShape(ppt.ShapeType.rect, { x: '0%', y: '0%', w: '100%', h: '10%', fill: PRIMARY_COLOR });
+      slide.addText(title + '（续）', {
+        x: '3%', y: '1.5%', w: '94%', h: '7%',
+        fontFace: 'Microsoft YaHei', fontSize: 16, bold: true, color: WHITE, align: 'left', valign: 'middle'
+      });
+      currentY = 0.14;
+    }
+  });
+
+  ppt.writeFile({ fileName: `${title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '_')}.pptx` })
+    .then(() => logAppend('PPT 文档生成完毕并下载', 'success'))
+    .catch((err) => logAppend('PPT 导出失败: ' + err.message, 'error'));
+}
+
+// ========== Adaptive Evaluation Prompt ==========
+const EVALUATOR_PROMPT = `你是一位高校思政领域的权威评审专家、辅导员素质能力大赛评委。
+请对以下生成的【高校思政热点选题设计方案】进行严格评审。
+
+请按照以下维度进行审视：
+1. 政治高度 (30%)：是否牢牢把握思政主旋律，引导正确三观？
+2. 育人实效 (25%)：内容框架是否具体，可操作，能切实落地解决问题？
+3. 青年共鸣 (25%)：选题是否能触动青年，具有感召力，避免空洞说教？
+4. 逻辑结构与文采 (20%)：大纲是否严谨递进，选题标题是否具有极高的文学美感？
+
+请在输出中首先给出综合评分（格式：【综合评分：分数/100】），然后列出具体的【改进建议清单】（不超过3条）。
+如果评分低于90分，说明不够优秀，需要进行下一轮迭代重写。`;
+
+// ========== Markdown Simple Parser ==========
+function renderMarkdown(text) {
+  if (!text) return '';
+  let html = text;
+
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
+  });
+
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+  html = html.replace(/\*\*(.+?)\*\"/g, '<strong>$1</strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+  html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+
+  html = html.replace(/^---$/gm, '<hr>');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+
+  html = html.replace(/<p><(h[123]|ul|ol|pre|blockquote|hr)/g, '<$1');
+  html = html.replace(/<\/(h[123]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
+  html = html.replace(/<p><\/p>/g, '');
+  html = html.replace(/<br>(\s*<li>)/g, '$1');
+
+  return html;
+}
+
+// ========== Stream Helper ==========
+async function callDeepSeekStream(messages, onChunk, onComplete, onError, customTools = null) {
+  const apiKey = localStorage.getItem(STORAGE_KEY);
+  if (!apiKey) {
+    onError('请先在顶部设置 DeepSeek API Key。');
+    return;
+  }
+
+  isGenerating = true;
+
+  try {
+    const requestBody = {
+      model: MODEL,
+      messages: messages,
+      stream: true,
+      temperature: 0.6,
+      max_tokens: 4096
+    };
+
+    if (customTools) {
+      requestBody.tools = customTools;
+    }
+
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      if (response.status === 401) onError('DeepSeek API Key 无效。');
+      else onError(`DeepSeek 接口异常 (代码: ${response.status})：${errText}`);
+      isGenerating = false;
+      return;
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let toolCalls = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed === 'data: [DONE]') continue;
+        if (!trimmed.startsWith('data: ')) continue;
+
+        try {
+          const json = JSON.parse(trimmed.slice(6));
+          const choice = json.choices?.[0];
+          const delta = choice?.delta;
+
+          if (delta?.tool_calls) {
+            delta.tool_calls.forEach(call => {
+              const idx = call.index;
+              if (!toolCalls[idx]) toolCalls[idx] = { id: call.id, type: 'function', function: { name: '', arguments: '' } };
+              if (call.id) toolCalls[idx].id = call.id;
+              if (call.function?.name) toolCalls[idx].function.name += call.function.name;
+              if (call.function?.arguments) toolCalls[idx].function.arguments += call.function.arguments;
+            });
+          }
+
+          if (delta?.content) {
+            onChunk(delta.content);
+          }
+        } catch (e) {
+          // parse skip
+        }
+      }
+    }
+
+    onComplete(toolCalls.length > 0 ? toolCalls : null);
+  } catch (err) {
+    onError('通讯失败：' + err.message);
+  } finally {
+    isGenerating = false;
+  }
+}
+
+// ========== Generation Loop ==========
+async function handleGenerate() {
+  const keyword = $('keywordInput').value.trim();
+  const reqText = $('requirementText').value.trim();
+  
+  if (!keyword && !reqText) {
+    showStatus($('inputStatus'), '请输入热点词、或上传一份比赛通知要求。', 'error');
+    return;
+  }
+
+  const selectedScenario = document.querySelector('input[name="scenario"]:checked');
+  const scenario = selectedScenario ? selectedScenario.value : '演讲比赛';
+
+  logAppend(`观察：启动 ${scenario} 方案的策划。`, 'info');
+
+  $('outputPlaceholder').classList.add('hidden');
+  $('mdOutput').classList.remove('hidden');
+  $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在启动智能体系统...</div>';
+  hideStatus($('inputStatus'));
+  $('generateBtn').disabled = true;
+  $('generateBtn').textContent = '⏳ 智能体思考中...';
+
+  // 1. Semantic Search (TF-IDF)
+  let matchedCasesText = '';
+  if ($('chkSemanticKB').checked) {
+    logAppend('检索：启动本地知识库 TF-IDF 语义相似案例关联匹配分析...', 'info');
+    const matched = computeTfidfMatch(keyword + ' ' + reqText, scenario);
+    if (matched.length > 0) {
+      logAppend(`关联成功：在知识库中匹配到 ${matched.length} 篇最贴切的优秀参考案例！`, 'success');
+      matchedCasesText = matched.map((m, idx) => `【优秀参考案例 ${idx+1}】\n标题：${m.title}\n内容：${m.content}`).join('\n\n');
+    } else {
+      logAppend('关联：知识库中暂无相同场景的优秀参考案例，跳过 Few-Shot 注入。', 'warn');
+    }
+  }
+
+  // 2. Autonomous Web Search Setup (BoCha / Serper)
+  const engine = $('selSearchEngine').value;
+  const searchMode = $('selSearchMode').value;
+  
+  let webSearchData = '';
+  if (searchMode !== 'none') {
+    if (engine === 'bocha') {
+      webSearchData = await performBochaSearch(`${keyword} 大学生 网络特征 思想引导`);
+    } else {
+      webSearchData = await performSerperSearch(`${keyword} 大学生 网络现象 思想引导`);
+    }
+  } else {
+    logAppend('联网模式：已人工禁用网络检索。', 'warn');
+  }
+
+  // Build the generation query
+  let userQuery = `热点词：${keyword || '未提供热点，以通知主题为准'}\n场景：${scenario}\n`;
+  if (reqText) {
+    userQuery += `\n【本次活动/比赛详细要求与导向】\n${reqText}\n`;
+  }
+  if (webSearchData) {
+    userQuery += `\n【最新互联网搜索到的背景参考】\n${webSearchData}\n`;
+  }
+  if (matchedCasesText) {
+    userQuery += `\n【优秀参考案例案例库（请参考其风格和深度进行仿写，不要照抄标题）】\n${matchedCasesText}\n`;
+  }
+
+  userQuery += `\n请严格按照以下 7 个模块的顺序输出，每个模块必须使用对应的 H2 标题，不要增减或调换顺序：\n`;
+  if (reqText) {
+    userQuery += `
+## 🔍 1. 热点现象（结合活动要求分析核心主题的当代特征）
+## 🧭 2. 现象解读（深挖底层社会心理与育人价值）
+## 📋 3. 政策热点（关联本次活动要求的政策导向、团中央导向）
+## 📌 4. 选题方向（3个带对仗主副标题的选题，逐一标注适用比赛/班会/课题）
+## 📖 5. 经典案例（模拟辅导员通过谈心谈话、主题班会成功干预的案例）
+## 📝 6. 学术论文推荐（3篇相关领域知网论文方向）
+## 🏆 7. 辅导员专业成长（如何转化为论文、课题、素质能力大赛加分点）`;
+  } else {
+    userQuery += `
+## 🔍 1. 热点现象（最新热点描述、数据、行为特征）
+## 🧭 2. 现象解读（深层心理机制、思政理论映射）
+## 📋 3. 政策热点（关联官方红头文件、团中央导向、总书记重要论述）
+## 📌 4. 选题方向（3个带对仗主副标题的选题，标注适用场景）
+## 📖 5. 经典案例（辅导员谈心谈话、主题班会成功引导案例）
+## 📝 6. 学术论文推荐（3篇知网经典论文题目/阅读方向）
+## 🏆 7. 辅导员专业成长（如何转化为论文、课题、素质能力大赛加分点）`;
+  }
+
+  conversationHistory = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    { role: 'user', content: userQuery }
+  ];
+
+  logAppend('方案生成：正在调用 DeepSeek 进行初稿规划撰写（第一阶段）...', 'info');
+  $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在执笔起草初稿...</div>';
+
+  let draftText = '';
+  await callDeepSeekStream(
+    conversationHistory,
+    (chunk) => {
+      draftText += chunk;
+      $('mdOutput').innerHTML = renderModuleCards(draftText) + '<span class="cursor-blink"></span>';
+    },
+    async (toolCalls) => {
+      currentRawText = draftText;
+      $('mdOutput').innerHTML = renderModuleCards(draftText);
+      
+      if ($('chkEvalLoop').checked) {
+        await executeReflectionLoop(draftText, scenario);
+      } else {
+        finalizeGeneration();
+      }
+    },
+    (err) => {
+      $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${err}</div>`;
+      resetGenBtn();
+    }
+  );
+}
+
+// ========== Adaptive Reflection Loop ==========
+async function executeReflectionLoop(draft, scenario, currentIter = 1) {
+  const maxIters = 3;
+  logAppend(`自适应评估：初稿已交付，启动第 ${currentIter}/${maxIters} 轮思想政治专家评审机制...`, 'info');
+  
+  const originalOutput = $('mdOutput').innerHTML;
+  $('mdOutput').innerHTML += `\n<div class="agent-log-line" style="background:#1e293b; padding:10px; margin-top:10px; border-radius:6px; font-family:monospace; color:#38bdf8;">[专家系统] 正在对草案进行深度评审中...</div>`;
+
+  const evalMessages = [
+    { role: 'system', content: EVALUATOR_PROMPT },
+    { role: 'user', content: `以下是需要评审的草稿（场景：${scenario}）：\n\n${draft}` }
+  ];
+
+  let evalResponse = '';
+  
+  await callDeepSeekStream(
+    evalMessages,
+    (chunk) => { evalResponse += chunk; },
+    async () => {
+      logAppend('评审意见已送达，正在分析评分...', 'success');
+      
+      const scoreMatch = evalResponse.match(/【综合评分：(\d+)\/100】/) || evalResponse.match(/评分：(\d+)/);
+      const score = scoreMatch ? parseInt(scoreMatch[1]) : 85;
+      
+      logAppend(`综合评审得分：【${score} 分】`, score >= 90 ? 'success' : 'warn');
+      
+      if (score >= 90 || currentIter >= maxIters) {
+        logAppend('达到高校优秀思政案例推荐水准（评分 >= 90），通过专家审查，生成完毕！', 'success');
+        finalizeGeneration();
+      } else {
+        logAppend(`评分未满 90 分，触发退回重写逻辑。改进建议如下:\n${evalResponse.slice(0, 150)}...`, 'error');
+        
+        const rewriteMsg = [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: `以下是之前的思政选题草案：\n\n${draft}\n\n思政专家对其提出了以下改进批判意见：\n\n${evalResponse}\n\n请针对以上改进意见，对原本的草案进行深度重构优化，把评分提高到95分，输出优化后的完美终稿。` }
+        ];
+
+        $('mdOutput').innerHTML = originalOutput + `\n<div class="agent-log-line" style="background:#1e293b; padding:10px; margin-top:10px; border-radius:6px; font-family:monospace; color:#fbbf24;">[智能体反思] 正在针对改进意见进行第 ${currentIter + 1} 次深度重构撰写...</div>`;
+
+        let optimizedText = '';
+        await callDeepSeekStream(
+          rewriteMsg,
+          (chunk) => {
+            optimizedText += chunk;
+            $('mdOutput').innerHTML = originalOutput + `<div style="margin-top:15px; border-top:1px dashed var(--border); padding-top:15px;"><h4 style="color:var(--primary)">✨ 智能体深度优化版：</h4>` + renderModuleCards(optimizedText) + '<span class="cursor-blink"></span></div>';
+          },
+          async () => {
+            currentRawText = optimizedText;
+            $('mdOutput').innerHTML = renderModuleCards(optimizedText);
+            await executeReflectionLoop(optimizedText, scenario, currentIter + 1);
+          },
+          (err) => {
+            $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${err}</div>`;
+            resetGenBtn();
+          }
+        );
+      }
+    },
+    (err) => {
+      logAppend('评估链路网络异常：' + err + '，降级直接发布初稿方案。', 'warn');
+      finalizeGeneration();
+    }
+  );
+}
+
+function finalizeGeneration() {
+  conversationHistory.push({ role: 'assistant', content: currentRawText });
+  $('mdOutput').innerHTML = renderModuleCards(currentRawText);
+  $('followupArea').classList.remove('hidden');
+  resetGenBtn();
+  $('exportBtn').disabled = false;
+  $('copyBtn').disabled = false;
+  $('clearBtn').disabled = false;
+  logAppend('✨ 全套高阶思政选题方案已完美在右侧看板生成！支持复制或一键导出为 Word / PPT 课件！', 'success');
+}
+
+function resetGenBtn() {
+  $('generateBtn').disabled = false;
+  $('generateBtn').textContent = '🔍 生成智能体方案';
+}
+
+// ========== Intelligent Keyword Refresh ==========
+async function handleRefreshKeywords() {
+  const btn = $('refreshKeywordsBtn');
+  btn.disabled = true;
+  btn.classList.add('spinning');
+  btn.querySelector('.refresh-text').textContent = 'AI 感知中...';
+  logAppend('启动热点词在线感知，向 DeepSeek 申请生成本年度最新大学生流行亚文化标签...', 'info');
+
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月`;
+
+  const messages = [
+    { role: 'system', content: '你是一位高校思政与青年文化专家，负责提炼国内大学生的最新社会关注点、消费习惯、社交话语。' },
+    { role: 'user', content: `请列出当前（${dateStr}左右）在中国大学生、青年群体中最火爆的 25 个热点词汇。请将其归纳为5个大类，大类名称固定为：🛍️ 消费、🤝 社交、🌐 网络、💭 价值、🚀 新兴。每个大类下面包含 5 个最典型精准的标签。
+请严格按照以下 JSON 格式返回，不要带有任何 markdown 的代码块包裹，只需要纯 JSON 文本：
+[
+  {"name": "🛍️ 消费", "tags": ["词1", "词2", "词3", "词4", "词5"]},
+  {"name": "🤝 社交", "tags": ["词1", "词2", "词3", "词4", "词5"]},
+  {"name": "🌐 网络", "tags": ["词1", "词2", "词3", "词4", "词5"]},
+  {"name": "💭 价值", "tags": ["词1", "词2", "词3", "词4", "词5"]},
+  {"name": "🚀 新兴", "tags": ["词1", "词2", "词3", "词4", "词5"]}
+]` }
+  ];
+
+  try {
+    const apiKey = localStorage.getItem(STORAGE_KEY);
+    if (!apiKey) {
+      logAppend('无法更新：未填入 DeepSeek API Key', 'error');
+      btn.disabled = false;
+      btn.classList.remove('spinning');
+      btn.querySelector('.refresh-text').textContent = '智能更新';
+      return;
+    }
+
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 1500
+      })
+    });
+
+    if (!response.ok) throw new Error('网络请求故障');
+    const data = await response.json();
+    let jsonText = data.choices[0].message.content.trim();
+    
+    if (jsonText.startsWith('```json')) jsonText = jsonText.substring(7, jsonText.length - 3);
+    else if (jsonText.startsWith('```')) jsonText = jsonText.substring(3, jsonText.length - 3);
+
+    const parsed = JSON.parse(jsonText);
+    localStorage.setItem('sizheng_custom_keywords', JSON.stringify(parsed));
+    
+    renderKeywordGroups();
+    logAppend('智能体已成功联网，热点感知词库已升级为本年度最新网络特征！', 'success');
+  } catch (err) {
+    logAppend('热点词库升级失败: ' + err.message + '，已为您还原为本地预置精选词库。', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('spinning');
+    btn.querySelector('.refresh-text').textContent = '智能更新';
+  }
+}
 // ========== PDF & Docx File Parsers ==========
 let pdfjsLibLoaded = false;
 let mammothLoaded = false;
@@ -1346,7 +2430,15 @@ async function performBochaSearch(query) {
       })
     });
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!response.ok) {
+      const status = response.status;
+      if (status === 403) {
+        const msg403 = '❌ 博查搜索返回 HTTP 403 (拒绝访问)。排查建议：1. 您的 Key 输入框是否填错（已自动帮您过滤 Bearer）；2. 您的博查新账号可能未在后台 open.bochaai.com 激活免费体验额度，请登录后台查看余额并点击领取。';
+        logAppend(msg403, 'error');
+        throw new Error('HTTP 403: ' + msg403);
+      }
+      throw new Error(`HTTP ${status}`);
+    }
     const data = await response.json();
     
     // Bocha structure usually returned inside data.data or similar
@@ -1655,417 +2747,6 @@ function generatePptFile() {
       logAppend('PPT 导出失败: ' + err.message, 'error');
     });
 }
-
-// ========== SYSTEM PROMPT ==========
-const SYSTEM_PROMPT = `你是一位专业的高校思想政治教育专家和青年文化研究者，深谙当代大学生的亚文化现象、心理特征 and 行为模式，同时精通思想政治教育理论、习近平新时代中国特色社会主义思想、社会主义核心价值观体系。
-
-你的核心能力是：将当代青年热点文化现象（亚文化、网络流行语、社会思潮等）与思想政治教育有机结合，挖掘现象背后的深层价值导向，设计具有创新性、贴近性、实效性的育人方案。
-
-输出风格要求：
-- 标题要有文采，可使用对仗、引用、创意表达（参考示例："一豆一谷"亦有道、从"搭子"到"伙伴"）
-- 分析要有深度，不停留于表面，要挖掘现象背后的社会心理和价值诉求
-- 理论要扎实，能自然引用相关政策、理论依据
-- 实操性强，给出的框架要能真正用于演讲、班会、课题
-- 语言兼顾学术性和可读性，不过度堆砌术语`;
-
-// ========== Adaptive Evaluation Prompt ==========
-const EVALUATOR_PROMPT = `你是一位高校思政领域的权威评审专家、辅导员素质能力大赛评委。
-请对以下生成的【高校思政热点选题设计方案】进行严格评审。
-
-请按照以下维度进行审视：
-1. 政治高度 (30%)：是否牢牢把握思政主旋律，引导正确三观？
-2. 育人实效 (25%)：内容框架是否具体，可操作，能切实落地解决问题？
-3. 青年共鸣 (25%)：选题是否能触动青年，具有感召力，避免空洞说教？
-4. 逻辑结构与文采 (20%)：大纲是否严谨递进，选题标题是否具有极高的文学美感？
-
-请在输出中首先给出综合评分（格式：【综合评分：分数/100】），然后列出具体的【改进建议清单】（不超过3条）。
-如果评分低于90分，说明不够优秀，需要进行下一轮迭代重写。`;
-
-// ========== Markdown Simple Parser ==========
-function renderMarkdown(text) {
-  if (!text) return '';
-  let html = text;
-
-  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
-    return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
-  });
-
-  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
-  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
-  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-
-  html = html.replace(/\*\*(.+?)\*\"/g, '<strong>$1</strong>');
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-
-  html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
-  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
-  html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
-
-  html = html.replace(/^---$/gm, '<hr>');
-  html = html.replace(/\n\n/g, '</p><p>');
-  html = html.replace(/\n/g, '<br>');
-
-  html = html.replace(/<p><(h[123]|ul|ol|pre|blockquote|hr)/g, '<$1');
-  html = html.replace(/<\/(h[123]|ul|ol|pre|blockquote)><\/p>/g, '</$1>');
-  html = html.replace(/<p><\/p>/g, '');
-  html = html.replace(/<br>(\s*<li>)/g, '$1');
-
-  return html;
-}
-
-// ========== Stream Helper ==========
-async function callDeepSeekStream(messages, onChunk, onComplete, onError, customTools = null) {
-  const apiKey = localStorage.getItem(STORAGE_KEY);
-  if (!apiKey) {
-    onError('请先在顶部设置 DeepSeek API Key。');
-    return;
-  }
-
-  isGenerating = true;
-
-  try {
-    const requestBody = {
-      model: MODEL,
-      messages: messages,
-      stream: true,
-      temperature: 0.6,
-      max_tokens: 4096
-    };
-
-    if (customTools) {
-      requestBody.tools = customTools;
-    }
-
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      if (response.status === 401) onError('DeepSeek API Key 无效。');
-      else onError(`DeepSeek 接口异常 (代码: ${response.status})：${errText}`);
-      isGenerating = false;
-      return;
-    }
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-    let toolCalls = [];
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (!trimmed || trimmed === 'data: [DONE]') continue;
-        if (!trimmed.startsWith('data: ')) continue;
-
-        try {
-          const json = JSON.parse(trimmed.slice(6));
-          const choice = json.choices?.[0];
-          const delta = choice?.delta;
-
-          if (delta?.tool_calls) {
-            delta.tool_calls.forEach(call => {
-              const idx = call.index;
-              if (!toolCalls[idx]) toolCalls[idx] = { id: call.id, type: 'function', function: { name: '', arguments: '' } };
-              if (call.id) toolCalls[idx].id = call.id;
-              if (call.function?.name) toolCalls[idx].function.name += call.function.name;
-              if (call.function?.arguments) toolCalls[idx].function.arguments += call.function.arguments;
-            });
-          }
-
-          if (delta?.content) {
-            onChunk(delta.content);
-          }
-        } catch (e) {
-          // parse skip
-        }
-      }
-    }
-
-    onComplete(toolCalls.length > 0 ? toolCalls : null);
-  } catch (err) {
-    onError('通讯失败：' + err.message);
-  } finally {
-    isGenerating = false;
-  }
-}
-
-// ========== Generation Loop ==========
-async function handleGenerate() {
-  const keyword = $('keywordInput').value.trim();
-  const reqText = $('requirementText').value.trim();
-  
-  if (!keyword && !reqText) {
-    showStatus($('inputStatus'), '请输入热点词、或上传一份比赛通知要求。', 'error');
-    return;
-  }
-
-  const selectedScenario = document.querySelector('input[name="scenario"]:checked');
-  const scenario = selectedScenario ? selectedScenario.value : '演讲比赛';
-
-  logAppend(`观察：启动 ${scenario} 方案的策划。`, 'info');
-
-  $('outputPlaceholder').classList.add('hidden');
-  $('mdOutput').classList.remove('hidden');
-  $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在启动智能体系统...</div>';
-  hideStatus($('inputStatus'));
-  $('generateBtn').disabled = true;
-  $('generateBtn').textContent = '⏳ 智能体思考中...';
-
-  // 1. Semantic Search (TF-IDF)
-  let matchedCasesText = '';
-  if ($('chkSemanticKB').checked) {
-    logAppend('检索：启动本地知识库 TF-IDF 语义相似案例关联匹配分析...', 'info');
-    const matched = computeTfidfMatch(keyword + ' ' + reqText, scenario);
-    if (matched.length > 0) {
-      logAppend(`关联成功：在知识库中匹配到 ${matched.length} 篇最贴切的优秀参考案例！`, 'success');
-      matchedCasesText = matched.map((m, idx) => `【优秀参考案例 ${idx+1}】\n标题：${m.title}\n内容：${m.content}`).join('\n\n');
-    } else {
-      logAppend('关联：知识库中暂无相同场景的优秀参考案例，跳过 Few-Shot 注入。', 'warn');
-    }
-  }
-
-  // 2. Autonomous Web Search Setup (BoCha / Serper)
-  const engine = $('selSearchEngine').value;
-  const searchMode = $('selSearchMode').value;
-  
-  let webSearchData = '';
-  if (searchMode !== 'none') {
-    if (engine === 'bocha') {
-      webSearchData = await performBochaSearch(`${keyword} 大学生 网络特征 思想引导`);
-    } else {
-      webSearchData = await performSerperSearch(`${keyword} 大学生 网络现象 思想引导`);
-    }
-  } else {
-    logAppend('联网模式：已人工禁用网络检索。', 'warn');
-  }
-
-  // Build the generation query
-  let userQuery = `热点词：${keyword || '未提供热点，以通知主题为准'}\n场景：${scenario}\n`;
-  if (reqText) {
-    userQuery += `\n【本次活动/比赛详细要求与导向】\n${reqText}\n`;
-  }
-  if (webSearchData) {
-    userQuery += `\n【最新互联网搜索到的背景参考】\n${webSearchData}\n`;
-  }
-  if (matchedCasesText) {
-    userQuery += `\n【优秀参考案例案例库（请参考其风格和深度进行仿写，不要照抄标题）】\n${matchedCasesText}\n`;
-  }
-
-  userQuery += `\n请按照以下大纲为我生成一期高水平的方案：`;
-  if (reqText) {
-    userQuery += `
-1. ## 📋 活动要求解读（分析核心主题、评分重点和参赛方向）
-2. ## 📌 推荐选题（3个，标题要有文采对仗，并逐一标注其如何对应活动要求的哪个点）
-3. ## 🧭 思政切入角度（结合热点深挖底层社会心理与育人价值）
-4. ## 📝 内容框架（以选题一为例，给出适合该场景的详细结构，含各段核心思路）
-5. ## 💡 可深挖探索方向（4-5个延伸角度）
-6. ## 🔗 可关联的思政理论/政策
-7. ## ✅ 契合度总结说明（向评委论证该选题如何完美契合要求）`;
-  } else {
-    userQuery += `
-1. ## 📌 推荐选题（3个，包含对仗精美的主标题和副标题）
-2. ## 🧭 思政切入角度（3-4个核心切入点，每个50字左右，需上升到理论和心理机制高度）
-3. ## 📝 内容框架（以选题一为例，给出三段式或四段式框架，含各段具体推进思路）
-4. ## 💡 可深挖探索方向（4-5个延伸与可以探讨的点，含简短说明）
-5. ## 🔗 可关联的思政理论/政策（相关理论依据、政策文件、重要论述）`;
-  }
-
-  conversationHistory = [
-    { role: 'system', content: SYSTEM_PROMPT },
-    { role: 'user', content: userQuery }
-  ];
-
-  logAppend('方案生成：正在调用 DeepSeek 进行初稿规划撰写（第一阶段）...', 'info');
-  $('mdOutput').innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div><div class="loading-text">正在执笔起草初稿...</div>';
-
-  let draftText = '';
-  await callDeepSeekStream(
-    conversationHistory,
-    (chunk) => {
-      draftText += chunk;
-      $('mdOutput').innerHTML = renderMarkdown(draftText) + '<span class="cursor-blink"></span>';
-    },
-    async (toolCalls) => {
-      currentRawText = draftText;
-      $('mdOutput').innerHTML = renderMarkdown(draftText);
-      
-      if ($('chkEvalLoop').checked) {
-        await executeReflectionLoop(draftText, scenario);
-      } else {
-        finalizeGeneration();
-      }
-    },
-    (err) => {
-      $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${err}</div>`;
-      resetGenBtn();
-    }
-  );
-}
-
-// ========== Adaptive Reflection Loop ==========
-async function executeReflectionLoop(draft, scenario, currentIter = 1) {
-  const maxIters = 3;
-  logAppend(`自适应评估：初稿已交付，启动第 ${currentIter}/${maxIters} 轮思想政治专家评审机制...`, 'info');
-  
-  const originalOutput = $('mdOutput').innerHTML;
-  $('mdOutput').innerHTML += `\n<div class="agent-log-line" style="background:#1e293b; padding:10px; margin-top:10px; border-radius:6px; font-family:monospace; color:#38bdf8;">[专家系统] 正在对草案进行深度评审中...</div>`;
-
-  const evalMessages = [
-    { role: 'system', content: EVALUATOR_PROMPT },
-    { role: 'user', content: `以下是需要评审的草稿（场景：${scenario}）：\n\n${draft}` }
-  ];
-
-  let evalResponse = '';
-  
-  await callDeepSeekStream(
-    evalMessages,
-    (chunk) => { evalResponse += chunk; },
-    async () => {
-      logAppend('评审意见已送达，正在分析评分...', 'success');
-      
-      const scoreMatch = evalResponse.match(/【综合评分：(\d+)\/100】/) || evalResponse.match(/评分：(\d+)/);
-      const score = scoreMatch ? parseInt(scoreMatch[1]) : 85;
-      
-      logAppend(`综合评审得分：【${score} 分】`, score >= 90 ? 'success' : 'warn');
-      
-      if (score >= 90 || currentIter >= maxIters) {
-        logAppend('达到高校优秀思政案例推荐水准（评分 >= 90），通过专家审查，生成完毕！', 'success');
-        finalizeGeneration();
-      } else {
-        logAppend(`评分未满 90 分，触发退回重写逻辑。改进建议如下:\n${evalResponse.slice(0, 150)}...`, 'error');
-        
-        const rewriteMsg = [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: `以下是之前的思政选题草案：\n\n${draft}\n\n思政专家对其提出了以下改进批判意见：\n\n${evalResponse}\n\n请针对以上改进意见，对原本的草案进行深度重构优化，把评分提高到95分，输出优化后的完美终稿。` }
-        ];
-
-        $('mdOutput').innerHTML = originalOutput + `\n<div class="agent-log-line" style="background:#1e293b; padding:10px; margin-top:10px; border-radius:6px; font-family:monospace; color:#fbbf24;">[智能体反思] 正在针对改进意见进行第 ${currentIter + 1} 次深度重构撰写...</div>`;
-
-        let optimizedText = '';
-        await callDeepSeekStream(
-          rewriteMsg,
-          (chunk) => {
-            optimizedText += chunk;
-            $('mdOutput').innerHTML = originalOutput + `<div style="margin-top:15px; border-top:1px dashed var(--border); padding-top:15px;"><h4 style="color:var(--primary)">✨ 智能体深度优化版：</h4>` + renderMarkdown(optimizedText) + '<span class="cursor-blink"></span></div>';
-          },
-          async () => {
-            currentRawText = optimizedText;
-            $('mdOutput').innerHTML = renderMarkdown(optimizedText);
-            await executeReflectionLoop(optimizedText, scenario, currentIter + 1);
-          },
-          (err) => {
-            $('mdOutput').innerHTML = `<div style="color:#c0392b;padding:20px;">❌ ${err}</div>`;
-            resetGenBtn();
-          }
-        );
-      }
-    },
-    (err) => {
-      logAppend('评估链路网络异常：' + err + '，降级直接发布初稿方案。', 'warn');
-      finalizeGeneration();
-    }
-  );
-}
-
-function finalizeGeneration() {
-  conversationHistory.push({ role: 'assistant', content: currentRawText });
-  $('mdOutput').innerHTML = renderMarkdown(currentRawText);
-  $('followupArea').classList.remove('hidden');
-  resetGenBtn();
-  $('exportBtn').disabled = false;
-  $('copyBtn').disabled = false;
-  $('clearBtn').disabled = false;
-  logAppend('✨ 全套高阶思政选题方案已完美在右侧看板生成！支持复制或一键导出为 Word / PPT 课件！', 'success');
-}
-
-function resetGenBtn() {
-  $('generateBtn').disabled = false;
-  $('generateBtn').textContent = '🔍 生成智能体方案';
-}
-
-// ========== Intelligent Keyword Refresh ==========
-async function handleRefreshKeywords() {
-  const btn = $('refreshKeywordsBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ 更新中...';
-  logAppend('启动热点词在线感知，向 DeepSeek 申请生成本年度最新大学生流行亚文化标签...', 'info');
-
-  const now = new Date();
-  const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月`;
-
-  const messages = [
-    { role: 'system', content: '你是一位高校思政与青年文化专家，负责提炼国内大学生的最新社会关注点、消费习惯、社交话语。' },
-    { role: 'user', content: `请列出当前（${dateStr}左右）在中国大学生、青年群体中最火爆的 25 个热点词汇。请将其归纳为5个大类，大类名称固定为：🛍️ 亚文化消费、🤝 社交方式、🌐 网络文化、💭 价值观念、🚀 新兴现象。每个大类下面包含 5 个最典型精准的标签。
-请严格按照以下 JSON 格式返回，不要带有任何 markdown 的代码块包裹，只需要纯 JSON 文本：
-[
-  {"name": "🛍️ 亚文化消费", "tags": ["拼豆", "吃谷", "谷子经济", ...]},
-  ...
-]` }
-  ];
-
-  try {
-    const apiKey = localStorage.getItem(STORAGE_KEY);
-    if (!apiKey) {
-      logAppend('无法更新：未填入 DeepSeek API Key', 'error');
-      btn.disabled = false;
-      btn.textContent = '🔄 智能更新';
-      return;
-    }
-
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 1500
-      })
-    });
-
-    if (!response.ok) throw new Error('网络请求故障');
-    const data = await response.json();
-    let jsonText = data.choices[0].message.content.trim();
-    
-    if (jsonText.startsWith('```json')) jsonText = jsonText.substring(7, jsonText.length - 3);
-    else if (jsonText.startsWith('```')) jsonText = jsonText.substring(3, jsonText.length - 3);
-
-    const parsed = JSON.parse(jsonText);
-    localStorage.setItem('sizheng_custom_keywords', JSON.stringify(parsed));
-    
-    renderKeywordGroups();
-    logAppend('智能体已成功联网，热点感知词库已升级为本年度最新网络特征！', 'success');
-  } catch (err) {
-    logAppend('热点词库升级失败: ' + err.message + '，已为您还原为本地预置精选词库。', 'error');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '🔄 智能更新';
-  }
-}
-
 // ========== Knowledge Base Management ==========
 function openKnowledgeBase() {
   $('kbOverlay').classList.add('show');
@@ -2218,12 +2899,12 @@ async function handleFollowup() {
     conversationHistory,
     (chunk) => {
       optimized += chunk;
-      $('mdOutput').innerHTML = renderMarkdown(currentRawText) + `<div style="margin-top:20px; border-top:2px solid var(--primary); padding-top:15px;">` + renderMarkdown(optimized) + '<span class="cursor-blink"></span></div>';
+      $('mdOutput').innerHTML = renderModuleCards(currentRawText) + `<div style="margin-top:20px; border-top:2px solid var(--primary); padding-top:15px;">` + renderModuleCards(optimized) + '<span class="cursor-blink"></span></div>';
     },
     () => {
       conversationHistory.push({ role: 'assistant', content: optimized });
       currentRawText += '\n\n' + optimized;
-      $('mdOutput').innerHTML = renderMarkdown(currentRawText);
+      $('mdOutput').innerHTML = renderModuleCards(currentRawText);
       $('sendFollowupBtn').disabled = false;
       $('sendFollowupBtn').textContent = '✨ 发送修改意见';
       logAppend('方案已根据您的意见完成针对性改写和扩充。', 'success');
@@ -2239,13 +2920,13 @@ async function handleFollowup() {
 function init() {
   // Load saved credentials
   const savedKey = localStorage.getItem(STORAGE_KEY);
-  if (savedKey) { $('apiKeyInput').value = savedKey; $('apiPanel').classList.add('collapsed'); $('apiToggleBtn').textContent = '展开 ▼'; }
+  if (savedKey) { const clean = sanitizeKey(savedKey); $('apiKeyInput').value = clean; if (clean !== savedKey) localStorage.setItem(STORAGE_KEY, clean); $('apiPanel').classList.add('collapsed'); $('apiToggleBtn').textContent = '展开 ▼'; }
 
   const savedSerper = localStorage.getItem(SERPER_KEY);
-  if (savedSerper) $('serperKeyInput').value = savedSerper;
+  if (savedSerper) { const clean = sanitizeKey(savedSerper); $('serperKeyInput').value = clean; if (clean !== savedSerper) localStorage.setItem(SERPER_KEY, clean); }
   
   const savedBocha = localStorage.getItem(BOCHA_KEY);
-  if (savedBocha) $('bochaKeyInput').value = savedBocha;
+  if (savedBocha) { const clean = sanitizeKey(savedBocha); $('bochaKeyInput').value = clean; if (clean !== savedBocha) localStorage.setItem(BOCHA_KEY, clean); }
   
   updateSearchHint();
 
@@ -2294,13 +2975,6 @@ function init() {
   $('exportWord').addEventListener('click', exportWord);
   $('exportPpt').addEventListener('click', exportPpt);
 
-  // Collapsible
-  $('requirementToggle').addEventListener('click', () => {
-    const block = $('keywordCollapseBlock');
-    block.classList.toggle('open');
-    $('collapseArrow').textContent = block.classList.contains('open') ? '收起 ▲' : '展开 ▼';
-  });
-
   // WxPusher
   $('saveWxBtn').addEventListener('click', saveWxSettings);
   $('testWxBtn').addEventListener('click', testWxPush);
@@ -2314,4 +2988,3 @@ init();
 </script>
 </body>
 </html>
-
